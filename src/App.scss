@@ -1,0 +1,19 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body, #root {
+    width: 100%;
+    height: 100%;
+}
+
+main {
+    width: 100%;
+    height: 100%;
+    background: url(/public/pexels-frank-cone-140140-2258536.jpg);
+    background-size: cover;
+    background-position: bottom;
+}
+
