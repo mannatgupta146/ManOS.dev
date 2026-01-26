@@ -1,0 +1,94 @@
+.dock{
+    display: flex;
+    align-items: flex-end;
+    gap: 0.7rem;
+    position: fixed;
+    bottom: 1rem;
+    left: 50%;
+    transform: translate(-50%);
+    background: rgb(62, 62, 62);
+    padding-inline: 0.75rem;
+    padding-block: 0.4rem;
+    border-radius: 0.75rem;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+
+    img{
+        height: 1.3rem;
+    }
+
+    .icon{
+        padding: 0.5rem;
+        border-radius: 0.85rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        aspect-ratio: 1/1;
+        transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 0.25s ease;
+        cursor: pointer;
+
+        &:hover{
+            transform: scale(1.27) translateY(-22%);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.45);
+        }
+
+        &:hover + .icon, &:has(+ .icon:hover){
+            transform: scale(1.12) translateY(-12%);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.25);
+        }
+
+    }
+
+    .cli{
+        background: linear-gradient(145deg, #2a2a2a, #0f0f0f);
+    }
+
+    .calender{
+        position: relative;
+        background: linear-gradient(145deg, #ffffffb4, #eaeaeaee);
+        overflow: hidden;
+
+        &::before{
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 25%;
+            background: linear-gradient(145deg, #ff5f57, #ff3b30);
+        }
+
+        img{
+            margin-top: 5px;
+        }
+    }
+
+    .mail{
+        background: linear-gradient(145deg, #4aa3ff, #0066ff);
+    }
+
+    .github{
+        background: linear-gradient(145deg, #3a3f45, #171a1f);
+    }
+
+    .pdf{
+        background: linear-gradient(145deg, #ff6b6b, #c81d11); 
+    }
+
+    .note{
+        background: linear-gradient(145deg, #ffe66d, #f4c430);
+
+    }
+
+    .link{
+        background: linear-gradient(145deg, #4cd964, #1fae4b);
+    }
+
+    .spotify{
+        background: linear-gradient(145deg, #1ed760, #15883e); 
+    }
+}
