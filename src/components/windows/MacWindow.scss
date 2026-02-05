@@ -1,0 +1,67 @@
+.windows {
+  height: 350px;
+  width: 450px;
+  background-color: #0f0f11; /* macOS dark window */
+  border-radius: 0.5rem;
+  overflow: hidden;
+  color: white;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.55);
+
+
+  .nav {
+    padding-inline: 0.5rem;
+    padding-block: 0.4rem;
+
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+
+    /* macOS title bar gradient */
+    background: linear-gradient(
+      to bottom,
+      #3a3a3c,
+      #2a2a2c
+    );
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
+    .dots {
+      display: flex;
+      gap: 0.35rem;
+
+      .dot {
+        height: 12px;
+        width: 12px;
+        border-radius: 50%;
+
+        /* subtle macOS inner border */
+        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.25);
+      }
+
+      /* macOS traffic light colors */
+      .red {
+        background-color: #ff5f57;
+      }
+
+      .yellow {
+        background-color: #febc2e;
+      }
+
+      .green {
+        background-color: #28c840;
+      }
+    }
+
+    .title {
+      text-align: center;
+
+      p {
+        font-size: 0.75rem;
+        font-weight: 500;
+        color: rgba(255, 255, 255, 0.65);
+        letter-spacing: 0.02em;
+        margin: 0;
+      }
+    }
+  }
+}
