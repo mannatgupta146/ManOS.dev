@@ -1,13 +1,15 @@
-
-/* NAVBAR */
+/* =====================
+   NAV (WRAPPER ONLY)
+===================== */
 nav {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 32px;
 
-  padding: 0 0.75rem;
+  width: 100%;
+  height: 35px;
+  padding: 0 1rem;
+
   background: rgba(20, 20, 22, 0.7);
   backdrop-filter: blur(18px);
 
@@ -17,203 +19,6 @@ nav {
 
   color: white;
   font-size: 0.75rem;
+
   z-index: 1000;
-
-  .left {
-    display: flex;
-    align-items: center;
-    gap: 0.9rem;
-  }
-
-  .apple-icon {
-    background: none;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-
-    img {
-      height: 0.9rem;
-      opacity: 0.95;
-      display: block;
-    }
-  }
-
-  .left-name {
-    font-weight: 600;
-    user-select: none;
-  }
-
-  .menu-item {
-    background: transparent;
-    border: none;
-    color: rgba(255, 255, 255, 0.85);
-    padding: 0.2rem 0.45rem;
-    border-radius: 0.35rem;
-    cursor: pointer;
-
-    display: inline-flex;
-    align-items: center;
-    gap: 0.25rem;
-    line-height: 1;
-
-    &:hover {
-      background: rgba(255, 255, 255, 0.12);
-    }
-  }
-}
-
-/* CONNECT */
-.connect-wrapper {
-  position: relative;
-}
-
-.arrow {
-  font-size: 0.75rem;
-  opacity: 0.7;
-  transform: translateY(1px);
-  transition: transform 0.2s ease;
-}
-
-.arrow.open {
-  transform: rotate(180deg);
-}
-
-.connect-dropdown {
-  position: absolute;
-  top: calc(100% + 6px);
-  left: 0;
-
-  background: rgba(38, 38, 40, 0.95);
-  backdrop-filter: blur(16px);
-
-  border-radius: 0.5rem;
-  padding: 0.4rem;
-  min-width: 140px;
-
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
-
-  a {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    gap: 0.75rem;
-    padding: 0.4rem 0.55rem;
-    border-radius: 0.35rem;
-
-    color: rgba(255, 255, 255, 0.92);
-    text-decoration: none;
-    font-size: 0.75rem;
-
-    i {
-      font-size: 0.85rem;
-      opacity: 0.85;
-    }
-
-    &:hover {
-      background: rgba(255, 255, 255, 0.12);
-      i {
-        opacity: 1;
-      }
-    }
-  }
-}
-
-/* OVERLAY */
-.overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.35);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2000;
-}
-
-/* POPOVER (SYSTEM MODAL) */
-.popover {
-  background: rgba(46, 46, 48, 0.96);
-  backdrop-filter: blur(18px);
-  padding: 1rem 1.2rem;
-  border-radius: 0.8rem;
-  width: 350px;
-  text-align: center;
-  color: white;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
-
-  img {
-    height: 1.6rem;
-    opacity: 0.95;
-  }
-
-  .manos-title {
-    font-weight: 600;
-    margin-bottom: 0.7rem;
-  }
-
-  .manos-info {
-    opacity: 0.75;
-    line-height: 1.4;
-    margin-bottom: 0.9rem;
-  }
-
-  .manos-status {
-    font-weight: 500;
-    opacity: 0.95;
-  }
-}
-
-.apple-only {
-  width: 128px;
-  height: 128px;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-
-  background: linear-gradient(
-    180deg,
-    rgba(75, 75, 78, 0.85),
-    rgba(32, 32, 34, 0.85)
-  );
-  backdrop-filter: blur(24px);
-
-  border-radius: 28px;
-
-  box-shadow:
-    0 30px 70px rgba(0, 0, 0, 0.75),
-    inset 0 1px 0 rgba(255, 255, 255, 0.116);
-
-  animation: applePop 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-
-  .apple-label {
-    font-size: 0.75rem;
-    font-weight: 500;
-    color: rgba(255, 255, 255, 0.9);
-    user-select: none;
-  }
-
-  img {
-    width: 50px;
-    height: 50px;
-    opacity: 0.95;
-  }
-}
-
-@keyframes applePop {
-  from {
-    transform: scale(0.88);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
 }

@@ -1,0 +1,262 @@
+/* =====================
+   NAV LEFT
+===================== */
+.left {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+/* APPLE ICON */
+.apple-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+
+  img {
+    height: 1.1rem;
+    opacity: 0.95;
+    margin-bottom: 0.3rem;
+  }
+}
+
+/* NAME (HOVER ONLY ACTIVE DOT) */
+.name-item {
+  background: transparent;
+  border: none;
+
+  color: rgba(255, 255, 255, 0.98);
+  font-size: 0.9rem;
+  font-weight: 700;
+
+  padding: 0.28rem 0.9rem 0.28rem 0.55rem;
+  border-radius: 0.45rem;
+
+  cursor: pointer;
+  user-select: none;
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+
+  letter-spacing: 0.01em;
+  transition: background 0.15s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.06);
+
+    &::after {
+      content: "";
+      position: absolute;
+      right: 2px;
+      top: 50%;
+
+      width: 8px;
+      height: 9px;
+      border-radius: 50%;
+
+      background: #34c759;
+      transform: translateY(-50%);
+      box-shadow:
+        0 0 6px rgba(52, 199, 89, 0.45),
+        0 0 12px rgba(52, 199, 89, 0.25);
+    }
+  }
+}
+
+/* MENU ITEMS */
+.menu-item {
+  background: transparent;
+  border: none;
+
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.85);
+
+  padding: 0.2rem 0.45rem;
+  border-radius: 0.35rem;
+
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.12);
+  }
+}
+
+/* =====================
+   CONNECT DROPDOWN
+===================== */
+.connect-wrapper {
+  position: relative;
+}
+
+.arrow {
+  font-size: 0.75rem;
+  opacity: 0.7;
+  transform: translateY(1px);
+  transition: transform 0.2s ease;
+}
+
+.arrow.open {
+  transform: rotate(180deg);
+}
+
+.connect-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+
+  background: rgba(38, 38, 40, 0.95);
+  backdrop-filter: blur(16px);
+
+  border-radius: 0.5rem;
+  padding: 0.4rem;
+  min-width: 140px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+
+  a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0.4rem 0.55rem;
+    border-radius: 0.35rem;
+
+    color: rgba(255, 255, 255, 0.92);
+    text-decoration: none;
+    font-size: 0.75rem;
+
+    i {
+      font-size: 0.85rem;
+      opacity: 0.85;
+    }
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.12);
+
+      i {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+/* =====================
+   OVERLAY & MODALS
+===================== */
+.overlay {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+
+  width: 100vw;
+  height: 100vh;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.404);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 9999;
+}
+
+.popover {
+  background: rgba(46, 46, 48, 0.96);
+  backdrop-filter: blur(20px);
+
+  padding: 1rem 1.2rem;
+  border-radius: 0.8rem;
+  width: 350px;
+
+  text-align: center;
+  color: white;
+
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+
+  img {
+    height: 1.6rem;
+    opacity: 0.95;
+  }
+
+  .manos-title {
+    font-weight: 600;
+    margin-bottom: 0.7rem;
+  }
+
+  .manos-info {
+    opacity: 0.75;
+    line-height: 1.4;
+    margin-bottom: 0.9rem;
+
+    span{
+        color: #34c759;
+        font-size: 0.8rem;
+        font-weight: 600;
+    }
+  }
+
+  .manos-status {
+    font-weight: 500;
+    opacity: 0.95;
+  }
+}
+
+.apple-only {
+  width: 128px;
+  height: 128px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+
+  background: linear-gradient(
+    180deg,
+    rgba(75, 75, 78, 0.85),
+    rgba(32, 32, 34, 0.85)
+  );
+  backdrop-filter: blur(24px);
+
+  border-radius: 28px;
+
+  box-shadow:
+    0 30px 70px rgba(0, 0, 0, 0.75),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+
+  animation: applePop 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+
+  img {
+    width: 50px;
+    height: 50px;
+    opacity: 0.95;
+  }
+
+  .apple-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
+    user-select: none;
+  }
+}
+
+@keyframes applePop {
+  from {
+    transform: scale(0.88);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
