@@ -1,0 +1,22 @@
+.pdf-window {
+  width: 100%;
+  height: 100%;
+  background: #0b0b0d;
+
+  padding: 0.4rem;
+  box-sizing: border-box;
+
+  /* 🔥 IMPORTANT: kill outer scroll */
+  overflow: hidden;
+}
+
+/* iframe fills container */
+.pdf-window iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 8px;
+
+  /* inner PDF scroll stays */
+  overflow: auto;
+}
