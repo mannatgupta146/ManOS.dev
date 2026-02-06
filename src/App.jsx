@@ -7,6 +7,7 @@ import Cli from './components/windows/Cli'
 import Spotify from './components/windows/Spotify'
 import Pdf from './components/windows/Pdf'
 import Calendar from './components/windows/Calendar'
+import Mail from './components/windows/Mail'
 
 
 const App = () => {
@@ -19,6 +20,7 @@ const App = () => {
       <Spotify />
       <Pdf />
       <Calendar />
+      <Mail />
     </main>
   )
 }

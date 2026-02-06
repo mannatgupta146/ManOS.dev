@@ -1,0 +1,92 @@
+.mail-window {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 2.8rem 1.8rem;
+  box-sizing: border-box;
+}
+
+/* CONTENT */
+.mail-content {
+  width: 100%;
+  max-width: 480px;
+
+  text-align: center;
+  padding: 2.4rem 0;
+
+  /* subtle uniqueness */
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* TITLE */
+.mail-content h2 {
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  margin-bottom: 0.9rem;
+}
+
+/* SUBTEXT */
+.mail-desc {
+  font-size: 0.95rem;
+  opacity: 0.72;
+  line-height: 1.65;
+
+  margin-bottom: 2.6rem;
+}
+
+/* ACTIONS */
+.mail-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1.1rem;
+
+  margin-bottom: 3.2rem;
+}
+
+/* BUTTON + LINKS */
+.mail-actions button,
+.mail-actions a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0.75rem 1.6rem;
+  border-radius: 0.7rem;
+
+  font-size: 0.9rem;
+  text-decoration: none;
+  cursor: pointer;
+
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.04);
+
+  transition:
+    background 0.2s ease,
+    transform 0.15s ease,
+    border-color 0.2s ease;
+}
+
+/* HOVER */
+.mail-actions button:hover,
+.mail-actions a:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-1px);
+}
+
+/* FOOTER */
+.mail-footer {
+  display: block;
+
+  margin-top: 3.8rem; /* pushed clearly down */
+  font-size: 0.9rem;
+  opacity: 0.55;
+  letter-spacing: 0.02em;
+}
