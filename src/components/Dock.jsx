@@ -4,14 +4,14 @@ import "./Dock.scss"
 const Dock = () => {
   return (
     <footer className='dock'>
-        <div className="icon cli"><img src="/icons/cli.svg" alt="" /></div>
-        <div className="icon calender"><img src="/icons/calender.svg" alt="" /></div>
-        <div className="icon mail"><img src="/icons/mail.svg" alt="" /></div>
-        <div className="icon github"><img src="/icons/github.svg" alt="" /></div>
-        <div className="icon pdf"><img src="/icons/pdf.svg" alt="" /></div>
-        <div className="icon note"><img src="/icons/note.svg" alt="" /></div>
-        <div className="icon link"><img src="/icons/link.svg" alt="" /></div>
-        <div className="icon spotify"><img src="/icons/spotify.svg" alt="" /></div>
+        <div className="icon cli-icon"><img src="/icons/cli.svg" alt="" /></div>
+        <div className="icon calender-icon"><img src="/icons/calender.svg" alt="" /></div>
+        <div className="icon mail-icon"><img src="/icons/mail.svg" alt="" /></div>
+        <div className="icon github-icon"><img src="/icons/github.svg" alt="" /></div>
+        <div className="icon pdf-icon"><img src="/icons/pdf.svg" alt="" /></div>
+        <div className="icon note-icon"><img src="/icons/note.svg" alt="" /></div>
+        <div className="icon link-icon"><img src="/icons/link.svg" alt="" /></div>
+        <div className="icon spotify-icon"><img src="/icons/spotify.svg" alt="" /></div>
     </footer>
   )
 }

@@ -4,6 +4,7 @@ import Dock from './components/Dock'
 import Nav from './components/Nav'
 import Github from './components/windows/Github'
 import Cli from './components/windows/Cli'
+import Spotify from './components/windows/Spotify'
 
 
 const App = () => {
@@ -13,6 +14,7 @@ const App = () => {
       <Dock />
       <Github />
       <Cli />
+      <Spotify />
     </main>
   )
 }

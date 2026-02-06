@@ -15,21 +15,25 @@ const MacWindow = ({ children }) => {
       minHeight={300}
       bounds="window"
     >
-      <div className="windows">
-        <div className="nav">
-          <div className="dots">
-            <div className="dot red" />
-            <div className="dot yellow" />
-            <div className="dot green" />
+      {/* height bridge */}
+      <div style={{ width: "100%", height: "100%" }}>
+        <div className="windows">
+          <div className="nav">
+            <div className="dots">
+              <div className="dot red" />
+              <div className="dot yellow" />
+              <div className="dot green" />
+            </div>
+
+            <div className="title">
+              <p>~ mannatgupta146</p>
+            </div>
           </div>
 
-          <div className="title">
-            <p>~ mannatgupta146</p>
+          <div className="main-content">
+            {children}
           </div>
         </div>
-
-        <div className="main-content">{children}</div>
-        
       </div>
     </Rnd>
   );
