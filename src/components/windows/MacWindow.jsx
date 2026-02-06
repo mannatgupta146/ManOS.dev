@@ -6,7 +6,7 @@ const MacWindow = ({ children }) => {
   return (
     <Rnd
       default={{
-        width: "35vw",
+        width: "30vw",
         height: "50vh",
         x: 320,
         y: 160,

@@ -1,0 +1,141 @@
+.cli {
+  height: 100%;
+  padding: 1rem;
+  background: #0b0b0d;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.85rem;
+  color: #ffffff;
+  overflow-y: auto;
+}
+
+/* Generic line */
+.line {
+  line-height: 1.7;
+  white-space: pre-wrap;
+}
+
+/* Space between blocks */
+.spacer {
+  height: 0.8rem;
+}
+
+/* Prompt */
+.prompt {
+  color: #2563eb;
+}
+
+.prompt-space {
+  display: inline-block;
+  width: 0.6rem;
+}
+
+/* Input */
+.input-line {
+  display: flex;
+  align-items: center;
+}
+
+input {
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: inherit;
+  font-size: inherit;
+  flex: 1;
+}
+
+/* Typing */
+.typing-ok {
+  color: #22c55e;
+}
+
+.typing-error {
+  color: #ef4444;
+}
+
+.system-title {
+  display: block;
+  text-align: center;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #e5e7eb;
+  margin-bottom: 0.3rem;
+}
+
+.system-sub {
+  display: block;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #9ca3af;
+}
+
+
+
+/* Titles */
+.title {
+  color: #facc15;
+  font-weight: 600;
+}
+
+/* Commands */
+.cmd-green {
+  color: #22c55e;
+}
+
+.cmd-desc {
+  color: #e5e7eb;
+  font-weight: 550;
+}
+
+/* Errors */
+.error {
+  color: #ef4444;
+}
+
+/* Labels */
+.label {
+  color: rgb(255, 113, 255);
+}
+
+.value {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+/* Numbers */
+.number {
+  color: #ab40ceef;
+  font-weight: 600;
+}
+
+/* Projects */
+.project {
+  margin-bottom: 1rem;
+}
+
+.project-name {
+  color: #7dd3fc;
+  font-weight: 600;
+}
+
+.project-intro {
+  color: #e5e7eb;
+  margin-left: 1rem;
+}
+
+.project-stack {
+  color: #9ca3af;
+  margin-left: 1rem;
+  font-style: italic;
+}
+.project-stack b {
+  color: #2ffce0;
+  font-weight: 600;
+}
+
+
+/* Highlight */
+.highlight {
+  color: #facc15;
+  font-weight: 500;
+}
