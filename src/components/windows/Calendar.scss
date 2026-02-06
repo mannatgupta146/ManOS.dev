@@ -1,0 +1,18 @@
+.calendar-window {
+  width: 100%;
+  height: 100%;
+  background: #0b0b0d;
+
+  padding: 0.6rem;
+  box-sizing: border-box;
+
+  overflow: hidden;
+}
+
+.calendar-window iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 12px;
+  background: #0b0b0d;
+}
