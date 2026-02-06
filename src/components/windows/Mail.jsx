@@ -15,47 +15,68 @@ const Mail = () => {
   return (
     <MacWindow>
       <div className="mail-container">
-        {/* The noise texture makes the glass look real */}
-        <div className="noise-overlay" />
-        
         <div className="mail-wrapper">
-          <header className="mail-header">
-            <div className="stamp-wrapper">
-              <div className="postage-stamp">
-                <img src="https://github.com/mannatgupta146.png" alt="User" />
-              </div>
-              <div className="post-mark" />
-            </div>
-            <div className="header-text">
-              <span className="label">RECIPIENT</span>
-              <h1>Mannat Gupta</h1>
-            </div>
-          </header>
+          {/* HEADER */}
+          <div className="mail-header">
+            <span className="availability-tag">AVAILABLE FOR HIRE</span>
+            <h1>Mannat Gupta</h1>
+          </div>
 
-          <main className="mail-body">
-            <p className="typewriter">
-              // Initializing connection... <br />
-              Ready to collaborate on the next big thing.
-            </p>
-            
+          {/* CONTENT */}
+          <div className="mail-content">
+            <div className="terminal-text">
+              <span className="command"># contact --init</span>
+              <p>
+                Passionate about building seamless digital experiences.
+                Let’s create something meaningful together.
+              </p>
+            </div>
+
             <div className="action-grid">
-              <button className="mail-btn main" onClick={() => window.location.href = `mailto:${email}`}>
+              <button
+                className="mail-btn main"
+                onClick={() =>
+                  (window.location.href = `mailto:${email}`)
+                }
+              >
                 Send Message
-                <span className="shimmer" />
               </button>
-              
-              <button className={`mail-btn secondary ${copied ? 'success' : ''}`} onClick={copyToClipboard}>
-                {copied ? "Copied!" : "Copy Email"}
+
+              <button
+                className={`mail-btn secondary ${
+                  copied ? "success" : ""
+                }`}
+                onClick={copyToClipboard}
+              >
+                {copied ? "✓ Copied" : "Copy Email"}
               </button>
             </div>
-          </main>
+          </div>
 
-          <footer className="mail-links">
-            <a href="https://linkedin.com/in/mannatgupta146" target="_blank" rel="noreferrer">LinkedIn</a>
-            <span className="separator">/</span>
-            <a href="https://github.com/mannatgupta146" target="_blank" rel="noreferrer">GitHub</a>
-            <div className="status-dot" />
-          </footer>
+          {/* BOTTOM */}
+          <div className="mail-bottom">
+            <div className="social-links">
+              <a
+                href="https://linkedin.com/in/mannatgupta146"
+                target="_blank"
+                rel="noreferrer"
+              >
+                LinkedIn
+              </a>
+              <a
+                href="https://github.com/mannatgupta146"
+                target="_blank"
+                rel="noreferrer"
+              >
+                GitHub
+              </a>
+            </div>
+
+            <div className="online-indicator">
+              <span>Online</span>
+              <span className="dot" />
+            </div>
+          </div>
         </div>
       </div>
     </MacWindow>
