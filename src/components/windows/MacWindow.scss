@@ -70,10 +70,13 @@
     }
   }
 
-  .main-content{
+  .main-content {
     flex: 1;
     min-height: 0;
-    background: black;
     position: relative;
+
+    background: #0b0b0d;
+     overflow: hidden;
   }
+
 }

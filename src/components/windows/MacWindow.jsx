@@ -29,6 +29,7 @@ const MacWindow = ({ children }) => {
         </div>
 
         <div className="main-content">{children}</div>
+        
       </div>
     </Rnd>
   );

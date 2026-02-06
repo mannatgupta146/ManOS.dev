@@ -296,7 +296,7 @@ const Cli = () => {
             <div key={i} className={`line ${l.type}`}>
               {l.type.startsWith("input") && (
                 <>
-                  <span className="prompt">mannat@ManOS:$</span>
+                  <span className="prompt">mannat@ManOS:~$</span>
                   <span className="prompt-space" />
                 </>
               )}
@@ -350,7 +350,7 @@ const Cli = () => {
         )}
 
         <div className="line input-line">
-          <span className="prompt">mannat@ManOS:$</span>
+          <span className="prompt">mannat@ManOS:~$</span>
           <span className="prompt-space" />
           <input
             ref={inputRef}

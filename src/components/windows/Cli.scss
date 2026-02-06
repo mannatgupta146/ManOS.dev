@@ -1,12 +1,64 @@
 .cli {
   height: 100%;
-  padding: 1rem;
-  background: #0b0b0d;
-  font-family: "JetBrains Mono", monospace;
-  font-size: 0.85rem;
-  color: #ffffff;
   overflow-y: auto;
+  overflow-x: hidden;
+
+  padding: 1.25rem 1.1rem;
+
+  /* Terminal look */
+  background: radial-gradient(
+      1200px 600px at 50% -200px,
+      rgba(255, 255, 255, 0.04),
+      transparent 60%
+    ),
+    #0b0b0d;
+
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.86rem;
+  line-height: 1.65;
+  color: #e5e7eb;
+
+  /* UX */
+  overscroll-behavior: contain;
+  scroll-padding-bottom: 2rem;
+
+  /* Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.25) transparent;
 }
+
+.cli::-webkit-scrollbar {
+  width: 7px;
+}
+
+.cli::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.cli::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.12),
+    rgba(255, 255, 255, 0.25)
+  );
+  border-radius: 999px;
+
+  opacity: 0;
+  transition: opacity 0.25s ease, background 0.2s ease;
+}
+
+.cli:hover::-webkit-scrollbar-thumb {
+  opacity: 1;
+}
+
+.cli::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.25),
+    rgba(255, 255, 255, 0.45)
+  );
+}
+
 
 /* Generic line */
 .line {
@@ -68,7 +120,6 @@ input {
   font-size: 0.9rem;
   color: #9ca3af;
 }
-
 
 
 /* Titles */
