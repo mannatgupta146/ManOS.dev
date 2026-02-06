@@ -15,11 +15,13 @@ const App = () => {
     <main>
       <Nav />
       <Dock />
-      <Github />
+      
       <Cli />
       <Spotify />
       <Pdf />
       <Calendar />
+      
+      <Github />
       <Mail />
     </main>
   )

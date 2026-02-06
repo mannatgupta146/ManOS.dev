@@ -9,20 +9,26 @@ const Github = () => {
     <MacWindow>
       <div className="github-window">
         {!play ? (
-          <div className="intro">
+          <div className="github-card">
+            <img
+              src="https://github.com/mannatgupta146.png"
+              alt="GitHub"
+              className="git-avatar"
+            />
+
             <p className="headline">GitHub · 2025</p>
             <p className="subline">
-             Projects, contributions, and progress over the year.
+              Projects, contributions, and progress over the year.
             </p>
 
             <div className="actions">
               <a
                 href="https://github.com/mannatgupta146"
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="noreferrer"
                 className="github-btn"
               >
-                <i className="ri-github-fill"></i>
+                <i className="ri-github-fill" />
                 GitHub
               </a>
 
@@ -32,6 +38,7 @@ const Github = () => {
             </div>
           </div>
         ) : (
+          /* 🔴 VIDEO LOGIC SAME AS YOUR ORIGINAL */
           <video
             src="/github.mp4"
             autoPlay
