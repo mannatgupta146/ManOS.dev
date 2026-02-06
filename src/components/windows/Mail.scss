@@ -12,7 +12,7 @@
 /* CARD — WIDE, NOT TALL */
 .mail-wrapper {
   width: 100%;
-  width: 100%; /* 🔥 width-focused */
+  max-width: 540px; 
   padding: 2rem 1rem; /* less height, more width */
   border-radius: 26px;
 
@@ -43,7 +43,7 @@
   }
 
   h1 {
-    font-size: 1.7rem;
+    font-size: 2rem;
     color: #ffffff;
     letter-spacing: -0.03em;
   }
@@ -51,6 +51,7 @@
 
 /* CONTENT */
 .mail-content {
+    max-width: 100%;
   .terminal-text {
     background: rgba(0, 0, 0, 0.35);
     padding: 1.2rem 1.4rem;
