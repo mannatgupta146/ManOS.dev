@@ -71,6 +71,8 @@
   }
 
   .main-content {
+    user-select: text;
+    cursor: auto;
     flex: 1;
     min-height: 0;
     position: relative;

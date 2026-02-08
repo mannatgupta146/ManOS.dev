@@ -9,6 +9,7 @@ import Pdf from './components/windows/Pdf'
 import Calendar from './components/windows/Calendar'
 import Mail from './components/windows/Mail'
 import Note from './components/windows/Note'
+import CodeEditor from './components/windows/CodeEditor'
 
 
 const App = () => {
@@ -21,10 +22,10 @@ const App = () => {
       <Spotify />
       <Pdf />
       <Calendar />
-      
       <Github />
       <Mail />
       <Note />
+      <CodeEditor />
     </main>
   )
 }
