@@ -6,7 +6,7 @@
     bottom: 1rem;
     left: 50%;
     transform: translate(-50%);
-    background: rgb(62, 62, 62);
+    background: rgba(40, 40, 42, 0.7);
     padding-inline: 0.75rem;
     padding-block: 0.4rem;
     border-radius: 0.75rem;
@@ -84,8 +84,9 @@
 
     }
 
-    .link-icon{
-        background: linear-gradient(145deg, #af52de, #7d3cb5);
+    .brave-icon{
+       background: linear-gradient(180deg, #FF6A5A 0%, #FF3B30 35%, #E11900 70%, #B31200 100%);
+
     }
 
     .spotify-icon{

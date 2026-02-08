@@ -10,7 +10,7 @@ const Dock = () => {
         <div className="icon github-icon"><img src="/icons/github.svg" alt="" /></div>
         <div className="icon pdf-icon"><img src="/icons/pdf.svg" alt="" /></div>
         <div className="icon note-icon"><img src="/icons/note.svg" alt="" /></div>
-        <div className="icon link-icon"><img src="/icons/link.svg" alt="" /></div>
+        <div className="icon brave-icon"><img src="/icons/brave.svg" alt="" /></div>
         <div className="icon spotify-icon"><img src="/icons/spotify.svg" alt="" /></div>
     </footer>
   )
