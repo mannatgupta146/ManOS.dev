@@ -8,6 +8,7 @@ import Spotify from './components/windows/Spotify'
 import Pdf from './components/windows/Pdf'
 import Calendar from './components/windows/Calendar'
 import Mail from './components/windows/Mail'
+import Note from './components/windows/Note'
 
 
 const App = () => {
@@ -23,6 +24,7 @@ const App = () => {
       
       <Github />
       <Mail />
+      <Note />
     </main>
   )
 }
