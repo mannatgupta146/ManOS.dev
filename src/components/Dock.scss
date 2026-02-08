@@ -84,23 +84,7 @@
     }
 
     .calender-icon{
-        position: relative;
-        background: linear-gradient(145deg, #ffffffb4, #eaeaeaee);
-        overflow: hidden;
-
-        &::before{
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 25%;
-            background: linear-gradient(145deg, #ff5f57, #ff3b30);
-        }
-
-        img{
-            margin-top: 5px;
-        }
+        background: linear-gradient(145deg, #f2f2f7, #96969b);
     }
 
     .mail-icon{

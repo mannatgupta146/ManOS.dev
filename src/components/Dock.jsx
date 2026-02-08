@@ -9,7 +9,7 @@ const Dock = () => {
       </div>
 
       <div className="icon calender-icon" data-label="Calendar">
-        <img src="/icons/calender.svg" alt="" />
+        <img src="/icons/calender.png" alt="" />
       </div>
 
       <div className="icon mail-icon" data-label="Mail">
