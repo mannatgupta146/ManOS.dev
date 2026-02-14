@@ -10,6 +10,8 @@ import Calendar from './components/windows/Calendar'
 import Mail from './components/windows/Mail'
 import Note from './components/windows/Note'
 import CodeEditor from './components/windows/CodeEditor'
+import Camera from './components/windows/Camera'
+import Gallery from './components/windows/Gallery'
 
 
 const App = () => {
@@ -26,6 +28,8 @@ const App = () => {
       <Mail />
       <Note />
       <CodeEditor />
+      <Camera />
+      <Gallery />
     </main>
   )
 }

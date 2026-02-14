@@ -35,6 +35,14 @@ const Dock = () => {
       <div className="icon spotify-icon" data-label="Spotify">
         <img src="/icons/spotify.svg" alt="" />
       </div>
+
+      <div className="icon camera-icon" data-label="Camera">
+        <img src="/icons/camera.svg" alt="" />
+      </div>
+
+      <div className="icon gallery-icon" data-label="Gallery">
+        <img src="/icons/gallery.png" alt="" />
+      </div>
     </footer>
   )
 }
