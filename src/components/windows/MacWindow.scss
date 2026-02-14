@@ -1,84 +1,85 @@
 .windows {
   height: 100%;
   width: 100%;
-
   display: flex;
   flex-direction: column;
-
-  background-color: #0f0f11; /* macOS dark window */
-  border-radius: 0.5rem;
-  height: 100%;
+  background: #0f0f11;
+  border-radius: 8px;
   overflow: hidden;
   color: white;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.55);
+  box-shadow: 0 20px 60px rgba(0,0,0,.55);
+}
 
+.windows.maximized {
+  border-radius: 0;
+}
 
-  .nav {
-    padding-inline: 0.5rem;
-    padding-block: 0.4rem;
+/* NAV BAR */
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 10px;
 
-    display: flex;
-    align-items: center;
-    gap: 0.65rem;
+  background: linear-gradient(to bottom, #3a3a3c, #2a2a2c);
+  border-bottom: 1px solid rgba(255,255,255,.08);
 
-    /* macOS title bar gradient */
-    background: linear-gradient(
-      to bottom,
-      #3a3a3c,
-      #2a2a2c
-    );
+  cursor: grab;
+}
 
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+.nav:active { cursor: grabbing; }
 
-    .dots {
-      display: flex;
-      gap: 0.35rem;
+/* LEFT */
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
 
-      .dot {
-        height: 12px;
-        width: 12px;
-        border-radius: 50%;
+/* DOTS */
+.dots {
+  display: flex;
+  gap: 6px;
+}
 
-        /* subtle macOS inner border */
-        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.25);
-      }
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,.25);
+  transition: transform .15s ease, filter .2s ease;
+}
 
-      /* macOS traffic light colors */
-      .red {
-        background-color: #ff5f57;
-      }
+.dot:hover { transform: scale(1.1); }
 
-      .yellow {
-        background-color: #febc2e;
-      }
+.red { background: #ff5f57; }
+.yellow { background: #febc2e; }
+.green { background: #28c840; }
 
-      .green {
-        background-color: #28c840;
-      }
-    }
+.green.active {
+  filter: brightness(1.3);
+}
 
-    .title {
-      text-align: center;
+/* TITLE */
+.title p {
+  margin: 0;
+  font-size: 12px;
+  color: rgba(255,255,255,.65);
+}
 
-      p {
-        font-size: 0.75rem;
-        font-weight: 500;
-        color: rgba(255, 255, 255, 0.65);
-        letter-spacing: 0.02em;
-        margin: 0;
-      }
-    }
-  }
+/* RIGHT APP NAME */
+.nav-right {
+  font-size: 12px;
+  color: rgba(255,255,255,.7);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
 
-  .main-content {
-    user-select: text;
-    cursor: auto;
-    flex: 1;
-    min-height: 0;
-    position: relative;
-    overflow: hidden;
-    background: #0b0b0d;
-    
-  }
-
+/* CONTENT */
+.main-content {
+  flex: 1;
+  background: #0b0b0d;
+  overflow: hidden;
 }
