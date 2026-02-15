@@ -46,8 +46,7 @@ const MacWindow = ({
       minHeight={300}
       bounds={maximized ? "body" : "window"}
 
-      /* ⭐ DRAG ONLY FROM TITLE */
-      dragHandleClassName="title"
+      dragHandleClassName="nav"
 
       disableDragging={maximized}
       enableResizing={!maximized}
