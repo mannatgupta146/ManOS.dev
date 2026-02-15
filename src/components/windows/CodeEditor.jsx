@@ -3,7 +3,7 @@ import Editor from "@monaco-editor/react";
 import MacWindow from "./MacWindow";
 import "./CodeEditor.scss";
 
-const CodeEditor = () => {
+const CodeEditor = ({ minimized, onClose, onMinimize }) => {
   const [code, setCode] = useState(
     `console.log("Hello Mannat 👋");`
   );
@@ -37,7 +37,7 @@ const CodeEditor = () => {
   };
 
   return (
-    <MacWindow title="Code Editor">
+    <MacWindow title="Code Editor" minimized={minimized} onClose={onClose} onMinimize={onMinimize}>
       <div className="code-editor-app">
         {/* Toolbar */}
         <div className="editor-toolbar">

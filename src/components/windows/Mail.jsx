@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import MacWindow from "./MacWindow";
 import "./Mail.scss";
 
-const Mail = () => {
+const Mail = ({ minimized, onClose, onMinimize }) => {
   const [copied, setCopied] = useState(false);
   const email = "mannatgupta146@gmail.com";
 
@@ -13,7 +13,7 @@ const Mail = () => {
   };
 
   return (
-    <MacWindow>
+    <MacWindow title="Mail" minimized={minimized} onClose={onClose} onMinimize={onMinimize}>
       <div className="mail-container">
         <div className="mail-wrapper">
           {/* HEADER */}

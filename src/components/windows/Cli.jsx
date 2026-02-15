@@ -50,7 +50,7 @@ const highlightNumbers = (text = "") =>
     `<span class="number">$1</span>`
   );
 
-const Cli = () => {
+const Cli = ({ minimized, onClose, onMinimize }) => {
   const [lines, setLines] = useState(SYSTEM_LINES);
   const [input, setInput] = useState("");
 
@@ -287,7 +287,7 @@ const Cli = () => {
   };
 
   return (
-    <MacWindow>
+    <MacWindow title="Terminal" minimized={minimized} onClose={onClose} onMinimize={onMinimize}>
       <div className="cli" ref={terminalRef}>
         {lines.map((l, i) =>
           l.type === "spacer" ? (

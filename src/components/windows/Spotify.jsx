@@ -2,9 +2,9 @@ import React from "react";
 import MacWindow from "./MacWindow";
 import "./Spotify.scss";
 
-const Spotify = () => {
+const Spotify = ({ minimized, onClose, onMinimize }) => {
   return (
-    <MacWindow>
+    <MacWindow title="Spotify" minimized={minimized} onClose={onClose} onMinimize={onMinimize}>
       <div className="spotify-window">
         <div className="spotify-inner">
           <iframe

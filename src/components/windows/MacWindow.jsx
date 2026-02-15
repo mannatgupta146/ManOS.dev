@@ -2,9 +2,13 @@ import React, { useState } from "react";
 import { Rnd } from "react-rnd";
 import "./MacWindow.scss";
 
-const MacWindow = ({ children, title = "Window" }) => {
-  const [closed, setClosed] = useState(false);
-  const [minimized, setMinimized] = useState(false);
+const MacWindow = ({
+  children,
+  title = "Window",
+  minimized,
+  onClose,
+  onMinimize
+}) => {
   const [maximized, setMaximized] = useState(false);
 
   const [windowState, setWindowState] = useState({
@@ -14,13 +18,11 @@ const MacWindow = ({ children, title = "Window" }) => {
     y: 160,
   });
 
-  // detect navbar height
   const NAVBAR_HEIGHT =
     document.querySelector(".top-navbar")?.offsetHeight || 32;
 
-  if (closed) return null;
-
-  if (minimized) return null; // hidden (dock will restore)
+  // hide when minimized
+  if (minimized) return null;
 
   return (
     <Rnd
@@ -43,12 +45,17 @@ const MacWindow = ({ children, title = "Window" }) => {
       minWidth={350}
       minHeight={300}
       bounds={maximized ? "body" : "window"}
-      dragHandleClassName="nav"
+
+      /* ⭐ DRAG ONLY FROM TITLE */
+      dragHandleClassName="title"
+
       disableDragging={maximized}
       enableResizing={!maximized}
+
       onDragStop={(e, d) =>
         setWindowState((s) => ({ ...s, x: d.x, y: d.y }))
       }
+
       onResizeStop={(e, dir, ref, delta, pos) =>
         setWindowState({
           width: ref.style.width,
@@ -59,40 +66,53 @@ const MacWindow = ({ children, title = "Window" }) => {
     >
       <div className={`windows ${maximized ? "maximized" : ""}`}>
 
-        {/* NAVBAR */}
+        {/* NAV */}
         <div className="nav">
 
-          {/* LEFT */}
           <div className="nav-left">
+
             <div className="dots">
+
               {/* CLOSE */}
               <div
                 className="dot red"
-                onClick={() => setClosed(true)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onClose();
+                }}
               />
 
               {/* MINIMIZE */}
               <div
                 className="dot yellow"
-                onClick={() => setMinimized(true)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onMinimize();
+                }}
               />
 
               {/* MAXIMIZE */}
               <div
                 className={`dot green ${maximized ? "active" : ""}`}
-                onClick={() => setMaximized(!maximized)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setMaximized(!maximized);
+                }}
               />
+
             </div>
 
+            {/* ⭐ DRAG HANDLE */}
             <div className="title">
               <p>~ mannatgupta146</p>
             </div>
+
           </div>
 
-          {/* RIGHT SIDE — APP NAME */}
           <div className="nav-right">
             📁 {title}
           </div>
+
         </div>
 
         {/* CONTENT */}

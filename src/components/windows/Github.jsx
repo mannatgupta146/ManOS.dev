@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import MacWindow from "./MacWindow";
 import "./Github.scss";
 
-const Github = () => {
+const Github = ({ minimized, onClose, onMinimize }) => {
   const [play, setPlay] = useState(false);
 
   return (
-    <MacWindow>
+    <MacWindow title="Github" minimized={minimized} onClose={onClose} onMinimize={onMinimize}>
       <div className="github-window">
         {!play ? (
           <div className="github-card">

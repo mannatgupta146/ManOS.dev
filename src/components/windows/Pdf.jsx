@@ -2,9 +2,9 @@ import React from "react";
 import MacWindow from "./MacWindow";
 import "./Pdf.scss";
 
-const Pdf = () => {
+const Pdf = ({ minimized, onClose, onMinimize }) => {
   return (
-    <MacWindow>
+    <MacWindow title="Resume" minimized={minimized} onClose={onClose} onMinimize={onMinimize}>
       <div className="pdf-window">
         <iframe
           title="PDF Viewer"
