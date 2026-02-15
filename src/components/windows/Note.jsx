@@ -71,7 +71,7 @@ const Note = ({ minimized, onClose, onMinimize }) => {
   };
 
   return (
-    <MacWindow title="Notes" minimized={minimized} onClose={onClose} onMinimize={onMinimize}>
+    <MacWindow appId="notes" title="Notes" minimized={minimized} onClose={onClose} onMinimize={onMinimize}>
       <div className="note-app">
         {/* SIDEBAR */}
         <aside className="sidebar">

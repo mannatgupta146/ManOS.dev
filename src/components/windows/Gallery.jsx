@@ -43,7 +43,7 @@ const Gallery = ({ minimized, onClose, onMinimize }) => {
   };
 
   return (
-    <MacWindow title="Gallery" minimized={minimized} onClose={onClose} onMinimize={onMinimize}>
+    <MacWindow appId="gallery" title="Gallery" minimized={minimized} onClose={onClose} onMinimize={onMinimize}>
       <div className="gallery-container">
         {/* Modern Apple-style Header */}
         <header className="gallery-header">

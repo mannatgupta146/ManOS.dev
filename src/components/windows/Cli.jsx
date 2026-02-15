@@ -287,7 +287,7 @@ const Cli = ({ minimized, onClose, onMinimize }) => {
   };
 
   return (
-    <MacWindow title="Terminal" minimized={minimized} onClose={onClose} onMinimize={onMinimize}>
+    <MacWindow appId="terminal" title="Terminal" minimized={minimized} onClose={onClose} onMinimize={onMinimize}>
       <div className="cli" ref={terminalRef}>
         {lines.map((l, i) =>
           l.type === "spacer" ? (

@@ -4,7 +4,7 @@ import "./Calendar.scss";
 
 const Calendar = ({ minimized, onClose, onMinimize }) => {
   return (
-    <MacWindow title="Calendar" minimized={minimized} onClose={onClose} onMinimize={onMinimize}>
+    <MacWindow appId="calendar" title="Calendar" minimized={minimized} onClose={onClose} onMinimize={onMinimize}>
       <div className="calendar-window">
         <iframe
           title="Calendar"

@@ -6,7 +6,7 @@ const Github = ({ minimized, onClose, onMinimize }) => {
   const [play, setPlay] = useState(false);
 
   return (
-    <MacWindow title="Github" minimized={minimized} onClose={onClose} onMinimize={onMinimize}>
+    <MacWindow appId="github" title="Github" minimized={minimized} onClose={onClose} onMinimize={onMinimize}>
       <div className="github-window">
         {!play ? (
           <div className="github-card">

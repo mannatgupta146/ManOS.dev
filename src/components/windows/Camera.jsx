@@ -59,7 +59,7 @@ const Camera = ({ minimized, onClose, onMinimize }) => {
   };
 
   return (
-    <MacWindow title="Camera" minimized={minimized} onClose={onClose} onMinimize={onMinimize}>
+    <MacWindow appId="camera" title="Camera" minimized={minimized} onClose={onClose} onMinimize={onMinimize}>
       <div className="camera-app-v2">
         <div className="viewfinder-container">
           {/* Mirror Video Preview */}

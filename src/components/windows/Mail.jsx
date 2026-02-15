@@ -13,7 +13,7 @@ const Mail = ({ minimized, onClose, onMinimize }) => {
   };
 
   return (
-    <MacWindow title="Mail" minimized={minimized} onClose={onClose} onMinimize={onMinimize}>
+    <MacWindow appId="mail" title="Mail" minimized={minimized} onClose={onClose} onMinimize={onMinimize}>
       <div className="mail-container">
         <div className="mail-wrapper">
           {/* HEADER */}

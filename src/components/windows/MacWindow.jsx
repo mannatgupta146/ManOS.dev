@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Rnd } from "react-rnd";
 import "./MacWindow.scss";
 
@@ -7,35 +7,46 @@ const MacWindow = ({
   title = "Window",
   minimized,
   onClose,
-  onMinimize
+  onMinimize,
+  appId,
+  zIndex = 1,
+  onFocus
 }) => {
-  const [maximized, setMaximized] = useState(false);
 
-  const [windowState, setWindowState] = useState({
-    width: "33vw",
-    height: "52vh",
-    x: 320,
-    y: 160,
-  });
+  const STORAGE_KEY = `window_${appId}`;
+
+  // load saved layout
+  const loadState = () => {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    return saved
+      ? JSON.parse(saved)
+      : { width: "33vw", height: "52vh", x: 320, y: 160 };
+  };
+
+  const [windowState, setWindowState] = useState(() => loadState());
+  const [maximized, setMaximized] = useState(false);
 
   const NAVBAR_HEIGHT =
     document.querySelector(".top-navbar")?.offsetHeight || 32;
 
-  // hide when minimized
+  // save layout
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(windowState));
+  }, [windowState]);
+
   if (minimized) return null;
 
   return (
     <Rnd
+      style={{ zIndex }}
+      onMouseDown={onFocus}
       size={
         maximized
           ? {
               width: window.innerWidth,
               height: window.innerHeight - NAVBAR_HEIGHT,
             }
-          : {
-              width: windowState.width,
-              height: windowState.height,
-            }
+          : windowState
       }
       position={
         maximized
@@ -45,16 +56,12 @@ const MacWindow = ({
       minWidth={350}
       minHeight={300}
       bounds={maximized ? "body" : "window"}
-
       dragHandleClassName="nav"
-
       disableDragging={maximized}
       enableResizing={!maximized}
-
       onDragStop={(e, d) =>
         setWindowState((s) => ({ ...s, x: d.x, y: d.y }))
       }
-
       onResizeStop={(e, dir, ref, delta, pos) =>
         setWindowState({
           width: ref.style.width,
@@ -65,23 +72,19 @@ const MacWindow = ({
     >
       <div className={`windows ${maximized ? "maximized" : ""}`}>
 
-        {/* NAV */}
         <div className="nav">
-
           <div className="nav-left">
 
             <div className="dots">
-
-              {/* CLOSE */}
               <div
                 className="dot red"
                 onClick={(e) => {
                   e.stopPropagation();
+                  localStorage.removeItem(STORAGE_KEY);
                   onClose();
                 }}
               />
 
-              {/* MINIMIZE */}
               <div
                 className="dot yellow"
                 onClick={(e) => {
@@ -90,7 +93,6 @@ const MacWindow = ({
                 }}
               />
 
-              {/* MAXIMIZE */}
               <div
                 className={`dot green ${maximized ? "active" : ""}`}
                 onClick={(e) => {
@@ -98,23 +100,18 @@ const MacWindow = ({
                   setMaximized(!maximized);
                 }}
               />
-
             </div>
 
-            {/* ⭐ DRAG HANDLE */}
             <div className="title">
               <p>~ mannatgupta146</p>
             </div>
-
           </div>
 
           <div className="nav-right">
             📁 {title}
           </div>
-
         </div>
 
-        {/* CONTENT */}
         <div className="main-content">
           {children}
         </div>
