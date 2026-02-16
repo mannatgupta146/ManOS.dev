@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import MacWindow from "./MacWindow";
 import "./Gallery.scss";
 
-const Gallery = ({ minimized, onClose, onMinimize }) => {
+const Gallery = ({ minimized, onClose, onMinimize, zIndex, onFocus }) => {
   const [photos, setPhotos] = useState([]);
   const [selected, setSelected] = useState([]);
 
@@ -43,7 +43,7 @@ const Gallery = ({ minimized, onClose, onMinimize }) => {
   };
 
   return (
-    <MacWindow appId="gallery" title="Gallery" minimized={minimized} onClose={onClose} onMinimize={onMinimize}>
+    <MacWindow appId="gallery" title="Gallery" minimized={minimized} onClose={onClose} onMinimize={onMinimize} zIndex={zIndex} onFocus={onFocus}>
       <div className="gallery-container">
         {/* Modern Apple-style Header */}
         <header className="gallery-header">

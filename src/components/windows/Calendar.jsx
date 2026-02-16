@@ -2,9 +2,9 @@ import React from "react";
 import MacWindow from "./MacWindow";
 import "./Calendar.scss";
 
-const Calendar = ({ minimized, onClose, onMinimize }) => {
+const Calendar = ({ minimized, onClose, onMinimize, zIndex, onFocus }) => {
   return (
-    <MacWindow appId="calendar" title="Calendar" minimized={minimized} onClose={onClose} onMinimize={onMinimize}>
+    <MacWindow appId="calendar" title="Calendar" minimized={minimized} onClose={onClose} onMinimize={onMinimize} zIndex={zIndex} onFocus={onFocus}>
       <div className="calendar-window">
         <iframe
           title="Calendar"

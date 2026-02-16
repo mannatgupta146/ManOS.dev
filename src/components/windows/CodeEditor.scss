@@ -3,6 +3,8 @@
   display: flex;
   flex-direction: column;
   background: #1e1e1e;
+  position: relative;
+  z-index: 0 !important;
 }
 
 /* Toolbar */
@@ -63,4 +65,9 @@
     margin: 0;
     white-space: pre-wrap;
   }
+}
+
+.monaco-editor,
+.monaco-editor .overflow-guard {
+  z-index: 0 !important;
 }

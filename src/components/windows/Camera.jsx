@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import MacWindow from "./MacWindow";
 import "./Camera.scss";
 
-const Camera = ({ minimized, onClose, onMinimize }) => {
+const Camera = ({ minimized, onClose, onMinimize, zIndex, onFocus }) => {
   const videoRef = useRef(null);
   const [flash, setFlash] = useState(false);
   const [isReady, setIsReady] = useState(false);
@@ -59,7 +59,7 @@ const Camera = ({ minimized, onClose, onMinimize }) => {
   };
 
   return (
-    <MacWindow appId="camera" title="Camera" minimized={minimized} onClose={onClose} onMinimize={onMinimize}>
+    <MacWindow appId="camera" title="Camera" minimized={minimized} onClose={onClose} onMinimize={onMinimize} zIndex={zIndex} onFocus={onFocus}>
       <div className="camera-app-v2">
         <div className="viewfinder-container">
           {/* Mirror Video Preview */}

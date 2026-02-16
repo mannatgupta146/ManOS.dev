@@ -4,7 +4,7 @@ import "./MacWindow.scss";
 
 const MacWindow = ({
   children,
-  title = "Window",
+  title,
   minimized,
   onClose,
   onMinimize,
@@ -15,7 +15,6 @@ const MacWindow = ({
 
   const STORAGE_KEY = `window_${appId}`;
 
-  // load saved layout
   const loadState = () => {
     const saved = localStorage.getItem(STORAGE_KEY);
     return saved
@@ -23,13 +22,12 @@ const MacWindow = ({
       : { width: "33vw", height: "52vh", x: 320, y: 160 };
   };
 
-  const [windowState, setWindowState] = useState(() => loadState());
+  const [windowState, setWindowState] = useState(loadState);
   const [maximized, setMaximized] = useState(false);
 
   const NAVBAR_HEIGHT =
     document.querySelector(".top-navbar")?.offsetHeight || 32;
 
-  // save layout
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(windowState));
   }, [windowState]);
@@ -38,8 +36,8 @@ const MacWindow = ({
 
   return (
     <Rnd
-      style={{ zIndex }}
-      onMouseDown={onFocus}
+      style={{ zIndex, position: "absolute" }}
+      onMouseDownCapture={onFocus}
       size={
         maximized
           ? {
@@ -60,7 +58,7 @@ const MacWindow = ({
       disableDragging={maximized}
       enableResizing={!maximized}
       onDragStop={(e, d) =>
-        setWindowState((s) => ({ ...s, x: d.x, y: d.y }))
+        setWindowState(s => ({ ...s, x: d.x, y: d.y }))
       }
       onResizeStop={(e, dir, ref, delta, pos) =>
         setWindowState({
@@ -71,28 +69,17 @@ const MacWindow = ({
       }
     >
       <div className={`windows ${maximized ? "maximized" : ""}`}>
-
         <div className="nav">
           <div className="nav-left">
-
             <div className="dots">
               <div
                 className="dot red"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  localStorage.removeItem(STORAGE_KEY);
-                  onClose();
-                }}
+                onClick={(e) => { e.stopPropagation(); onClose(); }}
               />
-
               <div
                 className="dot yellow"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onMinimize();
-                }}
+                onClick={(e) => { e.stopPropagation(); onMinimize(); }}
               />
-
               <div
                 className={`dot green ${maximized ? "active" : ""}`}
                 onClick={(e) => {
@@ -101,21 +88,15 @@ const MacWindow = ({
                 }}
               />
             </div>
-
             <div className="title">
               <p>~ mannatgupta146</p>
             </div>
           </div>
 
-          <div className="nav-right">
-            📁 {title}
-          </div>
+          <div className="nav-right">📁 {title}</div>
         </div>
 
-        <div className="main-content">
-          {children}
-        </div>
-
+        <div className="main-content">{children}</div>
       </div>
     </Rnd>
   );

@@ -6,48 +6,19 @@ const Dock = ({ apps = {}, openApp }) => {
   const handleClick = (app) => {
     const state = apps[app];
 
-    // OPEN
-    if (state === "closed") {
-      openApp(app);
-      return;
-    }
-
-    // MINIMIZE
-    if (state === "open") {
-      window.dispatchEvent(
-        new CustomEvent("minimizeApp", { detail: app })
-      );
-      return;
-    }
-
-    // RESTORE
-    if (state === "minimized") {
-      openApp(app);
-    }
+    if (state === "closed") openApp(app);
+    else if (state === "open")
+      window.dispatchEvent(new CustomEvent("minimizeApp", { detail: app }));
+    else if (state === "minimized") openApp(app);
   };
 
-  const Icon = ({ app, icon, label, className }) => {
-    const state = apps[app];
-
-    return (
-      <div
-        className={`icon ${className}`}
-        data-label={label}
-        onClick={() => handleClick(app)}
-      >
-        <img src={icon} alt="" />
-
-        {/* indicator */}
-        {state !== "closed" && (
-          <span
-            className={`indicator ${
-              state === "open" ? "active" : "minimized"
-            }`}
-          />
-        )}
-      </div>
-    );
-  };
+  const Icon = ({ app, icon, label, className }) => (
+    <div className={`icon ${className}`} data-label={label} onClick={() => handleClick(app)}>
+      <img src={icon} alt="" />
+      {apps[app] === "open" && <span className="indicator active" />}
+      {apps[app] === "minimized" && <span className="indicator" />}
+    </div>
+  );
 
   return (
     <footer className="dock">

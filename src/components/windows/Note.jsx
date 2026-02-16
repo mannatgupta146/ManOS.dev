@@ -9,7 +9,7 @@ const makeFileName = (title) => {
   return title.trim().slice(0, 15);
 };
 
-const Note = ({ minimized, onClose, onMinimize }) => {
+const Note = ({ minimized, onClose, onMinimize, zIndex, onFocus}) => {
   const [notes, setNotes] = useState([]);
   const [activeId, setActiveId] = useState(null);
   const [search, setSearch] = useState("");
@@ -71,7 +71,7 @@ const Note = ({ minimized, onClose, onMinimize }) => {
   };
 
   return (
-    <MacWindow appId="notes" title="Notes" minimized={minimized} onClose={onClose} onMinimize={onMinimize}>
+    <MacWindow appId="notes" title="Notes" minimized={minimized} onClose={onClose} onMinimize={onMinimize} zIndex={zIndex} onFocus={onFocus}>
       <div className="note-app">
         {/* SIDEBAR */}
         <aside className="sidebar">
