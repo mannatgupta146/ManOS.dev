@@ -15,8 +15,14 @@ const Dock = ({ apps = {}, openApp }) => {
   const Icon = ({ app, icon, label, className }) => (
     <div className={`icon ${className}`} data-label={label} onClick={() => handleClick(app)}>
       <img src={icon} alt="" />
-      {apps[app] === "open" && <span className="indicator active" />}
-      {apps[app] === "minimized" && <span className="indicator" />}
+      {apps[app] !== "closed" && (
+  <span
+    className={`indicator ${
+      apps[app] === "open" ? "active" : "minimized"
+    }`}
+  />
+)}
+
     </div>
   );
 

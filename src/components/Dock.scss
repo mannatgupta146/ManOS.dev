@@ -122,25 +122,19 @@
     background: linear-gradient(145deg, #ffd60a, #ff9f0a);
   }
 }
-
 .indicator {
   position: absolute;
-  bottom: -6px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  transition: all .25s ease;
+  bottom: -4px;
+  left: 20%;
+  width: 60%;
+  height: 2.5px;
+  border-radius: 10px;
 }
 
-/* 🔥 OPEN WINDOW */
 .indicator.active {
-  background: #ffffff;
-  box-shadow: 0 0 8px rgba(255,255,255,.9);
+  background: #fff;
 }
 
-/* 🔥 MINIMIZED WINDOW */
 .indicator.minimized {
-  background: rgba(255,255,255,.35);
+  background: rgba(255,255,255,.3);
 }
