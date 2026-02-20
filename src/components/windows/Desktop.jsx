@@ -100,7 +100,7 @@ const applyWallpaper = (img) => {
     switch (action) {
       case "refresh":
         document.body.classList.add("refresh-anim")
-        setTimeout(() => document.body.classList.remove("refresh-anim"), 400)
+        setTimeout(() => document.body.classList.remove("refresh-anim"), 800)
         break
 
       case "wallpaper":

@@ -32,40 +32,28 @@ main {
     background-position: bottom;
 }
 
-@keyframes macRefresh {
+@keyframes contentReload {
   0% {
-    filter: blur(0px);
-    opacity: 1;
-    transform: scale(1);
+    opacity: 0;
+    transform: scale(.98);
+    filter: blur(8px);
   }
 
-  20% {
-    filter: blur(14px);
-    opacity: .75;
-    transform: scale(1.02);
-  }
-
-  50% {
-    filter: blur(16px);
-    opacity: .7;
-    transform: scale(1.025);
-  }
-
-  80% {
-    filter: blur(14px);
+  60% {
     opacity: .8;
-    transform: scale(1.02);
+    transform: scale(1.01);
   }
 
   100% {
-    filter: blur(0px);
     opacity: 1;
     transform: scale(1);
+    filter: blur(0);
   }
 }
 
 .refresh-anim {
-  animation: macRefresh 7s cubic-bezier(0.22, 1, 0.36, 1);
+  animation: contentReload .6s ease-out;
+  will-change: transform, filter, opacity;
 }
 
 /* Dock Auto Hide */
