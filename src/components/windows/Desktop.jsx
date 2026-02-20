@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Dock from "../Dock";
+import DesktopMenu from "../DesktopMenu";
 
 import Camera from "./Camera";
 import Gallery from "./Gallery";
@@ -15,18 +16,109 @@ import Spotify from "./Spotify";
 export default function Desktop() {
 
   const STORAGE_KEY = "desktop_layout";
+  const WALL_KEY = "desktop_wallpaper";
 
-  /* ---------------- Z INDEX SYSTEM ---------------- */
+  /* ---------------- Z INDEX ---------------- */
 
   const [zMap, setZMap] = useState({});
   const [topZ, setTopZ] = useState(20);
 
   const focusApp = (app) => {
-    setTopZ((z) => {
+    setTopZ(z => {
       const newZ = z + 1;
       setZMap(prev => ({ ...prev, [app]: newZ }));
       return newZ;
     });
+  };
+
+  /* ---------------- RIGHT CLICK MENU ---------------- */
+
+  const [menu, setMenu] = useState(null);
+
+  const handleRightClick = (e) => {
+    e.preventDefault();
+    setMenu({ x: e.clientX, y: e.clientY });
+  };
+
+  const closeMenu = () => setMenu(null);
+
+  /* ---------------- WALLPAPER SYSTEM ---------------- */
+
+  const main = document.querySelector('main')
+
+const wallpapers = [
+  "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1920",
+  "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1920",
+  "https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=1920",
+  "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1920",
+  "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=1920"
+];
+
+const applyWallpaper = (img) => {
+  const main = document.querySelector("main");
+  if (!main) return;
+
+  main.style.backgroundImage = `url(${img})`;
+  main.style.backgroundSize = "cover";
+  main.style.backgroundPosition = "center";
+  main.style.backgroundRepeat = "no-repeat";
+};
+
+const changeWallpaper = () => {
+  const img =
+    wallpapers[Math.floor(Math.random() * wallpapers.length)];
+
+  applyWallpaper(img);
+  localStorage.setItem(WALL_KEY, img);
+};
+  // restore wallpaper
+  useEffect(() => {
+    const saved = localStorage.getItem(WALL_KEY);
+    if (saved) applyWallpaper(saved);
+  }, []);
+
+  /* ---------------- MENU ACTIONS ---------------- */
+
+  const handleMenuAction = (action) => {
+    closeMenu();
+
+    switch (action) {
+      case "refresh":
+        document.body.classList.add("refresh-anim");
+        setTimeout(() => document.body.classList.remove("refresh-anim"), 400);
+        break;
+
+      case "wallpaper":
+        changeWallpaper();
+        break;
+
+      case "new-note":
+        openApp("notes");
+        break;
+
+      case "new-camera":
+        openApp("camera");
+        break;
+
+      case "terminal":
+        openApp("terminal");
+        break;
+
+      case "show-desktop":
+        Object.keys(apps).forEach(minimizeApp);
+        break;
+
+      case "accent":
+        document.documentElement.style.setProperty(
+          "--accent",
+          ["#0a84ff","#ff9f0a","#bf5af2","#30d158"][Math.floor(Math.random()*4)]
+        );
+        break;
+
+      case "dock-toggle":
+        document.body.classList.toggle("dock-hidden");
+        break;
+    }
   };
 
   /* ---------------- LOAD SESSION ---------------- */
@@ -34,6 +126,7 @@ export default function Desktop() {
   const loadLayout = () => {
     if (!sessionStorage.getItem("manos-session")) {
       localStorage.removeItem(STORAGE_KEY);
+      localStorage.removeItem(WALL_KEY);   // reset wallpaper on new session
       return null;
     }
     const saved = localStorage.getItem(STORAGE_KEY);
@@ -70,19 +163,16 @@ export default function Desktop() {
     setApps(prev => ({ ...prev, [app]: "closed" }));
   };
 
-  /* listen minimize event from dock */
   useEffect(() => {
     const handler = (e) => minimizeApp(e.detail);
     window.addEventListener("minimizeApp", handler);
     return () => window.removeEventListener("minimizeApp", handler);
   }, []);
 
-  /* save layout */
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(apps));
   }, [apps]);
 
-  /* helper to render window */
   const renderApp = (Component, key) =>
     apps[key] !== "closed" && (
       <Component
@@ -95,7 +185,11 @@ export default function Desktop() {
     );
 
   return (
-    <>
+    <div
+      className="desktop-area"
+      onContextMenu={handleRightClick}
+      onClick={closeMenu}
+    >
       {renderApp(Camera, "camera")}
       {renderApp(Gallery, "gallery")}
       {renderApp(Cli, "terminal")}
@@ -108,6 +202,14 @@ export default function Desktop() {
       {renderApp(Code, "code")}
 
       <Dock apps={apps} openApp={openApp} />
-    </>
+
+      {menu && (
+        <DesktopMenu
+          x={menu.x}
+          y={menu.y}
+          onAction={handleMenuAction}
+        />
+      )}
+    </div>
   );
 }

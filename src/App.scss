@@ -32,3 +32,56 @@ main {
     background-position: bottom;
 }
 
+@keyframes macRefresh {
+  0% {
+    filter: blur(0px);
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  20% {
+    filter: blur(14px);
+    opacity: .75;
+    transform: scale(1.02);
+  }
+
+  50% {
+    filter: blur(16px);
+    opacity: .7;
+    transform: scale(1.025);
+  }
+
+  80% {
+    filter: blur(14px);
+    opacity: .8;
+    transform: scale(1.02);
+  }
+
+  100% {
+    filter: blur(0px);
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.refresh-anim {
+  animation: macRefresh 7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Dock Auto Hide */
+
+.dock-hidden .dock {
+  transform: translate(-50%, 120%);
+  opacity: 0;
+  transition: all 3s ease;
+}
+
+.dock-hidden .dock:hover {
+  transform: translate(-50%, 0);
+  opacity: 1;
+}
+
+.desktop-area {
+  width: 100vw;
+  height: 100vh;
+}
