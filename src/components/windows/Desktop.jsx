@@ -13,6 +13,7 @@ import Note from "./Note"
 import Pdf from "./Pdf"
 import Spotify from "./Spotify"
 import LockScreen from "../LockScreen"
+import Settings from "./Settings"
 
 export default function Desktop() {
   const STORAGE_KEY = "desktop_layout"
@@ -147,13 +148,9 @@ export default function Desktop() {
         }
         break
 
-      case "accent":
-        document.documentElement.style.setProperty(
-          "--accent",
-          ["#0a84ff", "#ff9f0a", "#bf5af2", "#30d158"][
-            Math.floor(Math.random() * 4)
-          ],
-        )
+      case "settings":
+        openApp("settings")
+        showToast("Settings opened ⚙️")
         break
 
       case "dock-toggle":
@@ -186,6 +183,7 @@ export default function Desktop() {
       spotify: "closed",
       camera: "closed",
       gallery: "closed",
+      settings: "closed",
     },
   )
 
@@ -241,6 +239,7 @@ export default function Desktop() {
       {renderApp(Pdf, "resume")}
       {renderApp(Spotify, "spotify")}
       {renderApp(Code, "code")}
+      {renderApp(Settings, "settings")}
 
       {!locked && <Dock apps={apps} openApp={openApp} />}
 
@@ -249,7 +248,12 @@ export default function Desktop() {
       )}
 
       {locked && <LockScreen onUnlock={unlockScreen} />}
-      {toast && <div className="toast"><i className="ri-checkbox-circle-line"></i>{toast}</div>}
+      {toast && (
+        <div className="toast">
+          <i className="ri-checkbox-circle-line"></i>
+          {toast}
+        </div>
+      )}
     </div>
   )
 }
