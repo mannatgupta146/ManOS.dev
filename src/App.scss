@@ -79,18 +79,49 @@ main {
   bottom: 90px;
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(30,30,32,.9);
-  backdrop-filter: blur(12px);
+
   padding: 10px 18px;
-  border-radius: 10px;
-  color: #fff;
+  border-radius: 12px;
+
+  background: rgba(28,28,30,0.72);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  color: #f5f5f7;
   font-size: 13px;
-  animation: toastFade .25s ease;
-  box-shadow: 0 10px 30px rgba(0,0,0,.4);
+  font-weight: 500;
+  letter-spacing: .2px;
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,.35),
+    inset 0 1px 0 rgba(255,255,255,.15);
+
+  animation: toastIn .35s ease,
+             toastOut .35s ease 2s forwards;
+
+  pointer-events: none; /* ⭐ important */
   z-index: 9999;
 }
 
-@keyframes toastFade {
-  from { opacity: 0; transform: translate(-50%, 20px); }
-  to { opacity: 1; transform: translate(-50%, 0); }
+@keyframes toastIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 20px) scale(.96);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+  }
+}
+
+@keyframes toastOut {
+  to {
+    opacity: 0;
+    transform: translate(-50%, 15px) scale(.96);
+  }
+}
+
+.toast i {
+  margin-right: 6px;
+  font-size: 15px;
 }

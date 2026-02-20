@@ -249,7 +249,7 @@ export default function Desktop() {
       )}
 
       {locked && <LockScreen onUnlock={unlockScreen} />}
-      {toast && <div className="toast">{toast}</div>}
+      {toast && <div className="toast"><i className="ri-checkbox-circle-line"></i>{toast}</div>}
     </div>
   )
 }
