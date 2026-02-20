@@ -7,6 +7,11 @@
   gap: 0.9rem;
 }
 
+.left button {
+  box-sizing: border-box;
+  height: 26px;
+}
+
 /* APPLE ICON */
 .apple-icon {
   background: none;
@@ -45,7 +50,7 @@
   transition: background 0.15s ease;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.06);
+    box-shadow: inset 0 0 0 999px rgba(255,255,255,0.12);
 
     &::after {
       content: "";
@@ -74,7 +79,7 @@
   font-size: 0.85rem;
   color: rgba(255, 255, 255, 0.85);
 
-  padding: 0.2rem 0.45rem;
+  padding: 0.28rem 0.6rem;
   border-radius: 0.35rem;
 
   cursor: pointer;
@@ -83,8 +88,13 @@
   gap: 0.25rem;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.12);
+    box-shadow: inset 0 0 0 999px rgba(255,255,255,0.12);
   }
+}
+
+.menu-item,
+.name-item {
+  transform: translateZ(0);
 }
 
 /* =====================
