@@ -24,6 +24,13 @@ export default function Desktop() {
   const [topZ, setTopZ] = useState(20)
   const [locked, setLocked] = useState(false)
 
+  const [toast, setToast] = useState(null)
+
+  const showToast = (msg) => {
+    setToast(msg)
+    setTimeout(() => setToast(null), 2400)
+  }
+
   const lockScreen = () => {
     // close all apps
     const closed = {}
@@ -129,14 +136,14 @@ export default function Desktop() {
 
       case "close-all":
         const openWindows = Object.values(apps).filter(
-          (state) => state === "open" || state === "minimized",
+          (s) => s === "open" || s === "minimized",
         )
 
         if (openWindows.length === 0) {
-          showToast("No windows to close")
+          showToast("No tabs are open")
         } else {
           Object.keys(apps).forEach(closeApp)
-          showToast("All windows closed")
+          showToast("All tabs are closed")
         }
         break
 
@@ -242,6 +249,7 @@ export default function Desktop() {
       )}
 
       {locked && <LockScreen onUnlock={unlockScreen} />}
+      {toast && <div className="toast">{toast}</div>}
     </div>
   )
 }
