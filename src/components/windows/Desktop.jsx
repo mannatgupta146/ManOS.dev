@@ -68,17 +68,17 @@ export default function Desktop() {
     "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=1920",
   ]
 
-const applyWallpaper = (img) => {
-  requestAnimationFrame(() => {
-    const main = document.querySelector("main");
-    if (!main) return;
+  const applyWallpaper = (img) => {
+    requestAnimationFrame(() => {
+      const main = document.querySelector("main")
+      if (!main) return
 
-    main.style.backgroundImage = `url(${img})`;
-    main.style.backgroundSize = "cover";
-    main.style.backgroundPosition = "center";
-    main.style.backgroundRepeat = "no-repeat";
-  });
-};
+      main.style.backgroundImage = `url(${img})`
+      main.style.backgroundSize = "cover"
+      main.style.backgroundPosition = "center"
+      main.style.backgroundRepeat = "no-repeat"
+    })
+  }
 
   const changeWallpaper = () => {
     const img = wallpapers[Math.floor(Math.random() * wallpapers.length)]
@@ -125,6 +125,19 @@ const applyWallpaper = (img) => {
 
       case "lock":
         lockScreen()
+        break
+
+      case "close-all":
+        const openWindows = Object.values(apps).filter(
+          (state) => state === "open" || state === "minimized",
+        )
+
+        if (openWindows.length === 0) {
+          showToast("No windows to close")
+        } else {
+          Object.keys(apps).forEach(closeApp)
+          showToast("All windows closed")
+        }
         break
 
       case "accent":
