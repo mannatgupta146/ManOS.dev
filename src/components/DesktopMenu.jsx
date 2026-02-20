@@ -1,11 +1,42 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./DesktopMenu.scss";
 
 export default function DesktopMenu({ x, y, onAction }) {
+  const menuRef = useRef(null);
+  const [pos, setPos] = useState({ left: x, top: y });
+
+  useEffect(() => {
+    const menu = menuRef.current;
+    if (!menu) return;
+
+    const padding = 8; // safe margin
+
+    const rect = menu.getBoundingClientRect();
+    let newX = x;
+    let newY = y;
+
+    // overflow right
+    if (x + rect.width > window.innerWidth - padding) {
+      newX = window.innerWidth - rect.width - padding;
+    }
+
+    // overflow bottom
+    if (y + rect.height > window.innerHeight - padding) {
+      newY = window.innerHeight - rect.height - padding;
+    }
+
+    // prevent negative
+    if (newX < padding) newX = padding;
+    if (newY < padding) newY = padding;
+
+    setPos({ left: newX, top: newY });
+  }, [x, y]);
+
   return (
     <div
+      ref={menuRef}
       className="desktop-menu"
-      style={{ top: y, left: x }}
+      style={{ top: pos.top, left: pos.left }}
     >
       <MenuItem icon="ri-refresh-line" label="Refresh" onClick={() => onAction("refresh")} />
 
