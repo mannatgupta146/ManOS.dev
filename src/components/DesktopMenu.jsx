@@ -17,7 +17,7 @@ export default function DesktopMenu({ x, y, onAction }) {
       <Divider />
 
       <MenuItem icon="ri-terminal-box-line" label="Open Terminal" onClick={() => onAction("terminal")} />
-      <MenuItem icon="ri-eye-off-line" label="Show Desktop" onClick={() => onAction("show-desktop")} />
+      <MenuItem icon="ri-lock-line" label="Lock Screen" onClick={() => onAction("lock")} />
 
       <Divider />
 

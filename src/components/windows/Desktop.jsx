@@ -1,137 +1,158 @@
-import React, { useState, useEffect } from "react";
-import Dock from "../Dock";
-import DesktopMenu from "../DesktopMenu";
+import React, { useState, useEffect } from "react"
+import Dock from "../Dock"
+import DesktopMenu from "../DesktopMenu"
 
-import Camera from "./Camera";
-import Gallery from "./Gallery";
-import Cli from "./Cli";
-import Calendar from "./Calendar";
-import Code from "./CodeEditor";
-import Github from "./Github";
-import Mail from "./Mail";
-import Note from "./Note";
-import Pdf from "./Pdf";
-import Spotify from "./Spotify";
+import Camera from "./Camera"
+import Gallery from "./Gallery"
+import Cli from "./Cli"
+import Calendar from "./Calendar"
+import Code from "./CodeEditor"
+import Github from "./Github"
+import Mail from "./Mail"
+import Note from "./Note"
+import Pdf from "./Pdf"
+import Spotify from "./Spotify"
+import LockScreen from "../LockScreen"
 
 export default function Desktop() {
-
-  const STORAGE_KEY = "desktop_layout";
-  const WALL_KEY = "desktop_wallpaper";
+  const STORAGE_KEY = "desktop_layout"
+  const WALL_KEY = "desktop_wallpaper"
 
   /* ---------------- Z INDEX ---------------- */
 
-  const [zMap, setZMap] = useState({});
-  const [topZ, setTopZ] = useState(20);
+  const [zMap, setZMap] = useState({})
+  const [topZ, setTopZ] = useState(20)
+  const [locked, setLocked] = useState(false)
+
+  const lockScreen = () => {
+    // close all apps
+    const closed = {}
+    Object.keys(apps).forEach((app) => (closed[app] = "closed"))
+    setApps(closed)
+
+    setLocked(true)
+  }
+
+  const unlockScreen = () => {
+    setLocked(false)
+  }
 
   const focusApp = (app) => {
-    setTopZ(z => {
-      const newZ = z + 1;
-      setZMap(prev => ({ ...prev, [app]: newZ }));
-      return newZ;
-    });
-  };
+    setTopZ((z) => {
+      const newZ = z + 1
+      setZMap((prev) => ({ ...prev, [app]: newZ }))
+      return newZ
+    })
+  }
 
   /* ---------------- RIGHT CLICK MENU ---------------- */
 
-  const [menu, setMenu] = useState(null);
+  const [menu, setMenu] = useState(null)
 
   const handleRightClick = (e) => {
-    e.preventDefault();
-    setMenu({ x: e.clientX, y: e.clientY });
-  };
+    e.preventDefault()
+    setMenu({ x: e.clientX, y: e.clientY })
+  }
 
-  const closeMenu = () => setMenu(null);
+  const closeMenu = () => setMenu(null)
 
   /* ---------------- WALLPAPER SYSTEM ---------------- */
 
-  const main = document.querySelector('main')
+  const main = document.querySelector("main")
 
-const wallpapers = [
-  "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1920",
-  "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1920",
-  "https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=1920",
-  "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1920",
-  "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=1920"
-];
+  const wallpapers = [
+    "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1920",
+    "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1920",
+    "https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=1920",
+    "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1920",
+    "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=1920",
+  ]
 
 const applyWallpaper = (img) => {
-  const main = document.querySelector("main");
-  if (!main) return;
+  requestAnimationFrame(() => {
+    const main = document.querySelector("main");
+    if (!main) return;
 
-  main.style.backgroundImage = `url(${img})`;
-  main.style.backgroundSize = "cover";
-  main.style.backgroundPosition = "center";
-  main.style.backgroundRepeat = "no-repeat";
+    main.style.backgroundImage = `url(${img})`;
+    main.style.backgroundSize = "cover";
+    main.style.backgroundPosition = "center";
+    main.style.backgroundRepeat = "no-repeat";
+  });
 };
 
-const changeWallpaper = () => {
-  const img =
-    wallpapers[Math.floor(Math.random() * wallpapers.length)];
+  const changeWallpaper = () => {
+    const img = wallpapers[Math.floor(Math.random() * wallpapers.length)]
 
-  applyWallpaper(img);
-  localStorage.setItem(WALL_KEY, img);
-};
+    applyWallpaper(img)
+    localStorage.setItem(WALL_KEY, img)
+  }
   // restore wallpaper
   useEffect(() => {
-    const saved = localStorage.getItem(WALL_KEY);
-    if (saved) applyWallpaper(saved);
-  }, []);
+    const saved = localStorage.getItem(WALL_KEY)
+    if (saved) applyWallpaper(saved)
+  }, [])
 
   /* ---------------- MENU ACTIONS ---------------- */
 
   const handleMenuAction = (action) => {
-    closeMenu();
+    closeMenu()
 
     switch (action) {
       case "refresh":
-        document.body.classList.add("refresh-anim");
-        setTimeout(() => document.body.classList.remove("refresh-anim"), 400);
-        break;
+        document.body.classList.add("refresh-anim")
+        setTimeout(() => document.body.classList.remove("refresh-anim"), 400)
+        break
 
       case "wallpaper":
-        changeWallpaper();
-        break;
+        changeWallpaper()
+        break
 
       case "new-note":
-        openApp("notes");
-        break;
+        openApp("notes")
+        break
 
       case "new-camera":
-        openApp("camera");
-        break;
+        openApp("camera")
+        break
 
       case "terminal":
-        openApp("terminal");
-        break;
+        openApp("terminal")
+        break
 
       case "show-desktop":
-        Object.keys(apps).forEach(minimizeApp);
-        break;
+        Object.keys(apps).forEach(minimizeApp)
+        break
+
+      case "lock":
+        lockScreen()
+        break
 
       case "accent":
         document.documentElement.style.setProperty(
           "--accent",
-          ["#0a84ff","#ff9f0a","#bf5af2","#30d158"][Math.floor(Math.random()*4)]
-        );
-        break;
+          ["#0a84ff", "#ff9f0a", "#bf5af2", "#30d158"][
+            Math.floor(Math.random() * 4)
+          ],
+        )
+        break
 
       case "dock-toggle":
-        document.body.classList.toggle("dock-hidden");
-        break;
+        document.body.classList.toggle("dock-hidden")
+        break
     }
-  };
+  }
 
   /* ---------------- LOAD SESSION ---------------- */
 
   const loadLayout = () => {
     if (!sessionStorage.getItem("manos-session")) {
-      localStorage.removeItem(STORAGE_KEY);
-      localStorage.removeItem(WALL_KEY);   // reset wallpaper on new session
-      return null;
+      localStorage.removeItem(STORAGE_KEY)
+      localStorage.removeItem(WALL_KEY) // reset wallpaper on new session
+      return null
     }
-    const saved = localStorage.getItem(STORAGE_KEY);
-    return saved ? JSON.parse(saved) : null;
-  };
+    const saved = localStorage.getItem(STORAGE_KEY)
+    return saved ? JSON.parse(saved) : null
+  }
 
   const [apps, setApps] = useState(
     loadLayout() || {
@@ -145,33 +166,33 @@ const changeWallpaper = () => {
       spotify: "closed",
       camera: "closed",
       gallery: "closed",
-    }
-  );
+    },
+  )
 
   /* ---------------- APP STATE ---------------- */
 
   const openApp = (app) => {
-    focusApp(app);
-    setApps(prev => ({ ...prev, [app]: "open" }));
-  };
+    focusApp(app)
+    setApps((prev) => ({ ...prev, [app]: "open" }))
+  }
 
   const minimizeApp = (app) => {
-    setApps(prev => ({ ...prev, [app]: "minimized" }));
-  };
+    setApps((prev) => ({ ...prev, [app]: "minimized" }))
+  }
 
   const closeApp = (app) => {
-    setApps(prev => ({ ...prev, [app]: "closed" }));
-  };
+    setApps((prev) => ({ ...prev, [app]: "closed" }))
+  }
 
   useEffect(() => {
-    const handler = (e) => minimizeApp(e.detail);
-    window.addEventListener("minimizeApp", handler);
-    return () => window.removeEventListener("minimizeApp", handler);
-  }, []);
+    const handler = (e) => minimizeApp(e.detail)
+    window.addEventListener("minimizeApp", handler)
+    return () => window.removeEventListener("minimizeApp", handler)
+  }, [])
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(apps));
-  }, [apps]);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(apps))
+  }, [apps])
 
   const renderApp = (Component, key) =>
     apps[key] !== "closed" && (
@@ -182,13 +203,13 @@ const changeWallpaper = () => {
         zIndex={zMap[key]}
         onFocus={() => focusApp(key)}
       />
-    );
+    )
 
   return (
     <div
-      className="desktop-area"
-      onContextMenu={handleRightClick}
-      onClick={closeMenu}
+      className={`desktop-area ${locked ? "locked" : ""}`}
+      onContextMenu={!locked ? handleRightClick : null}
+      onClick={!locked ? closeMenu : null}
     >
       {renderApp(Camera, "camera")}
       {renderApp(Gallery, "gallery")}
@@ -201,15 +222,13 @@ const changeWallpaper = () => {
       {renderApp(Spotify, "spotify")}
       {renderApp(Code, "code")}
 
-      <Dock apps={apps} openApp={openApp} />
+      {!locked && <Dock apps={apps} openApp={openApp} />}
 
       {menu && (
-        <DesktopMenu
-          x={menu.x}
-          y={menu.y}
-          onAction={handleMenuAction}
-        />
+        <DesktopMenu x={menu.x} y={menu.y} onAction={handleMenuAction} />
       )}
+
+      {locked && <LockScreen onUnlock={unlockScreen} />}
     </div>
-  );
+  )
 }
