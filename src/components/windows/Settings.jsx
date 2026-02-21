@@ -1,92 +1,109 @@
 import { useState, useEffect } from "react";
 import "./settings.scss";
 
-export default function Settings({ onClose }) {
-  const [darkMode, setDarkMode] = useState(false);
+export default function Settings({ onClose, onResetDesktop }) {
+
   const [focusMode, setFocusMode] = useState(false);
   const [sound, setSound] = useState(true);
-  const [accent, setAccent] = useState("#34c759");
+  const [autoCloseAfterUnlock, setAutoCloseAfterUnlock] = useState(false);
+  const [brightness, setBrightness] = useState(100);
 
-  // load saved settings
+  // LOAD SETTINGS
   useEffect(() => {
     const saved = JSON.parse(localStorage.getItem("ui-settings"));
     if (saved) {
-      setDarkMode(saved.darkMode);
       setFocusMode(saved.focusMode);
       setSound(saved.sound);
-      setAccent(saved.accent);
+      setAutoCloseAfterUnlock(saved.autoCloseAfterUnlock);
+      setBrightness(saved.brightness ?? 100);
     }
   }, []);
 
-  // apply + save settings
+  // APPLY + SAVE
   useEffect(() => {
-    const settings = { darkMode, focusMode, sound, accent };
+    const settings = {
+      focusMode,
+      sound,
+      autoCloseAfterUnlock,
+      brightness
+    };
+
     localStorage.setItem("ui-settings", JSON.stringify(settings));
 
-    document.body.classList.toggle("dark", darkMode);
-    document.body.classList.toggle("focus", focusMode);
-    document.documentElement.style.setProperty("--accent", accent);
-  }, [darkMode, focusMode, sound, accent]);
+    document.body.classList.toggle("focus-mode", focusMode);
 
-  const resetSettings = () => {
-    setDarkMode(false);
-    setFocusMode(false);
-    setSound(true);
-    setAccent("#34c759");
-  };
+    document.documentElement.style.setProperty(
+      "--brightness",
+      brightness + "%"
+    );
+
+  }, [focusMode, sound, autoCloseAfterUnlock, brightness]);
 
   return (
-    <div className="settings-overlay">
-      <div className="settings-panel">
-        <div className="settings-header">
-          <h2>Settings</h2>
-          <button onClick={onClose}>✕</button>
-        </div>
+    <div className="settings-overlay" onClick={onClose}>
+      <div className="settings-panel" onClick={(e)=>e.stopPropagation()}>
 
-        <div className="settings-section">
-          <label>
-            <span>Dark Mode</span>
-            <input
-              type="checkbox"
-              checked={darkMode}
-              onChange={() => setDarkMode(!darkMode)}
-            />
-          </label>
+        <h2>Workspace Settings</h2>
 
-          <label>
-            <span>Focus Mode</span>
-            <input
-              type="checkbox"
-              checked={focusMode}
-              onChange={() => setFocusMode(!focusMode)}
-            />
-          </label>
+        <Toggle
+          label="Focus Mode"
+          info="Hide dock for distraction-free workspace."
+          value={focusMode}
+          onChange={setFocusMode}
+        />
 
-          <label>
-            <span>System Sounds</span>
-            <input
-              type="checkbox"
-              checked={sound}
-              onChange={() => setSound(!sound)}
-            />
-          </label>
-        </div>
+        <Toggle
+          label="System Sounds"
+          info="Play sounds when windows open or close."
+          value={sound}
+          onChange={setSound}
+        />
 
-        <div className="settings-section">
-          <p className="section-title">Accent Color</p>
+        <Toggle
+          label="Close Tabs After Unlock"
+          info="Open apps close automatically after unlocking."
+          value={autoCloseAfterUnlock}
+          onChange={setAutoCloseAfterUnlock}
+        />
+
+        <div className="slider-row">
+          <span>Brightness</span>
           <input
-            type="color"
-            value={accent}
-            onChange={(e) => setAccent(e.target.value)}
+            type="range"
+            min="60"
+            max="100"
+            value={brightness}
+            onChange={(e)=>setBrightness(e.target.value)}
           />
         </div>
 
-        <div className="settings-footer">
-          <button className="reset-btn" onClick={resetSettings}>
-            Reset Defaults
-          </button>
-        </div>
+        <button
+          className="reset-btn"
+          onClick={onResetDesktop}
+        >
+          Reset Desktop Layout
+        </button>
+
       </div>
+    </div>
+  );
+}
+
+function Toggle({ label, info, value, onChange }) {
+  return (
+    <div className="setting-row">
+      <div className="label">
+        {label}
+        <span className="info">
+          i
+          <span className="tip">{info}</span>
+        </span>
+      </div>
+
+      <label className="switch">
+        <input type="checkbox" checked={value} onChange={()=>onChange(!value)} />
+        <span className="slider"></span>
+      </label>
     </div>
   );
 }

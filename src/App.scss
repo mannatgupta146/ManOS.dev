@@ -11,6 +11,7 @@ html, body, #root {
     overflow: hidden;
 }
 
+
 body::after {
   content: "";
   position: fixed;
@@ -30,6 +31,7 @@ main {
     background: url(/bg.png);
     background-size: cover;
     background-position: bottom;
+    filter: brightness(var(--brightness, 100%));
 }
 
 @keyframes contentReload {
@@ -124,4 +126,17 @@ main {
 .toast i {
   margin-right: 6px;
   font-size: 15px;
+}
+
+/* Focus Mode */
+.focus-mode .dock{
+  transform: translate(-50%, 120%);
+  opacity:0;
+  pointer-events:none;
+}
+
+/* Brightness */
+.desktop-dim {
+  filter: brightness(0.75);
+  transition: filter .4s ease;
 }

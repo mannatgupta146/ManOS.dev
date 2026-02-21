@@ -15,6 +15,8 @@ import Spotify from "./Spotify"
 import LockScreen from "../LockScreen"
 import Settings from "./Settings"
 
+import { playSound } from "../../utils/sound.js"
+
 export default function Desktop() {
   const STORAGE_KEY = "desktop_layout"
   const WALL_KEY = "desktop_wallpaper"
@@ -27,23 +29,38 @@ export default function Desktop() {
 
   const [toast, setToast] = useState(null)
 
+  useEffect(() => {
+  const saved = JSON.parse(localStorage.getItem("ui-settings") || "{}");
+
+  if(saved.focusMode) document.body.classList.add("focus-mode");
+  if(saved.reduceMotion) document.body.classList.add("reduce-motion");
+
+  if(saved.brightness){
+    document.documentElement.style.setProperty("--brightness", saved.brightness + "%");
+  }
+}, []);
+
   const showToast = (msg) => {
     setToast(msg)
+    playSound("notify");
     setTimeout(() => setToast(null), 2400)
   }
 
-  const lockScreen = () => {
-    // close all apps
-    const closed = {}
-    Object.keys(apps).forEach((app) => (closed[app] = "closed"))
-    setApps(closed)
+const lockScreen = () => {
+  setLocked(true);
+};
 
-    setLocked(true)
+const unlockScreen = () => {
+  const settings = JSON.parse(localStorage.getItem("ui-settings") || "{}");
+
+  if (settings.autoCloseAfterUnlock) {
+    const closed = {};
+    Object.keys(apps).forEach(a => closed[a] = "closed");
+    setApps(closed);
   }
 
-  const unlockScreen = () => {
-    setLocked(false)
-  }
+  setLocked(false);
+};
 
   const focusApp = (app) => {
     setTopZ((z) => {
@@ -192,14 +209,17 @@ export default function Desktop() {
   const openApp = (app) => {
     focusApp(app)
     setApps((prev) => ({ ...prev, [app]: "open" }))
+    playSound("open")
   }
 
   const minimizeApp = (app) => {
     setApps((prev) => ({ ...prev, [app]: "minimized" }))
+    playSound("minimize")
   }
 
   const closeApp = (app) => {
     setApps((prev) => ({ ...prev, [app]: "closed" }))
+    playSound("close")
   }
 
   useEffect(() => {

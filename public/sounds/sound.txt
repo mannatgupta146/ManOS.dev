@@ -1,0 +1,4 @@
+open.mp3
+close.mp3
+minimize.mp3
+notify.mp3
