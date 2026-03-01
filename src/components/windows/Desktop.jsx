@@ -30,37 +30,45 @@ export default function Desktop() {
   const [toast, setToast] = useState(null)
 
   useEffect(() => {
-  const saved = JSON.parse(localStorage.getItem("ui-settings") || "{}");
+    const applySettings = () => {
+      const saved = JSON.parse(localStorage.getItem("ui-settings") || "{}")
 
-  if(saved.focusMode) document.body.classList.add("focus-mode");
-  if(saved.reduceMotion) document.body.classList.add("reduce-motion");
+      document.body.classList.toggle("focus-mode", saved.focusMode)
 
-  if(saved.brightness){
-    document.documentElement.style.setProperty("--brightness", saved.brightness + "%");
-  }
-}, []);
+      const brightness = saved.brightness ?? 100
+      document.documentElement.style.setProperty(
+        "--brightness",
+        brightness + "%",
+      )
+    }
+
+    applySettings()
+
+    window.addEventListener("settingsUpdated", applySettings)
+    return () => window.removeEventListener("settingsUpdated", applySettings)
+  }, [])
 
   const showToast = (msg) => {
     setToast(msg)
-    playSound("notify");
+    playSound("notify")
     setTimeout(() => setToast(null), 2400)
   }
 
-const lockScreen = () => {
-  setLocked(true);
-};
-
-const unlockScreen = () => {
-  const settings = JSON.parse(localStorage.getItem("ui-settings") || "{}");
-
-  if (settings.autoCloseAfterUnlock) {
-    const closed = {};
-    Object.keys(apps).forEach(a => closed[a] = "closed");
-    setApps(closed);
+  const lockScreen = () => {
+    setLocked(true)
   }
 
-  setLocked(false);
-};
+  const unlockScreen = () => {
+    const settings = JSON.parse(localStorage.getItem("ui-settings") || "{}")
+
+    if (settings.autoCloseAfterUnlock) {
+      const closed = {}
+      Object.keys(apps).forEach((a) => (closed[a] = "closed"))
+      setApps(closed)
+    }
+
+    setLocked(false)
+  }
 
   const focusApp = (app) => {
     setTopZ((z) => {
@@ -232,6 +240,48 @@ const unlockScreen = () => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(apps))
   }, [apps])
 
+  const resetDesktop = () => {
+    // Clear storage
+    localStorage.removeItem(STORAGE_KEY)
+    localStorage.removeItem(WALL_KEY)
+    localStorage.removeItem("ui-settings")
+
+    // Reset wallpaper visually
+    const main = document.querySelector("main")
+    if (main) {
+      main.style.backgroundImage = ""
+      main.style.backgroundSize = ""
+      main.style.backgroundPosition = ""
+      main.style.backgroundRepeat = ""
+    }
+
+    // Reset body classes and styles
+    document.body.classList.remove("focus-mode")
+    document.documentElement.style.setProperty("--brightness", "100%")
+
+    // Reset app states
+    const initialApps = {
+      terminal: "closed",
+      calendar: "closed",
+      mail: "closed",
+      github: "closed",
+      resume: "closed",
+      notes: "closed",
+      code: "closed",
+      spotify: "closed",
+      camera: "closed",
+      gallery: "closed",
+      settings: "closed",
+    }
+
+    setApps(initialApps)
+    setZMap({})
+    setTopZ(20)
+    setMenu(null)
+
+    showToast("Desktop layout reset ✨")
+  }
+
   const renderApp = (Component, key) =>
     apps[key] !== "closed" && (
       <Component
@@ -240,6 +290,7 @@ const unlockScreen = () => {
         onMinimize={() => minimizeApp(key)}
         zIndex={zMap[key]}
         onFocus={() => focusApp(key)}
+        onResetDesktop={key === "settings" ? resetDesktop : undefined}
       />
     )
 
