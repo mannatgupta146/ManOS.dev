@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import Dock from "../Dock"
 import DesktopMenu from "../DesktopMenu"
+import Spotlight from "../Spotlight"
 
 import Camera from "./Camera"
 import Gallery from "./Gallery"
@@ -28,6 +29,7 @@ export default function Desktop() {
   const [locked, setLocked] = useState(false)
 
   const [toast, setToast] = useState(null)
+  const [spotlightOpen, setSpotlightOpen] = useState(false)
 
   useEffect(() => {
     const applySettings = () => {
@@ -46,6 +48,32 @@ export default function Desktop() {
 
     window.addEventListener("settingsUpdated", applySettings)
     return () => window.removeEventListener("settingsUpdated", applySettings)
+  }, [])
+
+  /* Keyboard Shortcuts */
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      // Cmd+K or Ctrl+K for Spotlight
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+        e.preventDefault()
+        setSpotlightOpen(true)
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown)
+    return () => window.removeEventListener("keydown", handleKeyDown)
+  }, [])
+
+  /* Spotlight Actions */
+  useEffect(() => {
+    const handleSpotlightAction = (e) => {
+      const action = e.detail
+      handleMenuAction(action)
+    }
+
+    window.addEventListener("spotlightAction", handleSpotlightAction)
+    return () =>
+      window.removeEventListener("spotlightAction", handleSpotlightAction)
   }, [])
 
   const showToast = (msg) => {
@@ -325,6 +353,13 @@ export default function Desktop() {
           {toast}
         </div>
       )}
+
+      <Spotlight
+        isOpen={spotlightOpen}
+        onClose={() => setSpotlightOpen(false)}
+        apps={apps}
+        openApp={openApp}
+      />
     </div>
   )
 }
