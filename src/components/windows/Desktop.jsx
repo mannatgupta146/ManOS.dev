@@ -248,14 +248,23 @@ export default function Desktop() {
             })
           }
         } else {
-          // Close all apps silently without individual notifications
-          setApps((prev) => {
-            const closed = {}
-            Object.keys(prev).forEach((key) => {
-              closed[key] = "closed"
-            })
-            return closed
+          // Close everything cleanly
+          setApps({
+            terminal: "closed",
+            calendar: "closed",
+            mail: "closed",
+            github: "closed",
+            resume: "closed",
+            notes: "closed",
+            code: "closed",
+            spotify: "closed",
+            camera: "closed",
+            gallery: "closed",
+            settings: "closed",
           })
+
+          setZMap({})
+          setTopZ(20)
 
           if (window.notify) {
             window.notify({
@@ -340,10 +349,10 @@ export default function Desktop() {
     playSound("minimize")
   }
 
-const closeApp = (app, silent = false) => {
-  setApps((prev) => ({ ...prev, [app]: "closed" }))
-  playSound("close")
-}
+  const closeApp = (app, silent = false) => {
+    setApps((prev) => ({ ...prev, [app]: "closed" }))
+    playSound("close")
+  }
 
   useEffect(() => {
     const handler = (e) => minimizeApp(e.detail)
