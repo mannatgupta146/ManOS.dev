@@ -5,33 +5,44 @@ const NotificationCenter = () => {
   const [notifications, setNotifications] = useState([])
 
   const removeNotification = useCallback((id) => {
-    setNotifications((prev) => prev.filter((n) => n.id !== id))
+    // mark as removing first
+    setNotifications((prev) =>
+      prev.map((n) =>
+        n.id === id ? { ...n, removing: true } : n
+      )
+    )
+
+    // remove after animation
+    setTimeout(() => {
+      setNotifications((prev) => prev.filter((n) => n.id !== id))
+    }, 300) // match CSS animation duration
   }, [])
 
-  const addNotification = useCallback(
-    (notification) => {
-      const id = Date.now()
-      const newNotif = {
-        id,
-        title: notification.title || "Notification",
-        message: notification.message,
-        type: notification.type || "info",
-      }
+const addNotification = useCallback(
+  (notification) => {
+    const id = Date.now()
 
-      setNotifications((prev) => [newNotif, ...prev])
+    const newNotif = {
+      id,
+      title: notification.title || "Notification",
+      message: notification.message,
+      type: notification.type || "info",
+      removing: false,
+    }
 
-      // Auto-dismiss after duration (default 8 seconds)
-      const duration = notification.duration || 8000
-      setTimeout(() => {
-        removeNotification(id)
-      }, duration)
+    setNotifications((prev) => [newNotif, ...prev])
 
-      return id
-    },
-    [removeNotification],
-  )
+    const duration = notification.duration ?? 8000
 
-  // Register global notification system
+    const timer = setTimeout(() => {
+      removeNotification(id)
+    }, duration)
+
+    return id
+  },
+  [removeNotification]
+)
+
   React.useEffect(() => {
     window.notify = addNotification
     return () => {
@@ -42,11 +53,18 @@ const NotificationCenter = () => {
   return (
     <div className="notification-container">
       {notifications.map((notif) => (
-        <div key={notif.id} className={`notification-toast ${notif.type}`}>
+        <div
+          key={notif.id}
+          className={`notification-toast ${notif.type} ${
+            notif.removing ? "removing" : ""
+          }`}
+        >
           <div className="notification-body">
             <p className="notification-title">{notif.title}</p>
             {notif.message && (
-              <p className="notification-message">{notif.message}</p>
+              <p className="notification-message">
+                {notif.message}
+              </p>
             )}
           </div>
           <button

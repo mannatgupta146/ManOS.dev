@@ -340,30 +340,10 @@ export default function Desktop() {
     playSound("minimize")
   }
 
-  const closeApp = (app) => {
-    setApps((prev) => ({ ...prev, [app]: "closed" }))
-    playSound("close")
-    if (window.notify) {
-      const appNames = {
-        terminal: "Terminal",
-        calendar: "Calendar",
-        mail: "Mail",
-        github: "GitHub",
-        resume: "Resume",
-        notes: "Notes",
-        code: "Code Editor",
-        spotify: "Spotify",
-        camera: "Camera",
-        gallery: "Gallery",
-      }
-      window.notify({
-        title: appNames[app] || app,
-        message: "App closed",
-        type: "info",
-        duration: 3000,
-      })
-    }
-  }
+const closeApp = (app, silent = false) => {
+  setApps((prev) => ({ ...prev, [app]: "closed" }))
+  playSound("close")
+}
 
   useEffect(() => {
     const handler = (e) => minimizeApp(e.detail)
