@@ -43,21 +43,53 @@ export default function Settings({ onClose, onResetDesktop }) {
   const handleFocusMode = (val) => {
     setFocusMode(val)
     saveSetting("focusMode", val)
+    if (window.notify) {
+      window.notify({
+        title: "Focus Mode",
+        message: val ? "Enabled - Minimize distractions" : "Disabled",
+        type: "info",
+        duration: 2000,
+      })
+    }
   }
 
   const handleSound = (val) => {
     setSound(val)
     saveSetting("sound", val)
+    if (window.notify) {
+      window.notify({
+        title: "Sound",
+        message: val ? "Sound enabled" : "Sound muted",
+        type: "info",
+        duration: 1500,
+      })
+    }
   }
 
   const handleAutoClose = (val) => {
     setAutoCloseAfterUnlock(val)
     saveSetting("autoCloseAfterUnlock", val)
+    if (window.notify) {
+      window.notify({
+        title: "Auto-Close Apps",
+        message: val ? "Enabled - Apps close on unlock" : "Disabled",
+        type: "info",
+        duration: 2000,
+      })
+    }
   }
 
   const handleBrightness = (val) => {
     setBrightness(val)
     saveSetting("brightness", val)
+    if (window.notify) {
+      window.notify({
+        title: "Brightness",
+        message: `Set to ${val}%`,
+        type: "info",
+        duration: 1500,
+      })
+    }
   }
 
   const handleResetConfirm = () => {

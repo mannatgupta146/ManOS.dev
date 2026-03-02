@@ -28,7 +28,6 @@ export default function Desktop() {
   const [topZ, setTopZ] = useState(20)
   const [locked, setLocked] = useState(false)
 
-  const [toast, setToast] = useState(null)
   const [spotlightOpen, setSpotlightOpen] = useState(false)
 
   useEffect(() => {
@@ -77,13 +76,27 @@ export default function Desktop() {
   }, [])
 
   const showToast = (msg) => {
-    setToast(msg)
     playSound("notify")
-    setTimeout(() => setToast(null), 2400)
+    if (window.notify) {
+      window.notify({
+        title: msg.split(" ").slice(0, 3).join(" "),
+        message: msg,
+        type: "info",
+        duration: 4000,
+      })
+    }
   }
 
   const lockScreen = () => {
     setLocked(true)
+    if (window.notify) {
+      window.notify({
+        title: "Screen",
+        message: "Device locked",
+        type: "info",
+        duration: 3000,
+      })
+    }
   }
 
   const unlockScreen = () => {
@@ -96,6 +109,14 @@ export default function Desktop() {
     }
 
     setLocked(false)
+    if (window.notify) {
+      window.notify({
+        title: "Welcome back",
+        message: "Device unlocked",
+        type: "success",
+        duration: 3000,
+      })
+    }
   }
 
   const focusApp = (app) => {
@@ -146,6 +167,14 @@ export default function Desktop() {
 
     applyWallpaper(img)
     localStorage.setItem(WALL_KEY, img)
+    if (window.notify) {
+      window.notify({
+        title: "Wallpaper",
+        message: "Changed to a new wallpaper",
+        type: "success",
+        duration: 3000,
+      })
+    }
   }
   // restore wallpaper
   useEffect(() => {
@@ -162,6 +191,14 @@ export default function Desktop() {
       case "refresh":
         document.body.classList.add("refresh-anim")
         setTimeout(() => document.body.classList.remove("refresh-anim"), 800)
+        if (window.notify) {
+          window.notify({
+            title: "System",
+            message: "Desktop refreshed",
+            type: "success",
+            duration: 3000,
+          })
+        }
         break
 
       case "wallpaper":
@@ -182,6 +219,14 @@ export default function Desktop() {
 
       case "show-desktop":
         Object.keys(apps).forEach(minimizeApp)
+        if (window.notify) {
+          window.notify({
+            title: "Desktop",
+            message: "All windows minimized",
+            type: "info",
+            duration: 3000,
+          })
+        }
         break
 
       case "lock":
@@ -194,10 +239,32 @@ export default function Desktop() {
         )
 
         if (openWindows.length === 0) {
-          showToast("No tabs are open")
+          if (window.notify) {
+            window.notify({
+              title: "No tabs open",
+              message: "There are no tabs to close",
+              type: "info",
+              duration: 4000,
+            })
+          }
         } else {
-          Object.keys(apps).forEach(closeApp)
-          showToast("All tabs are closed")
+          // Close all apps silently without individual notifications
+          setApps((prev) => {
+            const closed = {}
+            Object.keys(prev).forEach((key) => {
+              closed[key] = "closed"
+            })
+            return closed
+          })
+
+          if (window.notify) {
+            window.notify({
+              title: "All tabs closed",
+              message: "All tabs have been closed",
+              type: "success",
+              duration: 4000,
+            })
+          }
         }
         break
 
@@ -246,6 +313,26 @@ export default function Desktop() {
     focusApp(app)
     setApps((prev) => ({ ...prev, [app]: "open" }))
     playSound("open")
+    if (window.notify) {
+      const appNames = {
+        terminal: "Terminal",
+        calendar: "Calendar",
+        mail: "Mail",
+        github: "GitHub",
+        resume: "Resume",
+        notes: "Notes",
+        code: "Code Editor",
+        spotify: "Spotify",
+        camera: "Camera",
+        gallery: "Gallery",
+      }
+      window.notify({
+        title: appNames[app] || app,
+        message: "App opened",
+        type: "success",
+        duration: 3000,
+      })
+    }
   }
 
   const minimizeApp = (app) => {
@@ -256,6 +343,26 @@ export default function Desktop() {
   const closeApp = (app) => {
     setApps((prev) => ({ ...prev, [app]: "closed" }))
     playSound("close")
+    if (window.notify) {
+      const appNames = {
+        terminal: "Terminal",
+        calendar: "Calendar",
+        mail: "Mail",
+        github: "GitHub",
+        resume: "Resume",
+        notes: "Notes",
+        code: "Code Editor",
+        spotify: "Spotify",
+        camera: "Camera",
+        gallery: "Gallery",
+      }
+      window.notify({
+        title: appNames[app] || app,
+        message: "App closed",
+        type: "info",
+        duration: 3000,
+      })
+    }
   }
 
   useEffect(() => {
@@ -347,12 +454,6 @@ export default function Desktop() {
       )}
 
       {locked && <LockScreen onUnlock={unlockScreen} />}
-      {toast && (
-        <div className="toast">
-          <i className="ri-checkbox-circle-line"></i>
-          {toast}
-        </div>
-      )}
 
       <Spotlight
         isOpen={spotlightOpen}

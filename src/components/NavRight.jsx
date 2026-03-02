@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react"
 import "./NavRight.scss"
+import NotificationCenter from "./NotificationCenter"
 
 const NavRight = () => {
   const [time, setTime] = useState("")
@@ -71,6 +72,9 @@ const NavRight = () => {
       <button className="status-btn battery">
         <i className="ri-battery-2-charge-line" />
       </button>
+
+      {/* NOTIFICATIONS */}
+      <NotificationCenter />
     </div>
   )
 }
