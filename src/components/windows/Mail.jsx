@@ -16,30 +16,38 @@ const Mail = ({ minimized, onClose, onMinimize, zIndex, onFocus }) => {
     <MacWindow appId="mail" title="Mail" minimized={minimized} onClose={onClose} onMinimize={onMinimize} zIndex={zIndex} onFocus={onFocus}>
       <div className="mail-container">
         <div className="mail-wrapper">
-          {/* HEADER */}
           <div className="mail-header">
-            <span className="availability-tag">AVAILABLE FOR HIRE</span>
+            <span className="availability-tag">OPEN FOR COLLABORATION</span>
             <h1>Mannat Gupta</h1>
+            <p className="mail-intro">
+              Reach out for projects, freelance work, or product ideas worth
+              building properly.
+            </p>
           </div>
 
-          {/* CONTENT */}
+          <div className="mail-pills">
+            <span>Fast replies</span>
+            <span>Portfolio ready</span>
+            <span>Remote friendly</span>
+          </div>
+
           <div className="mail-content">
             <div className="terminal-text">
               <span className="command"># contact --init</span>
               <p>
-                Passionate about building seamless digital experiences.
-                Let’s create something meaningful together.
+                I enjoy building clean interfaces, thoughtful interactions, and
+                systems that feel polished instead of rushed. If the work is
+                interesting, I am in.
               </p>
             </div>
 
             <div className="action-grid">
               <button
                 className="mail-btn main"
-                onClick={() =>
-                  (window.location.href = `mailto:${email}`)
-                }
+                onClick={() => (window.location.href = `mailto:${email}`)}
               >
-                Send Message
+                <i className="ri-mail-send-line" />
+                Send Mail
               </button>
 
               <button
@@ -48,26 +56,28 @@ const Mail = ({ minimized, onClose, onMinimize, zIndex, onFocus }) => {
                 }`}
                 onClick={copyToClipboard}
               >
-                {copied ? "✓ Copied" : "Copy Email"}
+                <i className={copied ? "ri-check-line" : "ri-file-copy-line"} />
+                {copied ? "Copied" : "Copy Email"}
               </button>
             </div>
           </div>
 
-          {/* BOTTOM */}
           <div className="mail-bottom">
             <div className="social-links">
               <a
                 href="https://linkedin.com/in/mannatgupta146"
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
               >
+                <i className="ri-linkedin-box-line" />
                 LinkedIn
               </a>
               <a
                 href="https://github.com/mannatgupta146"
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
               >
+                <i className="ri-github-line" />
                 GitHub
               </a>
             </div>

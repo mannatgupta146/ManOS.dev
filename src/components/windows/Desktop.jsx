@@ -364,6 +364,7 @@ export default function Desktop() {
 
   const closeApp = (app, silent = false) => {
     setApps((prev) => ({ ...prev, [app]: "closed" }))
+    localStorage.removeItem(`window_${app}`)
     playSound("close")
   }
 

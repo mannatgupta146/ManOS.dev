@@ -18,18 +18,32 @@ const Github = ({ minimized, onClose, onMinimize, zIndex, onFocus }) => {
       <div className="github-window">
         {!play ? (
           <div className="github-card">
+            <span className="story-badge">Interactive GitHub story</span>
+
             <img
               src="https://github.com/mannatgupta146.png"
               alt="GitHub"
               className="git-avatar"
             />
 
-            <p className="headline">GitHub · 2025</p>
+            <p className="headline">GitHub Storyboard</p>
             <p className="subline">
-              Projects, contributions, and progress over the year.
+              A quick walk through projects, experiments, commits, and the pace
+              behind the build.
             </p>
 
+            <div className="github-highlights">
+              <span>Projects</span>
+              <span>Experiments</span>
+              <span>Progress</span>
+            </div>
+
             <div className="actions">
+              <button className="play-btn" onClick={() => setPlay(true)}>
+                <i className="ri-play-circle-line" />
+                Watch Story
+              </button>
+
               <a
                 href="https://github.com/mannatgupta146"
                 target="_blank"
@@ -37,12 +51,8 @@ const Github = ({ minimized, onClose, onMinimize, zIndex, onFocus }) => {
                 className="github-btn"
               >
                 <i className="ri-github-fill" />
-                GitHub
+                Open GitHub
               </a>
-
-              <button className="play-btn" onClick={() => setPlay(true)}>
-                ▶ Watch Story
-              </button>
             </div>
           </div>
         ) : (
