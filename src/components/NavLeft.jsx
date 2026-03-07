@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import "./NavLeft.scss"
 
 const NavLeft = () => {
@@ -43,6 +43,18 @@ const NavLeft = () => {
     }
   }
 
+  const connectRef = useRef(null)
+
+  useEffect(() => {
+    const handleClick = (e) => {
+      if (connectRef.current && !connectRef.current.contains(e.target)) {
+        setShowConnect(false)
+      }
+    }
+    document.addEventListener("mousedown", handleClick)
+    return () => document.removeEventListener("mousedown", handleClick)
+  }, [])
+
   const closeAll = () => {
     setShowAbout(false)
     setShowManOS(false)
@@ -74,30 +86,43 @@ const NavLeft = () => {
           About
         </button>
 
-        <div className="connect-wrapper">
+        <div className="connect-wrapper" ref={connectRef}>
           <button
-            className="menu-item"
+            className={`menu-item ${showConnect ? "active" : ""}`}
             onClick={() => setShowConnect(!showConnect)}
           >
             Connect
-            <span className={`arrow ${showConnect ? "open" : ""}`}>▲</span>
+            <span className={`arrow ${showConnect ? "open" : ""}`}>▼</span>
           </button>
 
           {showConnect && (
             <div className="connect-dropdown">
-              <a href="https://instagram.com/mannat_1411" target="_blank">
+              <a
+                href="https://instagram.com/mannat_1411"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 Instagram
               </a>
-              <a href="https://x.com/MannatGupta146" target="_blank">
+              <a
+                href="https://x.com/MannatGupta146"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 X (Twitter)
               </a>
               <a
                 href="https://www.linkedin.com/in/mannatgupta146/"
                 target="_blank"
+                rel="noopener noreferrer"
               >
                 LinkedIn
               </a>
-              <a href="https://github.com/mannatgupta146" target="_blank">
+              <a
+                href="https://github.com/mannatgupta146"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 GitHub
               </a>
             </div>
@@ -115,7 +140,10 @@ const NavLeft = () => {
             <div className="manos-info">
               <span className="msg green">{display[0]}</span>
               <span className="msg">{display[1]}</span>
-              <span className="msg">{display[2]}</span>
+              <span className="msg">
+                {display[2]}
+                {progress < totalChars && <span className="cursor">|</span>}
+              </span>
             </div>
 
             {progress < totalChars ? (
