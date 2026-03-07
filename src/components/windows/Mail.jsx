@@ -1,19 +1,27 @@
-import React, { useState } from "react";
-import MacWindow from "./MacWindow";
-import "./Mail.scss";
+import React, { useState } from "react"
+import MacWindow from "./MacWindow"
+import "./Mail.scss"
 
 const Mail = ({ minimized, onClose, onMinimize, zIndex, onFocus }) => {
-  const [copied, setCopied] = useState(false);
-  const email = "mannatgupta146@gmail.com";
+  const [copied, setCopied] = useState(false)
+  const email = "mannatgupta146@gmail.com"
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(email);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
+    navigator.clipboard.writeText(email)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
 
   return (
-    <MacWindow appId="mail" title="Mail" minimized={minimized} onClose={onClose} onMinimize={onMinimize} zIndex={zIndex} onFocus={onFocus}>
+    <MacWindow
+      appId="mail"
+      title="Mail"
+      minimized={minimized}
+      onClose={onClose}
+      onMinimize={onMinimize}
+      zIndex={zIndex}
+      onFocus={onFocus}
+    >
       <div className="mail-container">
         <div className="mail-wrapper">
           <div className="mail-header">
@@ -51,9 +59,7 @@ const Mail = ({ minimized, onClose, onMinimize, zIndex, onFocus }) => {
               </button>
 
               <button
-                className={`mail-btn secondary ${
-                  copied ? "success" : ""
-                }`}
+                className={`mail-btn secondary ${copied ? "success" : ""}`}
                 onClick={copyToClipboard}
               >
                 <i className={copied ? "ri-check-line" : "ri-file-copy-line"} />
@@ -90,7 +96,7 @@ const Mail = ({ minimized, onClose, onMinimize, zIndex, onFocus }) => {
         </div>
       </div>
     </MacWindow>
-  );
-};
+  )
+}
 
-export default Mail;
+export default Mail
