@@ -55,23 +55,45 @@ const NavRight = () => {
   return (
     <div className="right">
       {/* TIME (PRIMARY) */}
-      <Status primary text={time} title={date} sub={`Session #${visits}`} />
+      <Status
+        primary
+        text={time}
+        title={date}
+        sub={`Session #${visits}`}
+        accent="#0a84ff"
+        accentIcon="ri-time-fill"
+      />
 
       {/* VISITS */}
       <Status
         icon="ri-user-line"
         text={visits}
-        title="Visits"
-        sub={`${visits} total opens`}
+        title="Visitors"
+        sub={`${visits} total sessions`}
+        accent="#ff9f0a"
+        accentIcon="ri-group-fill"
       />
 
       {/* WIFI */}
-      <Status icon="ri-wifi-line" title="Wi-Fi" sub="Connected" />
+      <Status
+        icon="ri-wifi-line"
+        title="Wi-Fi"
+        sub="Connected"
+        className="wifi"
+        accent="#34c759"
+        accentIcon="ri-wifi-fill"
+      />
 
-      {/* BATTERY (VISUAL ONLY) */}
-      <button className="status-btn battery">
-        <i className="ri-battery-2-charge-line" />
-      </button>
+      {/* BATTERY */}
+      <Status
+        icon="ri-battery-2-charge-line"
+        title="Battery"
+        sub="Fully Charged"
+        className="battery"
+        accent="#34c759"
+        accentIcon="ri-battery-2-charge-fill"
+        alignRight
+      />
 
       {/* NOTIFICATIONS */}
       <NotificationCenter />
@@ -79,17 +101,41 @@ const NavRight = () => {
   )
 }
 
-const Status = ({ icon, text, title, sub, primary }) => (
-  <div className={`status-wrap ${primary ? "primary" : ""}`}>
-    <button className="status-btn">
+const Status = ({
+  icon,
+  text,
+  title,
+  sub,
+  primary,
+  className = "",
+  accent,
+  accentIcon,
+  alignRight,
+}) => (
+  <div
+    className={`status-wrap ${primary ? "primary" : ""} ${alignRight ? "align-right" : ""}`}
+  >
+    <button className={`status-btn ${className}`}>
       {icon && <i className={icon} />}
       {text && <span className="time-text">{text}</span>}
     </button>
 
     <div className="status-popover">
       <span className="caret" />
-      <p className="title">{title}</p>
-      <p className="sub">{sub}</p>
+      <div className="popover-row">
+        {accentIcon && (
+          <i
+            className={`popover-icon ${accentIcon}`}
+            style={{ color: accent }}
+          />
+        )}
+        <div className="popover-text">
+          <p className="title">{title}</p>
+          <p className="sub" style={{ color: accent }}>
+            {sub}
+          </p>
+        </div>
+      </div>
     </div>
   </div>
 )

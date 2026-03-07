@@ -1,7 +1,7 @@
 .right {
   display: flex;
   align-items: center;
-  gap: 0.55rem;
+  gap: 0.3rem;
   overflow: visible;
   z-index: 100;
 }
@@ -14,6 +14,24 @@
     opacity: 1;
     transform: translate(-50%, 0);
     pointer-events: auto;
+  }
+
+  &.align-right {
+    &:hover .status-popover {
+      transform: translate(0, 0);
+    }
+
+    .status-popover {
+      left: auto;
+      right: -8px;
+      transform: translate(0, -6px);
+
+      .caret {
+        left: auto;
+        right: 16px;
+        transform: rotate(45deg);
+      }
+    }
   }
 }
 
@@ -62,14 +80,13 @@
   font-weight: 500;
 }
 
-/* POPOVER (FIXED WIDTH, CENTERED) */
+/* POPOVER */
 .status-popover {
   position: absolute;
-  top: calc(100% + 8px);
+  top: calc(100% + 4px);
   left: 50%;
-  text-align: center;
 
-  width: 120px; // 🔥 FIXED → no jumping
+  width: max-content;
   transform: translate(-50%, -6px);
   opacity: 0;
   pointer-events: none;
@@ -77,12 +94,8 @@
   background: rgba(38, 38, 40, 0.96);
   backdrop-filter: blur(18px);
 
-  padding: 0.45rem 0.55rem;
+  padding: 0.5rem 0.7rem;
   border-radius: 0.6rem;
-
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
 
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.65);
 
@@ -90,19 +103,37 @@
     opacity 0.18s ease,
     transform 0.18s cubic-bezier(0.22, 1, 0.36, 1);
 
+  .popover-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .popover-icon {
+    font-size: 1.15rem;
+    opacity: 0.9;
+    flex-shrink: 0;
+  }
+
+  .popover-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    text-align: left;
+  }
+
   .title {
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     color: rgb(255, 255, 255);
     font-weight: 600;
-    width: 100%;
+    white-space: nowrap;
   }
 
   .sub {
-    font-size: 0.8rem;
-    color: #34c759;
+    font-size: 0.65rem;
     font-weight: 600;
-    opacity: 0.75;
-    width: 100%;
+    white-space: nowrap;
+    letter-spacing: 0.02em;
   }
 }
 
@@ -120,15 +151,33 @@
 /* BATTERY SPECIAL (NO POPOVER) */
 .status-btn.battery {
   i {
-    filter: drop-shadow(0 0 6px rgba(52, 199, 89, 0.45));
+    font-size: 1.05rem;
+    color: #34c759;
+    filter: drop-shadow(0 0 4px rgba(52, 199, 89, 0.3));
   }
 
   &:hover {
-    color: #34c759;
-    background: rgba(52, 199, 89, 0.12);
+    box-shadow: inset 0 0 0 999px rgba(52, 199, 89, 0.1);
 
     i {
-      filter: drop-shadow(0 0 8px rgba(52, 199, 89, 0.6));
+      filter: drop-shadow(0 0 8px rgba(52, 199, 89, 0.5));
     }
+  }
+}
+
+/* WIFI CONNECTED DOT */
+.status-btn.wifi {
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #34c759;
+    box-shadow: 0 0 4px rgba(52, 199, 89, 0.5);
   }
 }
