@@ -297,7 +297,16 @@ export default function Desktop() {
       return null
     }
     const saved = localStorage.getItem(STORAGE_KEY)
-    return saved ? JSON.parse(saved) : null
+    if (saved) {
+      const layout = JSON.parse(saved)
+      // ensure camera is always closed on reload to avoid leaving
+      // the webcam running unintentionally
+      if (layout.camera && layout.camera !== "closed") {
+        layout.camera = "closed"
+      }
+      return layout
+    }
+    return null
   }
 
   const [apps, setApps] = useState(
