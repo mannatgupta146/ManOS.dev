@@ -43,53 +43,27 @@ export default function Settings({ onClose, onResetDesktop }) {
   const handleFocusMode = (val) => {
     setFocusMode(val)
     saveSetting("focusMode", val)
-    if (window.notify) {
-      window.notify({
-        title: "Focus Mode",
-        message: val ? "Enabled - Minimize distractions" : "Disabled",
-        type: "info",
-        duration: 2000,
-      })
-    }
+    // notifications removed – toastify not needed in settings
   }
 
   const handleSound = (val) => {
     setSound(val)
     saveSetting("sound", val)
-    if (window.notify) {
-      window.notify({
-        title: "Sound",
-        message: val ? "Sound enabled" : "Sound muted",
-        type: "info",
-        duration: 1500,
-      })
-    }
+    // toast removed per request
   }
 
   const handleAutoClose = (val) => {
     setAutoCloseAfterUnlock(val)
     saveSetting("autoCloseAfterUnlock", val)
-    if (window.notify) {
-      window.notify({
-        title: "Auto-Close Apps",
-        message: val ? "Enabled - Apps close on unlock" : "Disabled",
-        type: "info",
-        duration: 2000,
-      })
-    }
+    // no toast notifications here anymore
   }
 
   const handleBrightness = (val) => {
-    setBrightness(val)
-    saveSetting("brightness", val)
-    if (window.notify) {
-      window.notify({
-        title: "Brightness",
-        message: `Set to ${val}%`,
-        type: "info",
-        duration: 1500,
-      })
-    }
+    // ensure value stays within the allowed range (same as the slider)
+    const clamped = Math.min(100, Math.max(60, val))
+    setBrightness(clamped)
+    saveSetting("brightness", clamped)
+    // settings panel no longer fires toasts
   }
 
   const handleResetConfirm = () => {

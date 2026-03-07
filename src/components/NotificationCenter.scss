@@ -2,7 +2,7 @@
   position: fixed;
   top: 50px;
   right: 20px;
-  z-index: 9999;
+  z-index: 10005; /* put above any modal/overlay */
   display: flex;
   flex-direction: column;
   gap: 12px;
