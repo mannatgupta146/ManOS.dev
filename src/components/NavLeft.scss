@@ -39,9 +39,9 @@
   background: transparent;
   border: none;
 
-  color: rgba(255, 255, 255, 0.98);
-  font-size: 0.9rem;
-  font-weight: 700;
+  color: rgba(255, 255, 255, 0.968);
+  font-size: 0.8rem;
+  font-weight: 600;
 
   padding: 0.28rem 0.9rem 0.28rem 0.55rem;
   border-radius: 0.45rem;
@@ -86,11 +86,12 @@
   background: transparent;
   border: none;
 
-  font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.82);
+  font-weight: 500;
 
   padding: 0.28rem 0.6rem;
-  border-radius: 0.35rem;
+  border-radius: 0.4rem;
 
   cursor: pointer;
   display: inline-flex;
@@ -429,5 +430,139 @@
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
+  }
+}
+
+/* =====================
+   HELP CARD
+===================== */
+
+.help-card {
+  background: rgba(42, 42, 44, 0.96);
+  backdrop-filter: blur(24px);
+  border-radius: 1rem;
+  padding: 1.4rem 1.5rem;
+  width: 340px;
+  color: white;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7);
+  animation: applePop 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+
+  .help-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.8rem;
+
+    i {
+      font-size: 1.4rem;
+      color: #0a84ff;
+    }
+
+    h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin: 0;
+    }
+  }
+
+  .help-desc {
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.65);
+    line-height: 1.55;
+    margin-bottom: 1.1rem;
+
+    strong {
+      color: rgba(255, 255, 255, 0.92);
+    }
+  }
+
+  .help-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .help-tips {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  .help-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.65rem 0.8rem;
+    border-radius: 0.6rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.04);
+    cursor: pointer;
+    transition: all 0.18s ease;
+    text-align: left;
+    color: white;
+
+    > i {
+      font-size: 1.25rem;
+      flex-shrink: 0;
+    }
+
+    .btn-title {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .btn-sub {
+      display: block;
+      font-size: 0.65rem;
+      color: rgba(255, 255, 255, 0.4);
+      margin-top: 1px;
+    }
+
+    &.cli {
+      > i {
+        color: #34c759;
+      }
+
+      &:hover {
+        background: rgba(52, 199, 89, 0.1);
+        border-color: rgba(52, 199, 89, 0.25);
+      }
+    }
+
+    &.resume {
+      > i {
+        color: #ff9f0a;
+      }
+
+      &:hover {
+        background: rgba(255, 159, 10, 0.1);
+        border-color: rgba(255, 159, 10, 0.25);
+      }
+    }
+  }
+
+  .help-tip {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.68rem;
+    color: rgba(255, 255, 255, 0.35);
+    margin: 0;
+
+    i {
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.3);
+    }
+
+    kbd {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 0.1rem 0.35rem;
+      border-radius: 0.25rem;
+      font-size: 0.62rem;
+      font-family: "SF Mono", monospace;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
   }
 }

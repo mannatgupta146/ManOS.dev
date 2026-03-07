@@ -5,6 +5,7 @@ const NavLeft = () => {
   const [showAbout, setShowAbout] = useState(false)
   const [showManOS, setShowManOS] = useState(false)
   const [showConnect, setShowConnect] = useState(false)
+  const [showHelp, setShowHelp] = useState(false)
 
   const messages = [
     "System initialized successfully.",
@@ -59,6 +60,12 @@ const NavLeft = () => {
     setShowAbout(false)
     setShowManOS(false)
     setShowConnect(false)
+    setShowHelp(false)
+  }
+
+  const openApp = (app) => {
+    closeAll()
+    window.dispatchEvent(new CustomEvent("spotlightAction", { detail: app }))
   }
 
   return (
@@ -128,6 +135,16 @@ const NavLeft = () => {
             </div>
           )}
         </div>
+
+        <button
+          className="menu-item"
+          onClick={() => {
+            closeAll()
+            setShowHelp(true)
+          }}
+        >
+          Help
+        </button>
       </div>
 
       {showAbout && (
@@ -173,6 +190,58 @@ const NavLeft = () => {
           <div className="apple-only" onClick={(e) => e.stopPropagation()}>
             <img src="/icons/apple.svg" alt="Apple" />
             <span className="apple-label">ManOS v1.0</span>
+          </div>
+        </div>
+      )}
+
+      {showHelp && (
+        <div className="overlay" onClick={closeAll}>
+          <div className="help-card" onClick={(e) => e.stopPropagation()}>
+            <div className="help-header">
+              <i className="ri-questionnaire-line" />
+              <h3>Welcome to ManOS</h3>
+            </div>
+
+            <p className="help-desc">
+              This is a macOS-inspired portfolio built by{" "}
+              <strong>Mannat Gupta</strong>. Explore apps, run terminal
+              commands, and discover hidden features — it's all interactive.
+            </p>
+
+            <div className="help-actions">
+              <button
+                className="help-btn cli"
+                onClick={() => openApp("terminal")}
+              >
+                <i className="ri-terminal-box-line" />
+                <div>
+                  <span className="btn-title">Open Terminal</span>
+                  <span className="btn-sub">Try cool commands</span>
+                </div>
+              </button>
+
+              <button
+                className="help-btn resume"
+                onClick={() => openApp("resume")}
+              >
+                <i className="ri-file-text-line" />
+                <div>
+                  <span className="btn-title">View Resume</span>
+                  <span className="btn-sub">Know about me</span>
+                </div>
+              </button>
+            </div>
+
+            <div className="help-tips">
+              <p className="help-tip">
+                <i className="ri-keyboard-line" /> Press <kbd>Ctrl</kbd> +{" "}
+                <kbd>K</kbd> to open Spotlight search
+              </p>
+              <p className="help-tip">
+                <i className="ri-mouse-line" /> Right-click on the desktop to
+                open quick actions
+              </p>
+            </div>
           </div>
         </div>
       )}

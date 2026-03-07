@@ -117,7 +117,9 @@ const Status = ({
   >
     <button className={`status-btn ${className}`}>
       {icon && <i className={icon} />}
-      {text && <span className="time-text">{text}</span>}
+      {text !== undefined && text !== null && (
+        <span className="time-text">{text}</span>
+      )}
     </button>
 
     <div className="status-popover">

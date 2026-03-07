@@ -217,6 +217,10 @@ export default function Desktop() {
         openApp("terminal")
         break
 
+      case "resume":
+        openApp("resume")
+        break
+
       case "show-desktop":
         Object.keys(apps).forEach(minimizeApp)
         if (window.notify) {
