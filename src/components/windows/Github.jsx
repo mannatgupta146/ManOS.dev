@@ -1,12 +1,20 @@
-import React, { useState } from "react";
-import MacWindow from "./MacWindow";
-import "./Github.scss";
+import React, { useState } from "react"
+import MacWindow from "./MacWindow"
+import "./Github.scss"
 
 const Github = ({ minimized, onClose, onMinimize, zIndex, onFocus }) => {
-  const [play, setPlay] = useState(false);
+  const [play, setPlay] = useState(false)
 
   return (
-    <MacWindow appId="github" title="Github" minimized={minimized} onClose={onClose} onMinimize={onMinimize} zIndex={zIndex} onFocus={onFocus}>
+    <MacWindow
+      appId="github"
+      title="Github"
+      minimized={minimized}
+      onClose={onClose}
+      onMinimize={onMinimize}
+      zIndex={zIndex}
+      onFocus={onFocus}
+    >
       <div className="github-window">
         {!play ? (
           <div className="github-card">
@@ -25,7 +33,7 @@ const Github = ({ minimized, onClose, onMinimize, zIndex, onFocus }) => {
               <a
                 href="https://github.com/mannatgupta146"
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 className="github-btn"
               >
                 <i className="ri-github-fill" />
@@ -38,18 +46,24 @@ const Github = ({ minimized, onClose, onMinimize, zIndex, onFocus }) => {
             </div>
           </div>
         ) : (
-          /* 🔴 VIDEO LOGIC SAME AS YOUR ORIGINAL */
-          <video
-            src="/github.mp4"
-            autoPlay
-            controls
-            preload="none"
-            className="github-video"
-          />
+          <div className="github-player">
+            <button className="github-back-btn" onClick={() => setPlay(false)}>
+              <i className="ri-arrow-left-line" />
+              Back
+            </button>
+
+            <video
+              src="/github.mp4"
+              autoPlay
+              controls
+              preload="none"
+              className="github-video"
+            />
+          </div>
         )}
       </div>
     </MacWindow>
-  );
-};
+  )
+}
 
-export default Github;
+export default Github
