@@ -165,6 +165,14 @@ const Spotlight = ({ isOpen, onClose, apps, openApp }) => {
             onKeyDown={handleKeyDown}
             className="spotlight-input"
           />
+          <button
+            type="button"
+            className="spotlight-close"
+            aria-label="Close Spotlight"
+            onClick={onClose}
+          >
+            <i className="ri-close-line"></i>
+          </button>
         </div>
 
         {filtered.length > 0 ? (

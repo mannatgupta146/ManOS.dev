@@ -53,7 +53,11 @@ const NavLeft = () => {
       }
     }
     document.addEventListener("mousedown", handleClick)
-    return () => document.removeEventListener("mousedown", handleClick)
+    document.addEventListener("touchstart", handleClick)
+    return () => {
+      document.removeEventListener("mousedown", handleClick)
+      document.removeEventListener("touchstart", handleClick)
+    }
   }, [])
 
   const closeAll = () => {
@@ -108,6 +112,7 @@ const NavLeft = () => {
                 href="https://instagram.com/mannat_1411"
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => setShowConnect(false)}
               >
                 Instagram
               </a>
@@ -115,6 +120,7 @@ const NavLeft = () => {
                 href="https://x.com/MannatGupta146"
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => setShowConnect(false)}
               >
                 X (Twitter)
               </a>
@@ -122,6 +128,7 @@ const NavLeft = () => {
                 href="https://www.linkedin.com/in/mannatgupta146/"
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => setShowConnect(false)}
               >
                 LinkedIn
               </a>
@@ -129,6 +136,7 @@ const NavLeft = () => {
                 href="https://github.com/mannatgupta146"
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => setShowConnect(false)}
               >
                 GitHub
               </a>
@@ -238,8 +246,24 @@ const NavLeft = () => {
                 <kbd>K</kbd> to open Spotlight search
               </p>
               <p className="help-tip">
+                <i className="ri-search-line" /> On phone, tap the floating
+                clock to open Spotlight
+              </p>
+              <p className="help-tip">
+                <i className="ri-search-2-line" /> Or tap the search button
+                under the clock
+              </p>
+              <p className="help-tip">
                 <i className="ri-mouse-line" /> Right-click on the desktop to
                 open quick actions
+              </p>
+              <p className="help-tip">
+                <i className="ri-hand" /> On phone, long-press empty desktop
+                space for quick actions
+              </p>
+              <p className="help-tip">
+                <i className="ri-cursor-line" /> Or tap the quick-actions button
+                under the clock
               </p>
             </div>
           </div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import Dock from "../Dock"
 import DesktopMenu from "../DesktopMenu"
 import Spotlight from "../Spotlight"
@@ -18,9 +18,11 @@ import Settings from "./Settings"
 
 import { playSound } from "../../utils/sound.js"
 
-export default function Desktop() {
+export default function Desktop({ mobileMenuRequest = 0 }) {
   const STORAGE_KEY = "desktop_layout"
   const WALL_KEY = "desktop_wallpaper"
+  const longPressTimerRef = useRef(null)
+  const suppressNextClickRef = useRef(false)
 
   /* ---------------- Z INDEX ---------------- */
 
@@ -70,9 +72,16 @@ export default function Desktop() {
       handleMenuAction(action)
     }
 
+    const handleSpotlightOpen = () => {
+      setSpotlightOpen(true)
+    }
+
     window.addEventListener("spotlightAction", handleSpotlightAction)
-    return () =>
+    window.addEventListener("openSpotlight", handleSpotlightOpen)
+    return () => {
       window.removeEventListener("spotlightAction", handleSpotlightAction)
+      window.removeEventListener("openSpotlight", handleSpotlightOpen)
+    }
   }, [])
 
   const showToast = (msg) => {
@@ -131,12 +140,56 @@ export default function Desktop() {
 
   const [menu, setMenu] = useState(null)
 
+  const openMenuAt = (x, y) => {
+    setMenu({ x, y })
+  }
+
   const handleRightClick = (e) => {
     e.preventDefault()
-    setMenu({ x: e.clientX, y: e.clientY })
+    openMenuAt(e.clientX, e.clientY)
   }
 
   const closeMenu = () => setMenu(null)
+
+  const clearLongPressTimer = () => {
+    if (longPressTimerRef.current) {
+      clearTimeout(longPressTimerRef.current)
+      longPressTimerRef.current = null
+    }
+  }
+
+  const handleTouchStart = (e) => {
+    if (locked || window.innerWidth > 768 || e.target !== e.currentTarget) {
+      return
+    }
+
+    const touch = e.touches[0]
+    clearLongPressTimer()
+    longPressTimerRef.current = setTimeout(() => {
+      suppressNextClickRef.current = true
+      openMenuAt(touch.clientX, touch.clientY)
+      if (navigator.vibrate) {
+        navigator.vibrate(20)
+      }
+    }, 450)
+  }
+
+  const handleTouchMove = () => {
+    clearLongPressTimer()
+  }
+
+  const handleTouchEnd = () => {
+    clearLongPressTimer()
+  }
+
+  const handleDesktopClick = () => {
+    if (suppressNextClickRef.current) {
+      suppressNextClickRef.current = false
+      return
+    }
+
+    closeMenu()
+  }
 
   /* ---------------- WALLPAPER SYSTEM ---------------- */
 
@@ -292,6 +345,14 @@ export default function Desktop() {
     }
   }
 
+  useEffect(() => {
+    if (!mobileMenuRequest || locked || window.innerWidth > 768) {
+      return
+    }
+
+    openMenuAt(window.innerWidth - 24, 104)
+  }, [mobileMenuRequest, locked])
+
   /* ---------------- LOAD SESSION ---------------- */
 
   const loadLayout = () => {
@@ -378,6 +439,8 @@ export default function Desktop() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(apps))
   }, [apps])
 
+  useEffect(() => () => clearLongPressTimer(), [])
+
   const resetDesktop = () => {
     // Clear storage
     localStorage.removeItem(STORAGE_KEY)
@@ -416,8 +479,6 @@ export default function Desktop() {
     setZMap({})
     setTopZ(20)
     setMenu(null)
-
-    showToast("Desktop layout reset ✨")
   }
 
   const renderApp = (Component, key) =>
@@ -436,7 +497,11 @@ export default function Desktop() {
     <div
       className={`desktop-area ${locked ? "locked" : ""}`}
       onContextMenu={!locked ? handleRightClick : null}
-      onClick={!locked ? closeMenu : null}
+      onClick={!locked ? handleDesktopClick : null}
+      onTouchStart={!locked ? handleTouchStart : null}
+      onTouchMove={!locked ? handleTouchMove : null}
+      onTouchEnd={!locked ? handleTouchEnd : null}
+      onTouchCancel={!locked ? handleTouchEnd : null}
     >
       {renderApp(Camera, "camera")}
       {renderApp(Gallery, "gallery")}

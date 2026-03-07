@@ -1,16 +1,28 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-html, body, #root {
-    width: 100%;
-    height: 100%;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    overflow: hidden;
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    "Open Sans",
+    "Helvetica Neue",
+    sans-serif;
+  overflow: hidden;
 }
-
 
 body::after {
   content: "";
@@ -20,29 +32,49 @@ body::after {
   background: radial-gradient(
     circle at center,
     transparent 40%,
-    rgba(0,0,0,0.35) 100%
+    rgba(0, 0, 0, 0.35) 100%
   );
 }
 
-
 main {
-    width: 100%;
-    height: 100%;
-    background: url(/bg.png);
-    background-size: cover;
-    background-position: bottom;
-    filter: brightness(var(--brightness, 100%));
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  background: url(/bg.png);
+  background-size: cover;
+  background-position: bottom;
+  background-repeat: no-repeat;
+  filter: brightness(var(--brightness, 100%));
+  position: relative;
+  overflow: hidden;
+}
+
+.mobile-ambient-shell,
+.mobile-ambient-time {
+  display: none;
+}
+
+.mobile-ambient-shell {
+  background: transparent;
+  border: 0;
+  padding: 0;
+}
+
+.mobile-ambient-time {
+  background: transparent;
+  border: 0;
+  padding: 0;
 }
 
 @keyframes contentReload {
   0% {
     opacity: 0;
-    transform: scale(.98);
+    transform: scale(0.98);
     filter: blur(8px);
   }
 
   60% {
-    opacity: .8;
+    opacity: 0.8;
     transform: scale(1.01);
   }
 
@@ -54,7 +86,7 @@ main {
 }
 
 .refresh-anim {
-  animation: contentReload .6s ease-out;
+  animation: contentReload 0.6s ease-out;
   will-change: transform, filter, opacity;
 }
 
@@ -74,6 +106,8 @@ main {
 .desktop-area {
   width: 100vw;
   height: 100vh;
+  position: relative;
+  overflow: hidden;
 }
 
 .toast {
@@ -85,21 +119,22 @@ main {
   padding: 10px 18px;
   border-radius: 12px;
 
-  background: rgba(28,28,30,0.72);
+  background: rgba(28, 28, 30, 0.72);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
 
   color: #f5f5f7;
   font-size: 13px;
   font-weight: 500;
-  letter-spacing: .2px;
+  letter-spacing: 0.2px;
 
   box-shadow:
-    0 10px 30px rgba(0,0,0,.35),
-    inset 0 1px 0 rgba(255,255,255,.15);
+    0 10px 30px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
 
-  animation: toastIn .35s ease,
-             toastOut .35s ease 2s forwards;
+  animation:
+    toastIn 0.35s ease,
+    toastOut 0.35s ease 2s forwards;
 
   pointer-events: none; /* ⭐ important */
   z-index: 9999;
@@ -108,7 +143,7 @@ main {
 @keyframes toastIn {
   from {
     opacity: 0;
-    transform: translate(-50%, 20px) scale(.96);
+    transform: translate(-50%, 20px) scale(0.96);
   }
   to {
     opacity: 1;
@@ -119,7 +154,7 @@ main {
 @keyframes toastOut {
   to {
     opacity: 0;
-    transform: translate(-50%, 15px) scale(.96);
+    transform: translate(-50%, 15px) scale(0.96);
   }
 }
 
@@ -129,14 +164,185 @@ main {
 }
 
 /* Focus Mode */
-.focus-mode .dock{
+.focus-mode .dock {
   transform: translate(-50%, 120%);
-  opacity:0;
-  pointer-events:none;
+  opacity: 0;
+  pointer-events: none;
 }
 
 /* Brightness */
 .desktop-dim {
   filter: brightness(0.75);
-  transition: filter .4s ease;
+  transition: filter 0.4s ease;
+}
+
+@media (max-width: 768px) {
+  html,
+  body,
+  #root,
+  main {
+    height: 100dvh;
+  }
+
+  main {
+    min-height: 100dvh;
+  }
+
+  body::after {
+    background: radial-gradient(
+      circle at center,
+      transparent 30%,
+      rgba(0, 0, 0, 0.28) 100%
+    );
+  }
+
+  .desktop-area {
+    width: 100vw;
+    height: 100dvh;
+  }
+
+  .toast {
+    bottom: 98px;
+    width: calc(100vw - 2rem);
+    max-width: 320px;
+    text-align: center;
+  }
+
+  .mobile-ambient-shell {
+    display: flex;
+    position: fixed;
+    top: 58px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    width: min(calc(100vw - 2rem), 360px);
+  }
+
+  .mobile-ambient-time {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.14rem;
+    padding: 0.7rem 1rem 0.6rem;
+    pointer-events: auto;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 1.2rem;
+    background: rgba(10, 10, 12, 0.72);
+    box-shadow:
+      0 18px 42px rgba(0, 0, 0, 0.18),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+  }
+
+  .mobile-ambient-time:hover {
+    background: rgba(12, 12, 14, 0.8);
+  }
+
+  .mobile-ambient-time:active {
+    transform: scale(0.985);
+  }
+
+  .mobile-ambient-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.55rem;
+    width: 100%;
+    order: -1;
+  }
+
+  .mobile-ambient-action {
+    height: 42px;
+    padding: 0 0.95rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 999px;
+    background: rgba(10, 10, 12, 0.72);
+    color: rgba(255, 255, 255, 0.95);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    box-shadow:
+      0 14px 30px rgba(0, 0, 0, 0.16),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    transition:
+      transform 0.18s ease,
+      background 0.18s ease,
+      border-color 0.18s ease;
+
+    i {
+      font-size: 1rem;
+      opacity: 0.95;
+    }
+
+    span {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    &:hover {
+      background: rgba(16, 16, 20, 0.82);
+      border-color: rgba(255, 255, 255, 0.14);
+    }
+
+    &:active {
+      transform: scale(0.97);
+    }
+  }
+
+  .mobile-ambient-time__time {
+    color: rgba(255, 255, 255, 0.98);
+    font-size: clamp(1.45rem, 4vw, 2rem);
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    text-shadow: 0 10px 28px rgba(0, 0, 0, 0.34);
+  }
+
+  .mobile-ambient-time__date {
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 0.74rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+}
+
+@media (max-width: 420px) {
+  .mobile-ambient-shell {
+    width: min(calc(100vw - 1rem), 320px);
+    gap: 0.45rem;
+  }
+
+  .mobile-ambient-time {
+    padding: 0.58rem 0.75rem 0.5rem;
+    border-radius: 1rem;
+  }
+
+  .mobile-ambient-actions {
+    gap: 0.45rem;
+  }
+
+  .mobile-ambient-action {
+    height: 38px;
+    padding: 0 0.8rem;
+  }
+
+  .mobile-ambient-time__time {
+    font-size: 1.6rem;
+  }
+
+  .mobile-ambient-time__date {
+    font-size: 0.72rem;
+  }
+
+  .mobile-ambient-action span {
+    font-size: 0.62rem;
+    letter-spacing: 0.06em;
+  }
 }

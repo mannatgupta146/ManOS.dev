@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
-import MacWindow from "./MacWindow";
-import "./Cli.scss";
+import React, { useEffect, useRef, useState } from "react"
+import MacWindow from "./MacWindow"
+import "./Cli.scss"
 
 /* =====================
    SYSTEM BOOT LINES
@@ -16,8 +16,7 @@ const SYSTEM_LINES = [
     ],
   },
   { type: "spacer" },
-];
-
+]
 
 /* =====================
    COMMAND LIST
@@ -39,35 +38,34 @@ const COMMANDS = [
   "/open linkedin",
   "/contact",
   "/clear",
-];
+]
 
 /* =====================
    NUMBER HIGHLIGHTER
 ===================== */
 const highlightNumbers = (text = "") =>
-  text.replace(
-    /(\d+(\.\d+)?%?|\d{4}–\d{4})/g,
-    `<span class="number">$1</span>`
-  );
+  text.replace(/(\d+(\.\d+)?%?|\d{4}–\d{4})/g, `<span class="number">$1</span>`)
 
 const Cli = ({ minimized, onClose, onMinimize, zIndex, onFocus }) => {
-  const [lines, setLines] = useState(SYSTEM_LINES);
-  const [input, setInput] = useState("");
+  const [lines, setLines] = useState(SYSTEM_LINES)
+  const [input, setInput] = useState("")
 
-  const terminalRef = useRef(null);
-  const inputRef = useRef(null);
+  const terminalRef = useRef(null)
+  const inputRef = useRef(null)
 
   useEffect(() => {
-    terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
-    inputRef.current?.focus();
-  }, [lines]);
+    const terminal = terminalRef.current
+    if (terminal) {
+      terminal.scrollTop = terminal.scrollHeight
+    }
 
-  const isValidTyping = COMMANDS.some((c) =>
-    c.startsWith(input.trim())
-  );
+    inputRef.current?.focus()
+  }, [lines])
+
+  const isValidTyping = COMMANDS.some((c) => c.startsWith(input.trim()))
 
   const pushLines = (items) =>
-    setLines((prev) => [...prev, ...items, { type: "spacer" }]);
+    setLines((prev) => [...prev, ...items, { type: "spacer" }])
 
   /* =====================
      COMMAND ACTIONS
@@ -87,13 +85,12 @@ const Cli = ({ minimized, onClose, onMinimize, zIndex, onFocus }) => {
         { type: "cmd", cmd: "/projects", desc: "Highlighted projects" },
         { type: "cmd", cmd: "/socials", desc: "Social profiles" },
         {
-        type: "cmd",
-        cmd: "/open github | instagram | x | linkedin",
-        desc: "Open profiles",
+          type: "cmd",
+          cmd: "/open github | instagram | x | linkedin",
+          desc: "Open profiles",
         },
         { type: "cmd", cmd: "/contact", desc: "Contact details" },
         { type: "cmd", cmd: "/clear", desc: "Clear terminal" },
-
       ]),
 
     "/about": () =>
@@ -221,73 +218,84 @@ const Cli = ({ minimized, onClose, onMinimize, zIndex, onFocus }) => {
       ]),
 
     "/socials": () =>
-    pushLines([
+      pushLines([
         { type: "label", label: "GitHub", value: "github.com/mannatgupta146" },
-        { type: "label", label: "LinkedIn", value: "linkedin.com/in/mannatgupta146" },
-        { type: "label", label: "Instagram", value: "instagram.com/mannat_1411" },
+        {
+          type: "label",
+          label: "LinkedIn",
+          value: "linkedin.com/in/mannatgupta146",
+        },
+        {
+          type: "label",
+          label: "Instagram",
+          value: "instagram.com/mannat_1411",
+        },
         { type: "label", label: "X", value: "x.com/MannatGupta146" },
 
         { type: "spacer" },
 
         {
-        type: "highlight",
-        text: "See more → ",
-        cmd: "/open github | linkedin | instagram | x",
+          type: "highlight",
+          text: "See more → ",
+          cmd: "/open github | linkedin | instagram | x",
         },
-    ]),
-
+      ]),
 
     "/open github": () =>
       window.open("https://github.com/mannatgupta146", "_blank"),
     "/open instagram": () =>
       window.open("https://instagram.com/mannat_1411", "_blank"),
-    "/open x": () =>
-      window.open("https://x.com/MannatGupta146", "_blank"),
+    "/open x": () => window.open("https://x.com/MannatGupta146", "_blank"),
     "/open linkedin": () =>
       window.open("https://linkedin.com/in/mannatgupta146", "_blank"),
 
     "/contact": () =>
-    pushLines([
+      pushLines([
         { type: "label", label: "Email", value: "mannatgupta146@gmail.com" },
         { type: "label", label: "Phone", value: "+91 9541343039" },
 
         { type: "spacer" },
 
         {
-        type: "highlight",
-        text: "You can also find me on → ",
-        cmd: "/socials",
+          type: "highlight",
+          text: "You can also find me on → ",
+          cmd: "/socials",
         },
-    ]),
-
+      ]),
 
     "/clear": () => setLines(SYSTEM_LINES),
-  };
+  }
 
   const handleEnter = (e) => {
-    if (e.key !== "Enter") return;
+    if (e.key !== "Enter") return
 
-    const cmd = input.trim();
-    if (!cmd) return;
+    const cmd = input.trim()
+    if (!cmd) return
 
-    const valid = !!actions[cmd];
+    const valid = !!actions[cmd]
 
     setLines((prev) => [
       ...prev,
       { type: valid ? "input-ok" : "input-error", text: cmd },
-    ]);
+    ])
 
     valid
       ? actions[cmd]()
-      : pushLines([
-          { type: "error", text: `Command not found: ${cmd}` },
-        ]);
+      : pushLines([{ type: "error", text: `Command not found: ${cmd}` }])
 
-    setInput("");
-  };
+    setInput("")
+  }
 
   return (
-    <MacWindow appId="terminal" title="Terminal" minimized={minimized} onClose={onClose} onMinimize={onMinimize} zIndex={zIndex} onFocus={onFocus}>
+    <MacWindow
+      appId="terminal"
+      title="Terminal"
+      minimized={minimized}
+      onClose={onClose}
+      onMinimize={onMinimize}
+      zIndex={zIndex}
+      onFocus={onFocus}
+    >
       <div className="cli" ref={terminalRef}>
         {lines.map((l, i) =>
           l.type === "spacer" ? (
@@ -328,25 +336,25 @@ const Cli = ({ minimized, onClose, onMinimize, zIndex, onFocus }) => {
                 </>
               ) : l.type === "system-title" ? (
                 <span className="system-title">{l.text}</span>
-                ) : l.type === "system-sub" ? (
+              ) : l.type === "system-sub" ? (
                 <span className="system-sub">
-                    {l.parts.map((p, idx) => (
+                  {l.parts.map((p, idx) => (
                     <span key={idx} className={p.className}>
-                        {p.text}
+                      {p.text}
                     </span>
-                    ))}
+                  ))}
                 </span>
-                ) : typeof l.text === "string" ? (
+              ) : typeof l.text === "string" ? (
                 <span
-                    dangerouslySetInnerHTML={{
+                  dangerouslySetInnerHTML={{
                     __html: highlightNumbers(l.text),
-                    }}
+                  }}
                 />
-                ) : (
+              ) : (
                 l.text
-                )}
+              )}
             </div>
-          )
+          ),
         )}
 
         <div className="line input-line">
@@ -363,7 +371,7 @@ const Cli = ({ minimized, onClose, onMinimize, zIndex, onFocus }) => {
         </div>
       </div>
     </MacWindow>
-  );
-};
+  )
+}
 
-export default Cli;
+export default Cli

@@ -3,7 +3,8 @@
   width: 100%;
   height: 100%;
   background: #1c1c1e;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   color-scheme: dark;
 }
 
@@ -92,7 +93,9 @@
   justify-content: space-between;
 
   cursor: default;
-  transition: background 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    background 0.15s ease,
+    box-shadow 0.15s ease;
 
   .note-main {
     display: flex;
@@ -149,7 +152,9 @@
   border-radius: 6px;
   opacity: 0;
 
-  transition: opacity 0.15s ease, background 0.15s ease;
+  transition:
+    opacity 0.15s ease,
+    background 0.15s ease;
 
   &:hover {
     background: rgba(255, 255, 255, 0.15);
@@ -203,21 +208,20 @@
   font-weight: 700;
   color: #f5f5f7;
 
-  padding: 8px 12px;          /* ⬅️ slightly tighter */
-  margin-bottom: 10px;        /* ⬅️ less spacing */
+  padding: 8px 12px; /* ⬅️ slightly tighter */
+  margin-bottom: 10px; /* ⬅️ less spacing */
   border-radius: 8px;
 
   white-space: pre-wrap;
   overflow-wrap: break-word;
 
-  max-height: 2.9em;          /* 🔥 ~2 lines max */
-  overflow-y: auto;           /* scroll if user writes too much */
+  max-height: 2.9em; /* 🔥 ~2 lines max */
+  overflow-y: auto; /* scroll if user writes too much */
 
   &::placeholder {
     color: #8e8e93;
   }
 }
-
 
 /* Content */
 .content-input {
@@ -254,7 +258,6 @@
   }
 }
 
-
 /* Empty */
 .empty-state {
   flex: 1;
@@ -289,4 +292,91 @@
 * {
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 255, 255, 0.25) transparent;
+}
+
+.mobile-note-bar {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .note-app {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    flex: 1 1 auto;
+    min-width: 0;
+    max-width: none;
+    border-right: none;
+  }
+
+  .sidebar.hidden-mobile,
+  .editor-area.hidden-mobile {
+    display: none;
+  }
+
+  .sidebar-toolbar {
+    padding: 12px;
+  }
+
+  .sidebar-toolbar button {
+    padding: 0 6px;
+  }
+
+  .note-list {
+    padding: 10px;
+  }
+
+  .delete-btn {
+    opacity: 1;
+  }
+
+  .editor-area {
+    flex: 1 1 auto;
+    border-left: none;
+  }
+
+  .editor-container {
+    padding: 0.85rem 0.95rem 1rem;
+    border-radius: 0;
+  }
+
+  .mobile-note-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0.9rem;
+
+    button {
+      all: unset;
+      color: #0a84ff;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    span {
+      min-width: 0;
+      font-size: 0.72rem;
+      color: rgba(255, 255, 255, 0.55);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .timestamp {
+    font-size: 11px;
+    margin-bottom: 12px;
+  }
+
+  .title-input {
+    font-size: 22px;
+  }
+
+  .content-input {
+    font-size: 15px;
+    line-height: 1.7;
+  }
 }

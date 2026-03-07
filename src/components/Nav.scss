@@ -22,3 +22,11 @@ nav {
 
   z-index: 1000;
 }
+
+@media (max-width: 768px) {
+  nav {
+    height: 44px;
+    padding: 0 0.45rem;
+    gap: 0.3rem;
+  }
+}

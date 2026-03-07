@@ -118,6 +118,7 @@
 
 .connect-wrapper {
   position: relative;
+  flex-shrink: 0;
 }
 
 .arrow {
@@ -430,6 +431,78 @@
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 768px) {
+  .left {
+    gap: 0.15rem;
+    flex: 1 1 auto;
+    min-width: 0;
+    max-width: calc(100vw - 124px);
+    overflow: visible;
+  }
+
+  .connect-wrapper {
+    position: relative;
+    z-index: 10002;
+  }
+
+  .left button {
+    height: 30px;
+    flex-shrink: 0;
+  }
+
+  .apple-icon img {
+    height: 1rem;
+    margin-bottom: 0.1rem;
+  }
+
+  .name-item {
+    display: none;
+  }
+
+  .menu-item {
+    font-size: 0.7rem;
+    padding: 0.24rem 0.34rem;
+  }
+
+  .connect-dropdown {
+    left: 0;
+    right: auto;
+    min-width: 132px;
+    top: calc(100% + 6px);
+  }
+
+  .connect-dropdown a {
+    font-size: 0.72rem;
+  }
+
+  .popover,
+  .help-card {
+    width: calc(100vw - 1.5rem);
+    max-width: 360px;
+  }
+
+  .popover {
+    padding: 0.95rem 1rem;
+  }
+
+  .popover .manos-info .msg {
+    white-space: normal;
+    line-height: 1.45;
+  }
+
+  .help-card {
+    padding: 1rem 1rem 1.1rem;
+  }
+
+  .help-card .help-header h3 {
+    font-size: 0.95rem;
+  }
+
+  .help-card .help-btn {
+    padding: 0.62rem 0.72rem;
   }
 }
 

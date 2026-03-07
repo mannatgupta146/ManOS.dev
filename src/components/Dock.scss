@@ -12,7 +12,7 @@
   border-radius: 0.75rem;
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  transition: all .35s ease;
+  transition: all 0.35s ease;
   box-shadow:
     0 20px 40px rgba(0, 0, 0, 0.45),
     inset 0 1px 0 rgba(255, 255, 255, 0.08);
@@ -137,5 +137,91 @@
 }
 
 .indicator.minimized {
-  background: rgba(255,255,255,.3);
+  background: rgba(255, 255, 255, 0.3);
+}
+
+@media (max-width: 900px) and (min-width: 641px) {
+  .dock {
+    width: max-content;
+    max-width: calc(100vw - 1rem);
+    bottom: 0.4rem;
+    padding-inline: 0.3rem;
+    padding-block: 0.26rem;
+    gap: 0.18rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    justify-content: flex-start;
+    border-radius: 0.82rem;
+    scrollbar-width: none;
+  }
+
+  .dock::-webkit-scrollbar {
+    display: none;
+  }
+
+  .dock img {
+    height: 1rem;
+  }
+
+  .dock .icon {
+    padding: 0.36rem;
+    border-radius: 0.66rem;
+    flex: 0 0 auto;
+  }
+
+  .dock .icon:hover,
+  .dock .icon:hover + .icon,
+  .dock .icon:has(+ .icon:hover) {
+    transform: none;
+    box-shadow: none;
+  }
+
+  .dock .icon::after {
+    display: none;
+  }
+
+  .indicator {
+    bottom: -2px;
+    height: 2px;
+  }
+}
+
+@media (max-width: 640px) {
+  .dock {
+    width: calc(100vw - 0.4rem);
+    max-width: none;
+    bottom: 0.35rem;
+    padding-inline: 0.22rem;
+    padding-block: 0.28rem;
+    gap: 0.1rem;
+    overflow: hidden;
+    justify-content: space-between;
+  }
+
+  .dock img {
+    height: 0.95rem;
+  }
+
+  .dock .icon {
+    padding: 0.32rem;
+    border-radius: 0.62rem;
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .dock .icon:hover,
+  .dock .icon:hover + .icon,
+  .dock .icon:has(+ .icon:hover) {
+    transform: none;
+    box-shadow: none;
+  }
+
+  .dock .icon::after {
+    display: none;
+  }
+
+  .indicator {
+    bottom: -2px;
+    height: 2px;
+  }
 }

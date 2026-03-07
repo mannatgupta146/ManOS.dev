@@ -10,14 +10,16 @@
 .status-wrap {
   position: relative;
 
-  &:hover .status-popover {
+  &:hover .status-popover,
+  &.open .status-popover {
     opacity: 1;
     transform: translate(-50%, 0);
     pointer-events: auto;
   }
 
   &.align-right {
-    &:hover .status-popover {
+    &:hover .status-popover,
+    &.open .status-popover {
       transform: translate(0, 0);
     }
 
@@ -179,5 +181,97 @@
     border-radius: 50%;
     background: #34c759;
     box-shadow: 0 0 4px rgba(52, 199, 89, 0.5);
+  }
+}
+
+@media (max-width: 768px) {
+  .right {
+    gap: 0.15rem;
+    flex-shrink: 0;
+  }
+
+  .status-wrap.primary {
+    display: none;
+  }
+
+  .status-btn {
+    height: 30px;
+    font-size: 0.74rem;
+    padding: 0.25rem 0.42rem;
+    gap: 0.28rem;
+  }
+
+  .status-btn i {
+    font-size: 0.9rem;
+  }
+
+  .status-popover {
+    top: calc(100% + 6px);
+    max-width: calc(100vw - 1rem);
+    padding: 0.45rem 0.6rem;
+  }
+
+  .status-wrap.align-right .status-popover {
+    right: 0;
+  }
+
+  .status-popover .title {
+    font-size: 0.72rem;
+  }
+
+  .status-popover .sub {
+    font-size: 0.62rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .right {
+    width: auto;
+    gap: 0;
+    justify-content: flex-end;
+    min-width: 0;
+  }
+
+  .status-wrap {
+    display: none;
+  }
+
+  .status-wrap:nth-child(2) {
+    display: block;
+
+    &.open .status-popover,
+    &:hover .status-popover {
+      transform: translate(0, 0);
+    }
+
+    .status-popover {
+      left: auto;
+      right: 0;
+      transform: translate(0, -6px);
+      max-width: min(180px, calc(100vw - 0.75rem));
+
+      .caret {
+        left: auto;
+        right: 14px;
+        transform: rotate(45deg);
+      }
+    }
+  }
+
+  .status-btn {
+    height: 28px;
+    font-size: 0.74rem;
+    padding: 0.2rem 0.32rem;
+    gap: 0.18rem;
+    border-radius: 0.34rem;
+  }
+
+  .status-btn i {
+    font-size: 0.86rem;
+  }
+
+  .status-btn .time-text {
+    font-size: 0.76rem;
+    font-weight: 600;
   }
 }

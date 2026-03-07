@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import "./NavRight.scss"
 import NotificationCenter from "./NotificationCenter"
 
@@ -6,6 +6,8 @@ const NavRight = () => {
   const [time, setTime] = useState("")
   const [date, setDate] = useState("")
   const [visits, setVisits] = useState(0)
+  const [openStatus, setOpenStatus] = useState(null)
+  const rightRef = useRef(null)
 
   // ⏰ TIME
   useEffect(() => {
@@ -52,40 +54,66 @@ const NavRight = () => {
     }
   }, [])
 
+  useEffect(() => {
+    const handleClick = (event) => {
+      if (rightRef.current && !rightRef.current.contains(event.target)) {
+        setOpenStatus(null)
+      }
+    }
+
+    document.addEventListener("mousedown", handleClick)
+    document.addEventListener("touchstart", handleClick)
+
+    return () => {
+      document.removeEventListener("mousedown", handleClick)
+      document.removeEventListener("touchstart", handleClick)
+    }
+  }, [])
+
   return (
-    <div className="right">
+    <div className="right" ref={rightRef}>
       {/* TIME (PRIMARY) */}
       <Status
+        statusKey="time"
         primary
         text={time}
         title={date}
         sub={`Session #${visits}`}
         accent="#0a84ff"
         accentIcon="ri-time-fill"
+        isOpen={openStatus === "time"}
+        onToggle={setOpenStatus}
       />
 
       {/* VISITS */}
       <Status
+        statusKey="visitors"
         icon="ri-user-line"
         text={visits}
         title="Visitors"
         sub={`${visits} total sessions`}
         accent="#ff9f0a"
         accentIcon="ri-group-fill"
+        isOpen={openStatus === "visitors"}
+        onToggle={setOpenStatus}
       />
 
       {/* WIFI */}
       <Status
+        statusKey="wifi"
         icon="ri-wifi-line"
         title="Wi-Fi"
         sub="Connected"
         className="wifi"
         accent="#34c759"
         accentIcon="ri-wifi-fill"
+        isOpen={openStatus === "wifi"}
+        onToggle={setOpenStatus}
       />
 
       {/* BATTERY */}
       <Status
+        statusKey="battery"
         icon="ri-battery-2-charge-line"
         title="Battery"
         sub="Fully Charged"
@@ -93,6 +121,8 @@ const NavRight = () => {
         accent="#34c759"
         accentIcon="ri-battery-2-charge-fill"
         alignRight
+        isOpen={openStatus === "battery"}
+        onToggle={setOpenStatus}
       />
 
       {/* NOTIFICATIONS */}
@@ -102,6 +132,7 @@ const NavRight = () => {
 }
 
 const Status = ({
+  statusKey,
   icon,
   text,
   title,
@@ -111,11 +142,19 @@ const Status = ({
   accent,
   accentIcon,
   alignRight,
+  isOpen,
+  onToggle,
 }) => (
   <div
-    className={`status-wrap ${primary ? "primary" : ""} ${alignRight ? "align-right" : ""}`}
+    className={`status-wrap ${primary ? "primary" : ""} ${alignRight ? "align-right" : ""} ${isOpen ? "open" : ""}`}
   >
-    <button className={`status-btn ${className}`}>
+    <button
+      className={`status-btn ${className}`}
+      onClick={(event) => {
+        event.stopPropagation()
+        onToggle(isOpen ? null : statusKey)
+      }}
+    >
       {icon && <i className={icon} />}
       {text !== undefined && text !== null && (
         <span className="time-text">{text}</span>
