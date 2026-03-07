@@ -189,7 +189,7 @@ const NavLeft = () => {
         <div className="overlay" onClick={closeAll}>
           <div className="apple-only" onClick={(e) => e.stopPropagation()}>
             <img src="/icons/apple.svg" alt="Apple" />
-            <span className="apple-label">ManOS v1.0</span>
+            <span className="apple-label">ManOS v1.0.69</span>
           </div>
         </div>
       )}
