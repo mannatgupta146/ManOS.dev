@@ -559,7 +559,26 @@
   .help-tips {
     display: flex;
     flex-direction: column;
+    gap: 0.7rem;
+  }
+
+  .help-tip-group {
+    display: flex;
+    flex-direction: column;
     gap: 0.45rem;
+    padding: 0.7rem 0.75rem;
+    border-radius: 0.75rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .help-tip-label {
+    margin: 0;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.45);
   }
 
   .help-btn {
@@ -618,15 +637,17 @@
 
   .help-tip {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 0.4rem;
     font-size: 0.68rem;
-    color: rgba(255, 255, 255, 0.35);
+    color: rgba(255, 255, 255, 0.48);
     margin: 0;
+    line-height: 1.45;
 
     i {
       font-size: 0.85rem;
-      color: rgba(255, 255, 255, 0.3);
+      color: rgba(255, 255, 255, 0.34);
+      margin-top: 0.04rem;
     }
 
     kbd {
@@ -636,6 +657,11 @@
       font-size: 0.62rem;
       font-family: "SF Mono", monospace;
       border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    span {
+      color: rgba(255, 255, 255, 0.36);
+      font-weight: 600;
     }
   }
 }

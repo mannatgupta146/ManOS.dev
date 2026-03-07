@@ -241,30 +241,29 @@ const NavLeft = () => {
             </div>
 
             <div className="help-tips">
-              <p className="help-tip">
-                <i className="ri-keyboard-line" /> Press <kbd>Ctrl</kbd> +{" "}
-                <kbd>K</kbd> to open Spotlight search
-              </p>
-              <p className="help-tip">
-                <i className="ri-search-line" /> On phone, tap the floating
-                clock to open Spotlight
-              </p>
-              <p className="help-tip">
-                <i className="ri-search-2-line" /> Or tap the search button
-                under the clock
-              </p>
-              <p className="help-tip">
-                <i className="ri-mouse-line" /> Right-click on the desktop to
-                open quick actions
-              </p>
-              <p className="help-tip">
-                <i className="ri-hand" /> On phone, long-press empty desktop
-                space for quick actions
-              </p>
-              <p className="help-tip">
-                <i className="ri-cursor-line" /> Or tap the quick-actions button
-                under the clock
-              </p>
+              <div className="help-tip-group">
+                <p className="help-tip-label">Desktop</p>
+                <p className="help-tip">
+                  <i className="ri-keyboard-line" /> Open Spotlight with{" "}
+                  <kbd>Ctrl</kbd> <span>+</span> <kbd>K</kbd>
+                </p>
+                <p className="help-tip">
+                  <i className="ri-mouse-line" /> Right-click the desktop for
+                  quick actions
+                </p>
+              </div>
+
+              <div className="help-tip-group">
+                <p className="help-tip-label">Phone / Tablet</p>
+                <p className="help-tip">
+                  <i className="ri-search-line" /> Tap the floating clock or the
+                  Search button for Spotlight
+                </p>
+                <p className="help-tip">
+                  <i className="ri-hand" /> Long-press the desktop or tap
+                  Actions for quick actions
+                </p>
+              </div>
             </div>
           </div>
         </div>
