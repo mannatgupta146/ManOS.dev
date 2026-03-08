@@ -1,5 +1,5 @@
 import { useState } from "react"
-import "./settings.scss"
+import "./Settings.scss"
 
 const getSavedSettings = () => {
   const saved = JSON.parse(localStorage.getItem("ui-settings") || "{}")
