@@ -12,6 +12,7 @@
 .desktop-menu {
   position: fixed;
   z-index: 9999;
+  pointer-events: auto;
   width: 220px;
   padding: 6px;
   border-radius: 12px;
@@ -101,7 +102,7 @@
     -webkit-backdrop-filter: blur(5px);
   }
 
-  .desktop-menu {
+  .desktop-menu-shell.touch .desktop-menu {
     position: relative;
     width: min(calc(100vw - 1.4rem), 360px);
     max-width: calc(100vw - 1.4rem);
@@ -115,7 +116,7 @@
     animation: touchMenuDrop 0.22s cubic-bezier(0.23, 1, 0.32, 1);
   }
 
-  .desktop-menu-header {
+  .desktop-menu-shell.touch .desktop-menu-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -128,7 +129,7 @@
     }
   }
 
-  .desktop-menu-kicker {
+  .desktop-menu-shell.touch .desktop-menu-kicker {
     font-size: 0.62rem;
     font-weight: 700;
     letter-spacing: 0.14em;
@@ -136,7 +137,7 @@
     color: rgba(255, 255, 255, 0.44);
   }
 
-  .desktop-menu-header h3 {
+  .desktop-menu-shell.touch .desktop-menu-header h3 {
     margin-top: 4px;
     font-size: 0.98rem;
     font-weight: 620;
@@ -144,7 +145,7 @@
     letter-spacing: -0.02em;
   }
 
-  .desktop-menu-close {
+  .desktop-menu-shell.touch .desktop-menu-close {
     width: 34px;
     height: 34px;
     border: none;
@@ -160,23 +161,23 @@
       transform 0.18s ease;
   }
 
-  .desktop-menu-close:hover,
-  .desktop-menu-close:focus-visible {
+  .desktop-menu-shell.touch .desktop-menu-close:hover,
+  .desktop-menu-shell.touch .desktop-menu-close:focus-visible {
     background: rgba(255, 255, 255, 0.12);
     outline: none;
   }
 
-  .desktop-menu-close:active {
+  .desktop-menu-shell.touch .desktop-menu-close:active {
     transform: scale(0.96);
   }
 
-  .desktop-menu-list {
+  .desktop-menu-shell.touch .desktop-menu-list {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 8px;
   }
 
-  .desktop-menu .menu-item {
+  .desktop-menu-shell.touch .desktop-menu .menu-item {
     min-height: 72px;
     padding: 10px 8px;
     border-radius: 14px;
@@ -189,7 +190,7 @@
     text-align: center;
   }
 
-  .desktop-menu .menu-item i {
+  .desktop-menu-shell.touch .desktop-menu .menu-item i {
     width: 30px;
     height: 30px;
     border-radius: 10px;
@@ -201,13 +202,13 @@
     background: rgba(255, 255, 255, 0.07);
   }
 
-  .desktop-menu .menu-item span {
+  .desktop-menu-shell.touch .desktop-menu .menu-item span {
     display: block;
     line-height: 1.2;
     text-wrap: balance;
   }
 
-  .desktop-menu .menu-divider {
+  .desktop-menu-shell.touch .desktop-menu .menu-divider {
     display: none;
   }
 }
@@ -221,43 +222,43 @@
     padding-top: 112px;
   }
 
-  .desktop-menu {
+  .desktop-menu-shell.touch .desktop-menu {
     width: min(calc(100vw - 1rem), 352px);
     max-width: calc(100vw - 1rem);
     padding: 9px;
     border-radius: 22px;
   }
 
-  .desktop-menu-header {
+  .desktop-menu-shell.touch .desktop-menu-header {
     padding: 3px 3px 8px;
   }
 
-  .desktop-menu-kicker {
+  .desktop-menu-shell.touch .desktop-menu-kicker {
     font-size: 0.58rem;
     letter-spacing: 0.12em;
   }
 
-  .desktop-menu-header h3 {
+  .desktop-menu-shell.touch .desktop-menu-header h3 {
     font-size: 0.92rem;
   }
 
-  .desktop-menu-close {
+  .desktop-menu-shell.touch .desktop-menu-close {
     width: 32px;
     height: 32px;
   }
 
-  .desktop-menu-list {
+  .desktop-menu-shell.touch .desktop-menu-list {
     gap: 7px;
   }
 
-  .desktop-menu .menu-item {
+  .desktop-menu-shell.touch .desktop-menu .menu-item {
     min-height: 66px;
     padding: 9px 7px;
     font-size: 0.8rem;
     gap: 7px;
   }
 
-  .desktop-menu .menu-item i {
+  .desktop-menu-shell.touch .desktop-menu .menu-item i {
     width: 28px;
     height: 28px;
     font-size: 15px;

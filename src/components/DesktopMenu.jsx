@@ -27,11 +27,24 @@ export default function DesktopMenu({ x, y, onAction, onClose }) {
   const menuRef = useRef(null)
   const [pos, setPos] = useState({ left: x, top: y })
   const [viewportWidth, setViewportWidth] = useState(window.innerWidth)
+  const [hasCoarsePointer, setHasCoarsePointer] = useState(
+    () => window.matchMedia("(pointer: coarse)").matches,
+  )
 
   useEffect(() => {
     const handleResize = () => setViewportWidth(window.innerWidth)
     window.addEventListener("resize", handleResize)
     return () => window.removeEventListener("resize", handleResize)
+  }, [])
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(pointer: coarse)")
+    const updatePointerMode = (event) => setHasCoarsePointer(event.matches)
+
+    setHasCoarsePointer(mediaQuery.matches)
+    mediaQuery.addEventListener("change", updatePointerMode)
+
+    return () => mediaQuery.removeEventListener("change", updatePointerMode)
   }, [])
 
   useEffect(() => {
@@ -73,8 +86,9 @@ export default function DesktopMenu({ x, y, onAction, onClose }) {
     return () => window.removeEventListener("keydown", handleKeyDown)
   }, [onClose])
 
-  const isMobile = viewportWidth <= 768
-  const isTablet = viewportWidth > 768 && viewportWidth <= 1024
+  const isMobile = hasCoarsePointer && viewportWidth <= 768
+  const isTablet =
+    hasCoarsePointer && viewportWidth > 768 && viewportWidth <= 1024
   const isTouchLayout = isMobile || isTablet
   const menuStyle = isTouchLayout ? undefined : { top: pos.top, left: pos.left }
 

@@ -35,6 +35,7 @@ const APP_OPEN_SOUNDS = {
 export default function Desktop({ mobileMenuRequest = 0 }) {
   const STORAGE_KEY = "desktop_layout"
   const WALL_KEY = "desktop_wallpaper"
+  const WALL_QUEUE_KEY = "desktop_wallpaper_queue"
 
   /* ---------------- Z INDEX ---------------- */
 
@@ -100,17 +101,6 @@ export default function Desktop({ mobileMenuRequest = 0 }) {
       window.removeEventListener("openSpotlight", handleSpotlightOpen)
     }
   }, [])
-
-  const showToast = (msg) => {
-    if (window.notify) {
-      window.notify({
-        title: msg.split(" ").slice(0, 3).join(" "),
-        message: msg,
-        type: "info",
-        duration: 4000,
-      })
-    }
-  }
 
   const lockScreen = () => {
     playSound("lock")
@@ -184,7 +174,48 @@ export default function Desktop({ mobileMenuRequest = 0 }) {
     "https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=1920",
     "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1920",
     "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=1920",
+    "https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1920",
+    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920",
+    "https://images.unsplash.com/photo-1473186578172-c141e6798cf4?w=1920",
+    "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1920",
+    "https://images.unsplash.com/photo-1500534623283-312aade485b7?w=1920",
+    "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1920",
   ]
+
+  const shuffleWallpapers = (items, currentWallpaper) => {
+    const shuffled = [...items]
+
+    for (let index = shuffled.length - 1; index > 0; index -= 1) {
+      const swapIndex = Math.floor(Math.random() * (index + 1))
+      ;[shuffled[index], shuffled[swapIndex]] = [
+        shuffled[swapIndex],
+        shuffled[index],
+      ]
+    }
+
+    if (shuffled.length > 1 && shuffled[0] === currentWallpaper) {
+      ;[shuffled[0], shuffled[1]] = [shuffled[1], shuffled[0]]
+    }
+
+    return shuffled
+  }
+
+  const getNextWallpaper = () => {
+    const currentWallpaper = localStorage.getItem(WALL_KEY)
+    const savedQueue = JSON.parse(localStorage.getItem(WALL_QUEUE_KEY) || "[]")
+    const validQueue = savedQueue.filter((item) => wallpapers.includes(item))
+
+    let queue = validQueue.filter((item) => item !== currentWallpaper)
+
+    if (queue.length === 0) {
+      queue = shuffleWallpapers(wallpapers, currentWallpaper)
+    }
+
+    const nextWallpaper = queue[0] || wallpapers[0]
+    localStorage.setItem(WALL_QUEUE_KEY, JSON.stringify(queue.slice(1)))
+
+    return nextWallpaper
+  }
 
   const applyWallpaper = (img) => {
     requestAnimationFrame(() => {
@@ -199,7 +230,7 @@ export default function Desktop({ mobileMenuRequest = 0 }) {
   }
 
   const changeWallpaper = () => {
-    const img = wallpapers[Math.floor(Math.random() * wallpapers.length)]
+    const img = getNextWallpaper()
 
     playSound("wallpaper")
     applyWallpaper(img)
@@ -286,9 +317,9 @@ export default function Desktop({ mobileMenuRequest = 0 }) {
           if (window.notify) {
             window.notify({
               title: "No tabs open",
-              message: "There are no tabs to close",
+              message: "There are no tabs to close.",
               type: "info",
-              duration: 4000,
+              duration: 3000,
             })
           }
         } else {
@@ -324,7 +355,6 @@ export default function Desktop({ mobileMenuRequest = 0 }) {
 
       case "settings":
         openApp("settings")
-        showToast("Settings opened ⚙️")
         break
 
       case "dock-toggle":
@@ -353,6 +383,7 @@ export default function Desktop({ mobileMenuRequest = 0 }) {
     if (!sessionStorage.getItem("manos-session")) {
       localStorage.removeItem(STORAGE_KEY)
       localStorage.removeItem(WALL_KEY) // reset wallpaper on new session
+      localStorage.removeItem(WALL_QUEUE_KEY)
       return null
     }
     const saved = localStorage.getItem(STORAGE_KEY)
@@ -419,9 +450,28 @@ export default function Desktop({ mobileMenuRequest = 0 }) {
   }
 
   const closeApp = (app, silent = false) => {
-    setApps((prev) => ({ ...prev, [app]: "closed" }))
+    const nextApps = { ...apps, [app]: "closed" }
+    const remainingOpenApps = Object.values(nextApps).filter(
+      (state) => state === "open" || state === "minimized",
+    )
+
+    setApps(nextApps)
     localStorage.removeItem(`window_${app}`)
     playSound("close")
+
+    if (
+      !silent &&
+      app !== "settings" &&
+      remainingOpenApps.length === 0 &&
+      window.notify
+    ) {
+      window.notify({
+        title: "All tabs closed",
+        message: "There are no open tabs left.",
+        type: "success",
+        duration: 3200,
+      })
+    }
   }
 
   useEffect(() => {
@@ -446,6 +496,7 @@ export default function Desktop({ mobileMenuRequest = 0 }) {
     // Clear storage
     localStorage.removeItem(STORAGE_KEY)
     localStorage.removeItem(WALL_KEY)
+    localStorage.removeItem(WALL_QUEUE_KEY)
     localStorage.removeItem("ui-settings")
 
     // Reset wallpaper visually
@@ -480,6 +531,16 @@ export default function Desktop({ mobileMenuRequest = 0 }) {
     setZMap({})
     setTopZ(20)
     setMenu(null)
+
+    playSound("close-all")
+    if (window.notify) {
+      window.notify({
+        title: "All tabs closed",
+        message: "All tabs have been closed.",
+        type: "success",
+        duration: 3200,
+      })
+    }
   }
 
   const renderApp = (Component, key) =>

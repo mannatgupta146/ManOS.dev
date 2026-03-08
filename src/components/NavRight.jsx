@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react"
 import "./NavRight.scss"
-import NotificationCenter from "./NotificationCenter"
 
 const NavRight = () => {
   const [time, setTime] = useState("")
@@ -124,9 +123,6 @@ const NavRight = () => {
         isOpen={openStatus === "battery"}
         onToggle={setOpenStatus}
       />
-
-      {/* NOTIFICATIONS */}
-      <NotificationCenter />
     </div>
   )
 }
