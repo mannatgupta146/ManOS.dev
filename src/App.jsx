@@ -36,21 +36,10 @@ const App = () => {
     <main>
       <NotificationCenter />
       <div className="mobile-ambient-shell" aria-hidden="false">
-        <button
-          className="mobile-ambient-time"
-          type="button"
-          aria-label="Open Spotlight"
-          onClick={() =>
-            window.dispatchEvent(
-              new CustomEvent("openSpotlight", {
-                detail: { source: "button" },
-              }),
-            )
-          }
-        >
+        <div className="mobile-ambient-time" aria-label="Current time and date">
           <div className="mobile-ambient-time__time">{mobileTime}</div>
           <div className="mobile-ambient-time__date">{mobileDate}</div>
-        </button>
+        </div>
 
         <div className="mobile-ambient-actions">
           <button

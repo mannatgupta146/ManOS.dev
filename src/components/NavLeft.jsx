@@ -256,12 +256,11 @@ const NavLeft = () => {
               <div className="help-tip-group">
                 <p className="help-tip-label">Phone / Tablet</p>
                 <p className="help-tip">
-                  <i className="ri-search-line" /> Tap the floating clock or the
-                  Search button for Spotlight
+                  <i className="ri-search-line" /> Tap the Search button for
+                  Spotlight
                 </p>
                 <p className="help-tip">
-                  <i className="ri-hand" /> Long-press the desktop or tap
-                  Actions for quick actions
+                  <i className="ri-more-2-fill" /> Tap Actions for quick actions
                 </p>
               </div>
             </div>

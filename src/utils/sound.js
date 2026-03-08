@@ -209,7 +209,12 @@ const SOUND_PATTERNS = {
 
 const isSoundEnabled = () => {
   const settings = JSON.parse(localStorage.getItem("ui-settings") || "{}")
-  return settings.sound !== false
+  return settings.sound !== false && (settings.soundLevel ?? 100) > 0
+}
+
+const getSoundLevel = () => {
+  const settings = JSON.parse(localStorage.getItem("ui-settings") || "{}")
+  return Math.min(100, Math.max(0, settings.soundLevel ?? 100))
 }
 
 const getAudioContext = () => {
@@ -252,6 +257,8 @@ const getOutputNode = (context) => {
 
     outputChain = { lowpass, compressor, masterGain }
   }
+
+  outputChain.masterGain.gain.value = 1.18 * (getSoundLevel() / 100)
 
   return outputChain.lowpass
 }
