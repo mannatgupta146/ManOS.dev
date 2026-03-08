@@ -158,9 +158,9 @@ export default function Desktop({ mobileMenuRequest = 0 }) {
 
   const [menu, setMenu] = useState(null)
 
-  const openMenuAt = (x, y) => {
+  const openMenuAt = (x, y, source = "context") => {
     playSound("menu")
-    setMenu({ x, y })
+    setMenu({ x, y, source })
   }
 
   const handleRightClick = (e) => {
@@ -339,7 +339,12 @@ export default function Desktop({ mobileMenuRequest = 0 }) {
       return
     }
 
-    openMenuAt(window.innerWidth - 24, 104)
+    if (menu?.source === "mobile-actions") {
+      closeMenu()
+      return
+    }
+
+    openMenuAt(mobileMenuRequest.x, mobileMenuRequest.y, "mobile-actions")
   }, [mobileMenuRequest, locked])
 
   /* ---------------- LOAD SESSION ---------------- */
@@ -510,7 +515,12 @@ export default function Desktop({ mobileMenuRequest = 0 }) {
       {!locked && <Dock apps={apps} openApp={openApp} />}
 
       {menu && (
-        <DesktopMenu x={menu.x} y={menu.y} onAction={handleMenuAction} />
+        <DesktopMenu
+          x={menu.x}
+          y={menu.y}
+          onAction={handleMenuAction}
+          onClose={closeMenu}
+        />
       )}
 
       {locked && <LockScreen onUnlock={unlockScreen} />}

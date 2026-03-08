@@ -1,3 +1,14 @@
+.desktop-menu-shell {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
+
+.desktop-menu-backdrop,
+.desktop-menu-header {
+  display: none;
+}
+
 .desktop-menu {
   position: fixed;
   z-index: 9999;
@@ -9,48 +20,258 @@
   backdrop-filter: blur(22px) saturate(180%);
   -webkit-backdrop-filter: blur(22px) saturate(180%);
 
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 
   box-shadow:
-    0 20px 40px rgba(0,0,0,0.45),
-    0 4px 12px rgba(0,0,0,0.25);
+    0 20px 40px rgba(0, 0, 0, 0.45),
+    0 4px 12px rgba(0, 0, 0, 0.25);
 
-  animation: menuFade .15s ease;
+  animation: menuFade 0.15s ease;
 }
 
 @keyframes menuFade {
-  from { opacity: 0; transform: scale(.96) translateY(-4px); }
-  to { opacity: 1; transform: scale(1); }
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 /* item */
-.menu-item {
+.desktop-menu-list {
+  display: block;
+}
+
+.desktop-menu .menu-item {
   display: flex;
   align-items: center;
   gap: 12px;
+  width: 100%;
+  border: none;
 
   padding: 10px 12px;
   border-radius: 8px;
 
+  background: transparent;
   font-size: 14px;
+  font-weight: 500;
   color: #f5f5f7;
+  text-align: left;
 
-  cursor: default;
-  transition: background .15s ease;
+  cursor: pointer;
+  transition: background 0.15s ease;
 }
 
-.menu-item i {
+.desktop-menu .menu-item i {
   font-size: 18px;
-  color: rgba(255,255,255,0.8);
+  color: rgba(255, 255, 255, 0.8);
 }
 
-.menu-item:hover {
-  background: rgba(255,255,255,0.08);
+.desktop-menu .menu-item:hover {
+  background: rgba(255, 255, 255, 0.08);
 }
 
 /* divider */
-.menu-divider {
+.desktop-menu .menu-divider {
   height: 1px;
   margin: 6px 4px;
-  background: rgba(255,255,255,0.08);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+@media (max-width: 1024px) {
+  .desktop-menu-shell.touch {
+    z-index: 120;
+    pointer-events: auto;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 86px;
+  }
+
+  .desktop-menu-shell.touch .desktop-menu-backdrop {
+    position: absolute;
+    inset: 0;
+    display: block;
+    border: none;
+    background: rgba(2, 5, 12, 0.18);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+  }
+
+  .desktop-menu {
+    position: relative;
+    width: min(calc(100vw - 1.4rem), 360px);
+    max-width: calc(100vw - 1.4rem);
+    padding: 10px;
+    border-radius: 20px;
+    background: rgba(28, 28, 30, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow:
+      0 26px 56px rgba(0, 0, 0, 0.38),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    animation: touchMenuDrop 0.22s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .desktop-menu-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 4px 4px 10px;
+
+    h3,
+    p {
+      margin: 0;
+    }
+  }
+
+  .desktop-menu-kicker {
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.44);
+  }
+
+  .desktop-menu-header h3 {
+    margin-top: 4px;
+    font-size: 0.98rem;
+    font-weight: 620;
+    color: #fff;
+    letter-spacing: -0.02em;
+  }
+
+  .desktop-menu-close {
+    width: 34px;
+    height: 34px;
+    border: none;
+    border-radius: 11px;
+    background: rgba(255, 255, 255, 0.07);
+    color: rgba(255, 255, 255, 0.88);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition:
+      background 0.18s ease,
+      transform 0.18s ease;
+  }
+
+  .desktop-menu-close:hover,
+  .desktop-menu-close:focus-visible {
+    background: rgba(255, 255, 255, 0.12);
+    outline: none;
+  }
+
+  .desktop-menu-close:active {
+    transform: scale(0.96);
+  }
+
+  .desktop-menu-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .desktop-menu .menu-item {
+    min-height: 72px;
+    padding: 10px 8px;
+    border-radius: 14px;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.03);
+    font-size: 0.84rem;
+    font-weight: 500;
+    text-align: center;
+  }
+
+  .desktop-menu .menu-item i {
+    width: 30px;
+    height: 30px;
+    border-radius: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.07);
+  }
+
+  .desktop-menu .menu-item span {
+    display: block;
+    line-height: 1.2;
+    text-wrap: balance;
+  }
+
+  .desktop-menu .menu-divider {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .desktop-menu-shell.touch .desktop-menu-backdrop {
+    inset: 0;
+  }
+
+  .desktop-menu-shell.touch {
+    padding-top: 112px;
+  }
+
+  .desktop-menu {
+    width: min(calc(100vw - 1rem), 352px);
+    max-width: calc(100vw - 1rem);
+    padding: 9px;
+    border-radius: 22px;
+  }
+
+  .desktop-menu-header {
+    padding: 3px 3px 8px;
+  }
+
+  .desktop-menu-kicker {
+    font-size: 0.58rem;
+    letter-spacing: 0.12em;
+  }
+
+  .desktop-menu-header h3 {
+    font-size: 0.92rem;
+  }
+
+  .desktop-menu-close {
+    width: 32px;
+    height: 32px;
+  }
+
+  .desktop-menu-list {
+    gap: 7px;
+  }
+
+  .desktop-menu .menu-item {
+    min-height: 66px;
+    padding: 9px 7px;
+    font-size: 0.8rem;
+    gap: 7px;
+  }
+
+  .desktop-menu .menu-item i {
+    width: 28px;
+    height: 28px;
+    font-size: 15px;
+  }
+}
+
+@keyframes touchMenuDrop {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }

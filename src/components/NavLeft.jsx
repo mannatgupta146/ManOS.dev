@@ -206,8 +206,19 @@ const NavLeft = () => {
         <div className="overlay" onClick={closeAll}>
           <div className="help-card" onClick={(e) => e.stopPropagation()}>
             <div className="help-header">
-              <i className="ri-questionnaire-line" />
-              <h3>Welcome to ManOS</h3>
+              <div className="help-header-main">
+                <i className="ri-questionnaire-line" />
+                <h3>Welcome to ManOS</h3>
+              </div>
+
+              <button
+                className="help-close"
+                type="button"
+                aria-label="Close help"
+                onClick={closeAll}
+              >
+                <i className="ri-close-line" />
+              </button>
             </div>
 
             <p className="help-desc">

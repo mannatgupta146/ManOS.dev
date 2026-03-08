@@ -7,7 +7,7 @@ import NotificationCenter from "./components/NotificationCenter"
 const App = () => {
   const [mobileTime, setMobileTime] = useState("")
   const [mobileDate, setMobileDate] = useState("")
-  const [mobileMenuRequest, setMobileMenuRequest] = useState(0)
+  const [mobileMenuRequest, setMobileMenuRequest] = useState(null)
 
   useEffect(() => {
     const update = () => {
@@ -62,7 +62,15 @@ const App = () => {
             className="mobile-ambient-action"
             type="button"
             aria-label="Open quick actions"
-            onClick={() => setMobileMenuRequest((value) => value + 1)}
+            onClick={(event) => {
+              const rect = event.currentTarget.getBoundingClientRect()
+
+              setMobileMenuRequest({
+                id: Date.now(),
+                x: rect.left + rect.width / 2,
+                y: rect.bottom + 10,
+              })
+            }}
           >
             <i className="ri-more-2-fill" />
             <span>Actions</span>
