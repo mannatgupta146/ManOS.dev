@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useEffect, useLayoutEffect, useState } from "react"
 import Dock from "../Dock"
 import DesktopMenu from "../DesktopMenu"
 import Spotlight from "../Spotlight"
@@ -50,11 +50,15 @@ export default function Desktop({ mobileMenuRequest = 0 }) {
     playSound(source === "shortcut" ? "spotlight-shortcut" : "spotlight")
   }
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const applySettings = () => {
       const saved = JSON.parse(localStorage.getItem("ui-settings") || "{}")
 
-      document.body.classList.toggle("focus-mode", saved.focusMode)
+      if (saved.focusMode) {
+        document.body.classList.add("focus-mode")
+      } else {
+        document.body.classList.remove("focus-mode")
+      }
 
       const brightness = saved.brightness ?? 100
       document.documentElement.style.setProperty(
@@ -67,6 +71,10 @@ export default function Desktop({ mobileMenuRequest = 0 }) {
 
     window.addEventListener("settingsUpdated", applySettings)
     return () => window.removeEventListener("settingsUpdated", applySettings)
+  }, [])
+
+  useLayoutEffect(() => {
+    document.body.classList.remove("dock-hidden")
   }, [])
 
   /* Keyboard Shortcuts */
@@ -384,18 +392,6 @@ export default function Desktop({ mobileMenuRequest = 0 }) {
       localStorage.removeItem(STORAGE_KEY)
       localStorage.removeItem(WALL_KEY) // reset wallpaper on new session
       localStorage.removeItem(WALL_QUEUE_KEY)
-
-      const savedSettings = JSON.parse(
-        localStorage.getItem("ui-settings") || "{}",
-      )
-      if (savedSettings.focusMode) {
-        localStorage.setItem(
-          "ui-settings",
-          JSON.stringify({ ...savedSettings, focusMode: false }),
-        )
-      }
-
-      document.body.classList.remove("focus-mode", "dock-hidden")
       return null
     }
     const saved = localStorage.getItem(STORAGE_KEY)
