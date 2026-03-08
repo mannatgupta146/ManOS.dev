@@ -384,6 +384,16 @@ export default function Desktop({ mobileMenuRequest = 0 }) {
       localStorage.removeItem(STORAGE_KEY)
       localStorage.removeItem(WALL_KEY) // reset wallpaper on new session
       localStorage.removeItem(WALL_QUEUE_KEY)
+
+      const savedSettings = JSON.parse(localStorage.getItem("ui-settings") || "{}")
+      if (savedSettings.focusMode) {
+        localStorage.setItem(
+          "ui-settings",
+          JSON.stringify({ ...savedSettings, focusMode: false }),
+        )
+      }
+
+      document.body.classList.remove("focus-mode", "dock-hidden")
       return null
     }
     const saved = localStorage.getItem(STORAGE_KEY)
