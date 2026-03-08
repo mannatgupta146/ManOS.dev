@@ -40,7 +40,13 @@ const App = () => {
           className="mobile-ambient-time"
           type="button"
           aria-label="Open Spotlight"
-          onClick={() => window.dispatchEvent(new CustomEvent("openSpotlight"))}
+          onClick={() =>
+            window.dispatchEvent(
+              new CustomEvent("openSpotlight", {
+                detail: { source: "button" },
+              }),
+            )
+          }
         >
           <div className="mobile-ambient-time__time">{mobileTime}</div>
           <div className="mobile-ambient-time__date">{mobileDate}</div>
@@ -52,7 +58,11 @@ const App = () => {
             type="button"
             aria-label="Open Spotlight"
             onClick={() =>
-              window.dispatchEvent(new CustomEvent("openSpotlight"))
+              window.dispatchEvent(
+                new CustomEvent("openSpotlight", {
+                  detail: { source: "button" },
+                }),
+              )
             }
           >
             <i className="ri-search-line" />

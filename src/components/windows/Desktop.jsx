@@ -18,6 +18,20 @@ import Settings from "./Settings"
 
 import { playSound } from "../../utils/sound.js"
 
+const APP_OPEN_SOUNDS = {
+  terminal: "app-terminal",
+  calendar: "app-calendar",
+  mail: "app-mail",
+  github: "app-github",
+  resume: "app-resume",
+  notes: "app-notes",
+  code: "app-code",
+  spotify: "app-spotify",
+  camera: "app-camera",
+  gallery: "app-gallery",
+  settings: "app-settings",
+}
+
 export default function Desktop({ mobileMenuRequest = 0 }) {
   const STORAGE_KEY = "desktop_layout"
   const WALL_KEY = "desktop_wallpaper"
@@ -31,6 +45,11 @@ export default function Desktop({ mobileMenuRequest = 0 }) {
   const [locked, setLocked] = useState(false)
 
   const [spotlightOpen, setSpotlightOpen] = useState(false)
+
+  const openSpotlight = (source = "button") => {
+    setSpotlightOpen(true)
+    playSound(source === "shortcut" ? "spotlight-shortcut" : "spotlight")
+  }
 
   useEffect(() => {
     const applySettings = () => {
@@ -57,7 +76,7 @@ export default function Desktop({ mobileMenuRequest = 0 }) {
       // Cmd+K or Ctrl+K for Spotlight
       if ((e.metaKey || e.ctrlKey) && e.key === "k") {
         e.preventDefault()
-        setSpotlightOpen(true)
+        openSpotlight("shortcut")
       }
     }
 
@@ -72,8 +91,8 @@ export default function Desktop({ mobileMenuRequest = 0 }) {
       handleMenuAction(action)
     }
 
-    const handleSpotlightOpen = () => {
-      setSpotlightOpen(true)
+    const handleSpotlightOpen = (e) => {
+      openSpotlight(e.detail?.source)
     }
 
     window.addEventListener("spotlightAction", handleSpotlightAction)
@@ -85,7 +104,6 @@ export default function Desktop({ mobileMenuRequest = 0 }) {
   }, [])
 
   const showToast = (msg) => {
-    playSound("notify")
     if (window.notify) {
       window.notify({
         title: msg.split(" ").slice(0, 3).join(" "),
@@ -97,6 +115,7 @@ export default function Desktop({ mobileMenuRequest = 0 }) {
   }
 
   const lockScreen = () => {
+    playSound("lock")
     setLocked(true)
     if (window.notify) {
       window.notify({
@@ -117,6 +136,7 @@ export default function Desktop({ mobileMenuRequest = 0 }) {
       setApps(closed)
     }
 
+    playSound("unlock")
     setLocked(false)
     if (window.notify) {
       window.notify({
@@ -141,6 +161,7 @@ export default function Desktop({ mobileMenuRequest = 0 }) {
   const [menu, setMenu] = useState(null)
 
   const openMenuAt = (x, y) => {
+    playSound("menu")
     setMenu({ x, y })
   }
 
@@ -218,6 +239,7 @@ export default function Desktop({ mobileMenuRequest = 0 }) {
   const changeWallpaper = () => {
     const img = wallpapers[Math.floor(Math.random() * wallpapers.length)]
 
+    playSound("wallpaper")
     applyWallpaper(img)
     localStorage.setItem(WALL_KEY, img)
     if (window.notify) {
@@ -242,6 +264,7 @@ export default function Desktop({ mobileMenuRequest = 0 }) {
 
     switch (action) {
       case "refresh":
+        playSound("refresh")
         document.body.classList.add("refresh-anim")
         setTimeout(() => document.body.classList.remove("refresh-anim"), 800)
         if (window.notify) {
@@ -275,6 +298,7 @@ export default function Desktop({ mobileMenuRequest = 0 }) {
         break
 
       case "show-desktop":
+        playSound("show-desktop")
         Object.keys(apps).forEach(minimizeApp)
         if (window.notify) {
           window.notify({
@@ -296,6 +320,7 @@ export default function Desktop({ mobileMenuRequest = 0 }) {
         )
 
         if (openWindows.length === 0) {
+          playSound("empty")
           if (window.notify) {
             window.notify({
               title: "No tabs open",
@@ -322,6 +347,7 @@ export default function Desktop({ mobileMenuRequest = 0 }) {
 
           setZMap({})
           setTopZ(20)
+          playSound("close-all")
 
           if (window.notify) {
             window.notify({
@@ -340,6 +366,7 @@ export default function Desktop({ mobileMenuRequest = 0 }) {
         break
 
       case "dock-toggle":
+        playSound("dock-toggle")
         document.body.classList.toggle("dock-hidden")
         break
     }
@@ -392,10 +419,10 @@ export default function Desktop({ mobileMenuRequest = 0 }) {
 
   /* ---------------- APP STATE ---------------- */
 
-  const openApp = (app) => {
+  const openApp = (app, source = "system") => {
     focusApp(app)
     setApps((prev) => ({ ...prev, [app]: "open" }))
-    playSound("open")
+    playSound(source === "dock" ? "dock-open" : APP_OPEN_SOUNDS[app] || "open")
     if (window.notify) {
       const appNames = {
         terminal: "Terminal",
@@ -408,6 +435,7 @@ export default function Desktop({ mobileMenuRequest = 0 }) {
         spotify: "Spotify",
         camera: "Camera",
         gallery: "Gallery",
+        settings: "Settings",
       }
       window.notify({
         title: appNames[app] || app,
@@ -418,9 +446,9 @@ export default function Desktop({ mobileMenuRequest = 0 }) {
     }
   }
 
-  const minimizeApp = (app) => {
+  const minimizeApp = (app, source = "system") => {
     setApps((prev) => ({ ...prev, [app]: "minimized" }))
-    playSound("minimize")
+    playSound(source === "dock" ? "dock-close" : "minimize")
   }
 
   const closeApp = (app, silent = false) => {
@@ -430,7 +458,15 @@ export default function Desktop({ mobileMenuRequest = 0 }) {
   }
 
   useEffect(() => {
-    const handler = (e) => minimizeApp(e.detail)
+    const handler = (e) => {
+      if (typeof e.detail === "string") {
+        minimizeApp(e.detail)
+        return
+      }
+
+      minimizeApp(e.detail.app, e.detail.source)
+    }
+
     window.addEventListener("minimizeApp", handler)
     return () => window.removeEventListener("minimizeApp", handler)
   }, [])

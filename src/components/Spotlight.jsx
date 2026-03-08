@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react"
 import "./Spotlight.scss"
+import { playSound } from "../utils/sound.js"
 
 const Spotlight = ({ isOpen, onClose, apps, openApp }) => {
   const [query, setQuery] = useState("")
@@ -111,6 +112,7 @@ const Spotlight = ({ isOpen, onClose, apps, openApp }) => {
         const updated = { ...saved, focusMode: newVal }
         localStorage.setItem("ui-settings", JSON.stringify(updated))
         document.body.classList.toggle("focus-mode", newVal)
+        playSound(newVal ? "focus-on" : "focus-off")
         window.dispatchEvent(new Event("settingsUpdated"))
         break
       case "refresh":
