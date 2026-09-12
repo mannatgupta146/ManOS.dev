@@ -1,5 +1,6 @@
 # ManOS.dev
 
+
 ManOS.dev is a macOS-inspired interactive portfolio built with React and Vite. Instead of presenting information as a conventional single-page portfolio, it turns the portfolio into a small desktop environment with windows, system actions, search, notifications, built-in apps, and touch-friendly mobile behavior.
 
 The goal of the project is not only to show projects and contact details, but to present them through an experience that feels memorable, tactile, and personal.
