@@ -1,16 +1,16 @@
 .dock {
   display: flex;
   align-items: flex-end;
-  gap: 0.7rem;
+  gap: 1.15rem;
   position: fixed;
   z-index: 1000;
   bottom: 1rem;
   left: 50%;
   transform: translate(-50%);
   background: rgba(40, 40, 42, 0.7);
-  padding-inline: 0.75rem;
-  padding-block: 0.4rem;
-  border-radius: 0.75rem;
+  padding-inline: 1rem;
+  padding-block: 0.45rem;
+  border-radius: 0.85rem;
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   transition: all 0.35s ease;
@@ -24,7 +24,7 @@
 
   .icon {
     position: relative;
-    padding: 0.65rem;
+    padding: 0.5rem;
     border-radius: 0.85rem;
     display: flex;
     align-items: center;

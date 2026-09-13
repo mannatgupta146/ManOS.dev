@@ -4,6 +4,7 @@ import "./NotificationCenter.scss"
 const NotificationCenter = () => {
   const [notifications, setNotifications] = useState([])
   const notificationIdRef = useRef(0)
+  const lastShownRef = useRef({})
 
   const removeNotification = useCallback((id) => {
     // mark as removing first
@@ -19,8 +20,20 @@ const NotificationCenter = () => {
 
   const addNotification = useCallback(
     (notification) => {
+      const now = Date.now()
+      const cooldownKey = notification.key || notification.title || "default"
+      const cooldownTime = notification.cooldownMs || 4000
+
+      const lastTime = lastShownRef.current[cooldownKey] || 0
+      if (now - lastTime < cooldownTime) {
+        // Suppress duplicate notification during cooldown period
+        return null
+      }
+
+      lastShownRef.current[cooldownKey] = now
+
       notificationIdRef.current += 1
-      const id = `notif-${Date.now()}-${notificationIdRef.current}`
+      const id = `notif-${now}-${notificationIdRef.current}`
 
       const newNotif = {
         id,
