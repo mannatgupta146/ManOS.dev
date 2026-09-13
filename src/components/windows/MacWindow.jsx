@@ -37,6 +37,8 @@ const MacWindow = ({
     ? Math.max(360, window.innerHeight - NAVBAR_HEIGHT - 140)
     : window.innerHeight - NAVBAR_HEIGHT - MOBILE_DOCK_OFFSET
 
+  const desktopMaximizedHeight = window.innerHeight - NAVBAR_HEIGHT
+
   const mobileY = mobileCompact ? NAVBAR_HEIGHT + 10 : NAVBAR_HEIGHT
 
   useEffect(() => {
@@ -65,9 +67,7 @@ const MacWindow = ({
         maximized || isMobile
           ? {
               width: window.innerWidth,
-              height: isMobile
-                ? mobileHeight
-                : window.innerHeight - NAVBAR_HEIGHT,
+              height: isMobile ? mobileHeight : desktopMaximizedHeight,
             }
           : windowState
       }

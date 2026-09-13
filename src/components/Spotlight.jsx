@@ -69,7 +69,31 @@ const Spotlight = ({ isOpen, onClose, apps, openApp }) => {
     },
   ]
 
-  const allItems = [...appsList, ...commands]
+  const projectList = [
+    {
+      id: "mindgraph",
+      name: "MindGraph (Project)",
+      icon: "ri-git-repository-line",
+      type: "link",
+      url: "https://github.com/mannatgupta146/MindGraph",
+    },
+    {
+      id: "buildex",
+      name: "Buildex (Project)",
+      icon: "ri-git-repository-line",
+      type: "link",
+      url: "https://github.com/mannatgupta146/Buildex",
+    },
+    {
+      id: "outreach-ai",
+      name: "OutReach-AI (Project)",
+      icon: "ri-git-repository-line",
+      type: "link",
+      url: "https://github.com/mannatgupta146/OutReach-AI",
+    },
+  ]
+
+  const allItems = [...appsList, ...commands, ...projectList]
 
   const filtered = allItems.filter(
     (item) =>
@@ -90,6 +114,8 @@ const Spotlight = ({ isOpen, onClose, apps, openApp }) => {
       openApp(item.id)
     } else if (item.type === "cmd") {
       handleCommand(item.action)
+    } else if (item.type === "link" && item.url) {
+      window.open(item.url, "_blank")
     }
     onClose()
   }

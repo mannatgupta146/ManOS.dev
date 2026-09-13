@@ -429,27 +429,6 @@ export default function Desktop({ mobileMenuRequest = 0 }) {
     focusApp(app)
     setApps((prev) => ({ ...prev, [app]: "open" }))
     playSound(source === "dock" ? "dock-open" : APP_OPEN_SOUNDS[app] || "open")
-    if (window.notify) {
-      const appNames = {
-        terminal: "Terminal",
-        calendar: "Calendar",
-        mail: "Mail",
-        github: "GitHub",
-        resume: "Resume",
-        notes: "Notes",
-        code: "Code Editor",
-        spotify: "Spotify",
-        camera: "Camera",
-        gallery: "Gallery",
-        settings: "Settings",
-      }
-      window.notify({
-        title: appNames[app] || app,
-        message: "App opened",
-        type: "success",
-        duration: 3000,
-      })
-    }
   }
 
   const minimizeApp = (app, source = "system") => {
@@ -457,29 +436,11 @@ export default function Desktop({ mobileMenuRequest = 0 }) {
     playSound(source === "dock" ? "dock-close" : "minimize")
   }
 
-  const closeApp = (app, silent = false) => {
+  const closeApp = (app) => {
     const nextApps = { ...apps, [app]: "closed" }
-    const remainingOpenApps = Object.values(nextApps).filter(
-      (state) => state === "open" || state === "minimized",
-    )
-
     setApps(nextApps)
     localStorage.removeItem(`window_${app}`)
     playSound("close")
-
-    if (
-      !silent &&
-      app !== "settings" &&
-      remainingOpenApps.length === 0 &&
-      window.notify
-    ) {
-      window.notify({
-        title: "All tabs closed",
-        message: "There are no open tabs left.",
-        type: "success",
-        duration: 3200,
-      })
-    }
   }
 
   useEffect(() => {
