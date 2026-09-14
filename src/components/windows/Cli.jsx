@@ -79,13 +79,20 @@ const Cli = ({ minimized, onClose, onMinimize, zIndex, onFocus }) => {
 
   const terminalRef = useRef(null)
   const inputRef = useRef(null)
+  const lastInputRef = useRef(null)
 
+  // Scroll to top on initial render
   useEffect(() => {
-    const terminal = terminalRef.current
-    if (terminal) {
-      terminal.scrollTop = terminal.scrollHeight
+    if (terminalRef.current) {
+      terminalRef.current.scrollTop = 0
     }
+  }, [])
 
+  // Auto-scroll to bottom whenever new command lines are printed
+  useEffect(() => {
+    if (lines.length > SYSTEM_LINES.length && terminalRef.current) {
+      terminalRef.current.scrollTop = terminalRef.current.scrollHeight
+    }
     inputRef.current?.focus()
   }, [lines])
 
@@ -207,7 +214,6 @@ const Cli = ({ minimized, onClose, onMinimize, zIndex, onFocus }) => {
           type: "quote-card",
           quote: "Better than yesterday, even by 0.00001%. Every single effort compounds.",
           author: "Personal Philosophy",
-          tag: "Growth Mindset 🎯",
         },
       ]),
 
@@ -561,7 +567,11 @@ const Cli = ({ minimized, onClose, onMinimize, zIndex, onFocus }) => {
               </div>
             </div>
           ) : (
-            <div key={i} className="line">
+            <div
+              key={i}
+              className="line"
+              ref={l.type.startsWith("input") ? lastInputRef : null}
+            >
               {l.type.startsWith("input") && (
                 <>
                   <span className="prompt">mannat@ManOS:~$</span>

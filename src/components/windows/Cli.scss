@@ -3,7 +3,7 @@
   overflow-y: auto;
   overflow-x: hidden;
 
-  padding: 1.25rem 1.1rem 120px 1.1rem;
+  padding: 1.25rem 1.1rem 1.5rem 1.1rem;
 
   /* Terminal look */
   background: radial-gradient(1200px 600px at 50% -200px,
@@ -67,8 +67,15 @@
 
 /* Section Divider Line */
 .line-divider {
-  border-bottom: 1.5px dashed rgba(255, 255, 255, 0.22);
-  margin-block: 1.1rem 0.9rem;
+  height: 1.5px;
+  background-image: repeating-linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.55) 0px,
+    rgba(255, 255, 255, 0.55) 6px,
+    transparent 6px,
+    transparent 10px
+  );
+  margin-block: 1.5rem 1.2rem;
   width: 100%;
 }
 
@@ -357,36 +364,36 @@ input {
 /* Quote Card */
 .quote-card {
   display: flex;
-  gap: 0.95rem;
-  background: rgba(255, 255, 255, 0.03);
+  gap: 1.25rem;
+  background: rgba(255, 255, 255, 0.035);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-left: 3.5px solid #eab308;
-  border-radius: 8px;
-  padding: 0.85rem 1.1rem;
-  margin-block: 0.6rem;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  border-left: 4px solid #eab308;
+  border-radius: 10px;
+  padding: 1.1rem 1.35rem;
+  margin-block: 1.1rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
 }
 
 .quote-icon {
-  font-size: 2.2rem;
+  font-size: 2.6rem;
   font-family: Georgia, serif;
   line-height: 1;
   color: #eab308;
-  opacity: 0.8;
+  opacity: 0.85;
 }
 
 .quote-content {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.65rem;
   flex: 1;
 }
 
 .quote-text {
   color: #f8fafc;
-  font-size: 0.92rem;
+  font-size: 0.98rem;
   font-style: italic;
-  line-height: 1.55;
+  line-height: 1.65;
   margin: 0;
 }
 
@@ -394,23 +401,24 @@ input {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 0.2rem;
+  margin-top: 0.35rem;
 }
 
 .quote-author {
   color: #94a3b8;
-  font-size: 0.78rem;
+  font-size: 0.85rem;
   font-weight: 600;
+  letter-spacing: 0.02em;
 }
 
 .quote-tag {
-  font-size: 0.74rem;
+  font-size: 0.78rem;
   font-weight: 600;
-  color: #eab308;
-  background: rgba(234, 179, 8, 0.12);
-  border: 1px solid rgba(234, 179, 8, 0.25);
-  padding: 0.15rem 0.55rem;
-  border-radius: 6px;
+  color: #fbbf24;
+  background: rgba(234, 179, 8, 0.14);
+  border: 1px solid rgba(234, 179, 8, 0.3);
+  padding: 0.22rem 0.7rem;
+  border-radius: 8px;
 }
 
 /* Experience Cards */

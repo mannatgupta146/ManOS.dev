@@ -42,6 +42,17 @@ const MacWindow = ({
   const mobileY = mobileCompact ? NAVBAR_HEIGHT + 10 : NAVBAR_HEIGHT
 
   useEffect(() => {
+    if (maximized) {
+      document.body.classList.add("app-maximized")
+    } else {
+      document.body.classList.remove("app-maximized")
+    }
+    return () => {
+      document.body.classList.remove("app-maximized")
+    }
+  }, [maximized])
+
+  useEffect(() => {
     const handleResize = () => setIsMobile(getIsMobile())
     window.addEventListener("resize", handleResize)
     return () => window.removeEventListener("resize", handleResize)

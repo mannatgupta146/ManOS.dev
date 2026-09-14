@@ -10,6 +10,7 @@ The goal of the project is not only to show projects and contact details, but to
 ## Quick Navigation
 
 - [Overview](#overview)
+- [Documentation](#-documentation)
 - [Highlights](#highlights)
 - [Desktop And Mobile Interaction](#desktop-and-mobile-interaction)
 - [Built-In Apps](#built-in-apps)
@@ -29,6 +30,18 @@ The goal of the project is not only to show projects and contact details, but to
 ManOS.dev presents portfolio content as an operating-system-style workspace. The interface includes a top system bar, a dock, draggable windows on desktop, a Spotlight-inspired launcher, a custom terminal, and a set of built-in apps that each reveal a different part of the portfolio.
 
 On larger screens, the project behaves like a lightweight desktop OS. On phones and tablets, the same experience is adapted through touch-first interactions such as floating search access, quick actions, and mobile-friendly window layouts.
+
+---
+
+## 📚 Documentation
+
+Detailed specifications and architectural guides are available in the [`docs/`](./docs) folder:
+
+- 🧠 [**`docs/memory.md`**](./docs/memory.md) — Live changelog and session state tracking (dock spacing, terminal layouts, notification rate-limiting).
+- 🏗️ [**`docs/architecture.md`**](./docs/architecture.md) — System architecture, window state management, and file tree structure.
+- 🎨 [**`docs/design.md`**](./docs/design.md) — Design tokens, color palettes, glassmorphism specs, and UI/UX conventions.
+- 📋 [**`docs/prd.md`**](./docs/prd.md) — Product Requirements Document detailing vision, target audience, and features.
+- 🛠️ [**`docs/trd.md`**](./docs/trd.md) — Technical Requirements Document covering tech stack, state schemas, and build workflows.
 
 ---
 

@@ -255,7 +255,7 @@ export default function Desktop({ mobileMenuRequest = 0 }) {
   // restore wallpaper
   useEffect(() => {
     const saved = localStorage.getItem(WALL_KEY)
-    if (saved) applyWallpaper(saved)
+    applyWallpaper(saved || "/bg.png")
   }, [])
 
   /* ---------------- MENU ACTIONS ---------------- */
