@@ -1,0 +1,136 @@
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- macOS Apple Standard Squircle Clip Path -->
+    <clipPath id="macOS-app-clip">
+      <path d="M128 28.4444C128 12.7352 115.265 0 99.5556 0H28.4444C12.7352 0 0 12.7352 0 28.4444V99.5556C0 115.265 12.7352 128 28.4444 128H99.5556C115.265 128 128 115.265 128 99.5556V28.4444Z"/>
+    </clipPath>
+
+    <!-- macOS System Settings Metallic Aluminum Background Gradient -->
+    <linearGradient id="mac-metal-bg" x1="64" y1="0" x2="64" y2="128" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#b6bacc"/>
+      <stop offset="25%" stop-color="#9ea3b5"/>
+      <stop offset="65%" stop-color="#73778a"/>
+      <stop offset="100%" stop-color="#555866"/>
+    </linearGradient>
+
+    <!-- Outer Gear Radial/Linear Gradient -->
+    <linearGradient id="outer-gear-metal" x1="28" y1="18" x2="100" y2="110" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="35%" stop-color="#f2f4f8"/>
+      <stop offset="70%" stop-color="#d6d9e0"/>
+      <stop offset="100%" stop-color="#aaadb8"/>
+    </linearGradient>
+
+    <!-- Inner Recessed Pit Dark Gradient -->
+    <radialGradient id="recess-dark-pit" cx="64" cy="64" r="33" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#3b3d45"/>
+      <stop offset="65%" stop-color="#555864"/>
+      <stop offset="100%" stop-color="#727585"/>
+    </radialGradient>
+
+    <!-- Spoke & Driver Hub Gradient -->
+    <linearGradient id="spoke-hub-metal" x1="40" y1="32" x2="88" y2="96" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="40%" stop-color="#f5f7fa"/>
+      <stop offset="75%" stop-color="#dce0e8"/>
+      <stop offset="100%" stop-color="#b0b4be"/>
+    </linearGradient>
+
+    <!-- Top Gloss Overlay -->
+    <linearGradient id="mac-gloss-top" x1="64" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.48"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.0"/>
+    </linearGradient>
+
+    <!-- Inner Bevel Highlight -->
+    <linearGradient id="inner-bevel-glow" x1="64" y1="0" x2="64" y2="128" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.3"/>
+    </linearGradient>
+
+    <!-- Drop Shadows for 3D Depth -->
+    <filter id="gear-drop-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#000000" flood-opacity="0.45"/>
+    </filter>
+    <filter id="spoke-drop-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2.5" stdDeviation="2.5" flood-color="#000000" flood-opacity="0.38"/>
+    </filter>
+  </defs>
+
+  <!-- App Content inside macOS Standard Squircle -->
+  <g clip-path="url(#macOS-app-clip)">
+    <!-- Base Aluminum Body -->
+    <rect width="128" height="128" fill="url(#mac-metal-bg)"/>
+    
+    <!-- Top Curved Glass Reflection -->
+    <rect width="128" height="64" fill="url(#mac-gloss-top)"/>
+
+    <!-- Subtle Bevel Border -->
+    <rect width="128" height="128" rx="28.4" fill="none" stroke="url(#inner-bevel-glow)" stroke-width="1.5"/>
+
+    <!-- MAIN METALLIC GEAR ASSEMBLY WITH SHADOW -->
+    <g filter="url(#gear-drop-shadow)">
+
+      <!-- LAYER 1: Outer Gear Teeth (Exact 24 Serrated Teeth) -->
+      <path d="
+        M 64 12 L 67.5 12 L 68.8 19.5 L 73 20.6 L 77.2 14.8 L 80.2 16.5 L 78.5 23.8 L 82.3 25.9 L 88.5 21.8 L 91.1 24.4 L 87 30.6 L 89.1 34.4 L 96.4 32.7 L 98.1 35.7 L 92.3 39.9 L 93.4 44.1 L 100.9 45.4 L 100.9 48.9 L 93.4 50.2 L 92.3 54.4 L 98.1 58.6 L 96.4 61.6 L 89.1 59.9 L 87.0 63.7 L 91.1 69.9 L 88.5 72.5 L 82.3 68.4 L 78.5 70.5 L 80.2 77.8 L 77.2 79.5 L 73.0 73.7 L 68.8 74.8 L 67.5 82.3 L 64.0 82.3 L 60.5 82.3 L 59.2 74.8 L 55.0 73.7 L 50.8 79.5 L 47.8 77.8 L 49.5 70.5 L 45.7 68.4 L 39.5 72.5 L 36.9 69.9 L 41.0 63.7 L 38.9 59.9 L 31.6 61.6 L 29.9 58.6 L 35.7 54.4 L 34.6 50.2 L 27.1 48.9 L 27.1 45.4 L 34.6 44.1 L 35.7 39.9 L 29.9 35.7 L 31.6 32.7 L 38.9 34.4 L 41.0 30.6 L 36.9 24.4 L 39.5 21.8 L 45.7 25.9 L 49.5 23.8 L 47.8 16.5 L 50.8 14.8 L 55.0 20.6 L 59.2 19.5 L 60.5 12 Z
+      " fill="url(#outer-gear-metal)" transform="translate(0, 17)"/>
+
+      <!-- LAYER 2: Recessed Dark Inner Cavity -->
+      <circle cx="64" cy="64.1" r="32.5" fill="url(#recess-dark-pit)"/>
+      <circle cx="64" cy="64.1" r="32.5" fill="none" stroke="#2a2c33" stroke-width="1.2"/>
+
+      <!-- LAYER 3: Internal Fine Toothed Ring inside Recess -->
+      <path d="
+        M 64 36 L 66 36 L 67 40 L 70 41 L 73 38 L 75 39 L 74 43 L 77 45 L 81 43 L 82 45 L 79 48 L 81 51 L 85 50 L 86 52 L 82 55 L 83 58 L 87 59 L 87 61 L 83 62 L 82 65 L 86 68 L 85 70 L 81 69 L 79 72 L 82 75 L 81 77 L 77 75 L 74 77 L 75 81 L 73 82 L 70 79 L 67 80 L 66 84 L 64 84 L 62 84 L 61 80 L 58 79 L 55 82 L 53 81 L 54 77 L 51 75 L 47 77 L 46 75 L 49 72 L 47 69 L 43 70 L 42 68 L 46 65 L 45 62 L 41 61 L 41 59 L 45 58 L 46 55 L 42 52 L 43 50 L 47 51 L 49 48 L 46 45 L 47 43 L 51 45 L 54 43 L 53 39 L 55 38 L 58 41 L 61 40 L 62 36 Z
+      " fill="#8d92a0" opacity="0.75"/>
+
+      <!-- LAYER 4: 3-Spoke Metallic Driver Hub -->
+      <g filter="url(#spoke-drop-shadow)">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="
+          M 64 37.5
+          C 67 37.5 69.5 39.4 70.4 42.1
+          L 83.8 60.2
+          C 87.5 57.8 92.4 58.9 94.8 62.6
+          C 97.2 66.3 96.1 71.2 92.4 73.6
+          C 88.7 76 83.8 74.9 81.4 71.2
+          C 80.1 69.2 79.9 66.8 80.5 64.7
+          L 68.4 55.1
+          C 67.1 56.1 65.6 56.8 64 56.8
+          C 62.4 56.8 60.9 56.1 59.6 55.1
+          L 47.5 64.7
+          C 48.1 66.8 47.9 69.2 46.6 71.2
+          C 44.2 74.9 39.3 76 35.6 73.6
+          C 31.9 71.2 30.8 66.3 33.2 62.6
+          C 35.6 58.9 40.5 57.8 44.2 60.2
+          L 57.6 42.1
+          C 58.5 39.4 61 37.5 64 37.5 Z
+
+          M 64 43
+          C 61.5 43 59.5 45 59.5 47.5
+          C 59.5 50 61.5 52 64 52
+          C 66.5 52 68.5 50 68.5 47.5
+          C 68.5 45 66.5 43 64 43 Z
+
+          M 88 64.5
+          C 86.8 64.5 85.8 65.5 85.8 66.7
+          C 85.8 67.9 86.8 68.9 88 68.9
+          C 89.2 68.9 90.2 67.9 90.2 66.7
+          C 90.2 65.5 89.2 64.5 88 64.5 Z
+
+          M 40 64.5
+          C 38.8 64.5 37.8 65.5 37.8 66.7
+          C 37.8 67.9 38.8 68.9 40 68.9
+          C 41.2 68.9 42.2 67.9 42.2 66.7
+          C 42.2 65.5 41.2 64.5 40 64.5 Z
+        " fill="url(#spoke-hub-metal)"/>
+
+        <!-- Center Axle Pin -->
+        <circle cx="64" cy="47.5" r="2.8" fill="#4d5059"/>
+      </g>
+    </g>
+
+    <!-- Bottom Edge Shadow Overlay -->
+    <rect y="123" width="128" height="5" fill="#000000" opacity="0.32"/>
+  </g>
+</svg>

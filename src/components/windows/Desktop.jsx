@@ -65,6 +65,12 @@ export default function Desktop({ mobileMenuRequest = 0 }) {
         "--brightness",
         brightness + "%",
       )
+
+      const dockSize = saved.dockSize ?? 100
+      document.documentElement.style.setProperty(
+        "--dock-size",
+        (dockSize / 100).toFixed(2),
+      )
     }
 
     applySettings()

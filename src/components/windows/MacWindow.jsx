@@ -9,7 +9,14 @@ const MacWindow = ({
   onClose,
   onMinimize,
   appId,
-  zIndex = 1,
+  initialWidth = "33vw",
+  initialHeight = "52vh",
+  initialX = 320,
+  initialY = 160,
+  allowMaximize = true,
+  minWidth = 350,
+  minHeight = 300,
+  zIndex,
   onFocus,
 }) => {
   const getIsMobile = () => window.innerWidth <= 768
@@ -20,7 +27,7 @@ const MacWindow = ({
     const saved = localStorage.getItem(STORAGE_KEY)
     return saved
       ? JSON.parse(saved)
-      : { width: "33vw", height: "52vh", x: 320, y: 160 }
+      : { width: initialWidth, height: initialHeight, x: initialX, y: initialY }
   }
 
   const [windowState, setWindowState] = useState(loadState)
@@ -70,12 +77,14 @@ const MacWindow = ({
 
   if (minimized) return null
 
+  const isWindowMaximized = allowMaximize && maximized
+
   return (
     <Rnd
       style={{ zIndex, position: "absolute" }}
       onMouseDownCapture={onFocus}
       size={
-        maximized || isMobile
+        isWindowMaximized || isMobile
           ? {
               width: window.innerWidth,
               height: isMobile ? mobileHeight : desktopMaximizedHeight,
@@ -83,16 +92,16 @@ const MacWindow = ({
           : windowState
       }
       position={
-        maximized || isMobile
+        isWindowMaximized || isMobile
           ? { x: 0, y: isMobile ? mobileY : NAVBAR_HEIGHT }
           : { x: windowState.x, y: windowState.y }
       }
-      minWidth={isMobile ? window.innerWidth : 350}
-      minHeight={isMobile ? mobileHeight : 300}
-      bounds={maximized || isMobile ? "body" : "window"}
+      minWidth={isMobile ? window.innerWidth : minWidth}
+      minHeight={isMobile ? mobileHeight : minHeight}
+      bounds={isWindowMaximized || isMobile ? "body" : "window"}
       dragHandleClassName="nav"
-      disableDragging={maximized || isMobile}
-      enableResizing={!maximized && !isMobile}
+      disableDragging={isWindowMaximized || isMobile}
+      enableResizing={!isWindowMaximized && !isMobile}
       onDragStop={(e, d) => setWindowState((s) => ({ ...s, x: d.x, y: d.y }))}
       onResizeStop={(e, dir, ref, delta, pos) =>
         setWindowState({
@@ -103,7 +112,7 @@ const MacWindow = ({
       }
     >
       <div
-        className={`windows ${maximized ? "maximized" : ""} ${isMobile ? "mobile-window" : ""}`}
+        className={`windows ${isWindowMaximized ? "maximized" : ""} ${isMobile ? "mobile-window" : ""}`}
       >
         <div className="nav">
           <div className="nav-left">
@@ -123,9 +132,10 @@ const MacWindow = ({
                 }}
               />
               <div
-                className={`dot green ${maximized ? "active" : ""}`}
+                className={`dot green ${isWindowMaximized ? "active" : ""} ${!allowMaximize && !isMobile ? "disabled" : ""}`}
                 onClick={(e) => {
                   e.stopPropagation()
+                  if (!allowMaximize && !isMobile) return
                   if (isMobile) {
                     setMobileCompact((prev) => !prev)
                   } else {

@@ -71,6 +71,15 @@
   background: #28c840;
 }
 
+.green.disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+
+  &:hover {
+    transform: none;
+  }
+}
+
 .green.active {
   filter: brightness(1.3);
 }

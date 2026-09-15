@@ -94,6 +94,12 @@ const Dock = ({ apps = {}, openApp }) => {
         label="Gallery"
         className="gallery-icon"
       />
+      <Icon
+        app="settings"
+        icon="/icons/settings.svg"
+        label="System Settings"
+        className="settings-icon"
+      />
     </footer>
   )
 }

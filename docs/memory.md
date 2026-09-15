@@ -26,11 +26,22 @@ This document maintains a persistent operational memory of feature updates, UI/U
   - **Terminal Scroll Flow**: Kept natural terminal scroll-to-bottom behavior on command execution while scrolling to top on initial boot.
 
 ### 2. Dock & Desktop Layout (`Dock.scss`, `Desktop.jsx`, `MacWindow.jsx`, `App.scss`)
-- **Dock Auto-Hide on Full Screen**:
-  - Integrated `app-maximized` body class toggle in `MacWindow.jsx`.
-  - Added smooth CSS transition in `Dock.scss` (`transform: translate(-50%, 140%) !important`) so the Dock automatically slides down and hides when any app window is maximized/full-screen.
-- **Dock Icon Spacing**:
-  - Expanded icon gaps in `.dock` (`Dock.scss`) to `1.15rem` for better touch targets and spacing.
+- **macOS System Settings Fixed Centered Window**:
+  - Configured System Settings to open as a fixed, centered macOS window (`760px × 520px`).
+  - Disabled window full-screen maximizing (`allowMaximize={false}`) to maintain optimal proportions and prevent full-screen distortion.
+  - Added minimum window bounds (`minWidth={700}`, `minHeight={480}`) in [`Settings.jsx`](file:///Users/mannatgupta146/Desktop/PROJECTS/ManOS.dev/src/components/windows/Settings.jsx) to preserve UI elements and two-pane alignment.
+  - Added support in [`MacWindow.jsx`](file:///Users/mannatgupta146/Desktop/PROJECTS/ManOS.dev/src/components/windows/MacWindow.jsx) for custom `minWidth`, `minHeight`, `zIndex`, and `onFocus` props alongside `initialWidth`, `initialHeight`, `initialX`, `initialY`.
+- **macOS System Settings App Icon & Tooltip Label**:
+  - Replaced flat vector with authentic 3D metallic gear app icon matching macOS Sequoia & Tahoe in [`public/icons/settings.svg`](file:///Users/mannatgupta146/Desktop/PROJECTS/ManOS.dev/public/icons/settings.svg) (featuring rounded squircle container, aluminum metallic gradient background, 24 serrated gear teeth, dark inner recessed pit, and 3-spoke driver hub).
+  - Updated Dock icon label in [`Dock.jsx`](file:///Users/mannatgupta146/Desktop/PROJECTS/ManOS.dev/src/components/Dock.jsx) from `"Settings"` to `"System Settings"`.
+  - Replaced legacy orange hero badge in [`Settings.jsx`](file:///Users/mannatgupta146/Desktop/PROJECTS/ManOS.dev/src/components/windows/Settings.jsx) (About ManOS tab) with the metallic 3D gear SVG app icon (`/icons/settings.svg`).
+- **Dock Active App Indicator Pill**:
+  - Reduced indicator line width to `35%` (`left: 32.5%`), added bottom margin to app icons (`margin-bottom: calc(0.25rem * var(--dock-size, 1))`), and expanded Dock container bottom padding (`padding-bottom: calc(0.75rem * var(--dock-size, 1))`) in [`Dock.scss`](file:///Users/mannatgupta146/Desktop/PROJECTS/ManOS.dev/src/components/Dock.scss). This maintains a clear gap below the app icons while keeping the indicator pill safely inside the glass Dock container bounds.
+- **Dock Icon Spacing & Customizable Dock Size**:
+  - Added a **Dock Size slider control** in Workspace Settings (`Settings.jsx`), allowing users to dynamically scale the Dock height, icon sizes, and inter-icon gaps from **Compact (70%)** to **Large (140%)**.
+  - Dynamic sizing powered by `--dock-size` CSS custom property in `Dock.scss`.
+  - Persisted user preference in `ui-settings` local storage schema.
+  - Updated [`MacWindow.jsx`](file:///Users/mannatgupta146/Desktop/PROJECTS/ManOS.dev/src/components/windows/MacWindow.jsx) maximized height calculations to deduct `DOCK_HEIGHT`, ensuring full-screen / maximized app windows terminate cleanly above the floating Dock.
 - **Default Background Wallpaper**:
   - Restored clean CSS background rule `background: url("/bg.png") center/cover no-repeat;` in `App.scss`.
   - Updated `Desktop.jsx` `useEffect` hook to apply `/bg.png` by default on startup if no custom wallpaper exists in local storage.
