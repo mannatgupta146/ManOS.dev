@@ -300,6 +300,10 @@ export default function Desktop({ mobileMenuRequest = 0 }) {
         openApp("terminal")
         break
 
+      case "settings":
+        openApp("settings")
+        break
+
       case "resume":
         openApp("resume")
         break
@@ -365,10 +369,6 @@ export default function Desktop({ mobileMenuRequest = 0 }) {
             })
           }
         }
-        break
-
-      case "settings":
-        openApp("settings")
         break
 
       case "dock-toggle":

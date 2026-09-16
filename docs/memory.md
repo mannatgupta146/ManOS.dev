@@ -31,10 +31,8 @@ This document maintains a persistent operational memory of feature updates, UI/U
   - Disabled window full-screen maximizing (`allowMaximize={false}`) to maintain optimal proportions and prevent full-screen distortion.
   - Added minimum window bounds (`minWidth={700}`, `minHeight={480}`) in [`Settings.jsx`](file:///Users/mannatgupta146/Desktop/PROJECTS/ManOS.dev/src/components/windows/Settings.jsx) to preserve UI elements and two-pane alignment.
   - Added support in [`MacWindow.jsx`](file:///Users/mannatgupta146/Desktop/PROJECTS/ManOS.dev/src/components/windows/MacWindow.jsx) for custom `minWidth`, `minHeight`, `zIndex`, and `onFocus` props alongside `initialWidth`, `initialHeight`, `initialX`, `initialY`.
-- **macOS System Settings App Icon & Tooltip Label**:
-  - Replaced flat vector with authentic 3D metallic gear app icon matching macOS Sequoia & Tahoe in [`public/icons/settings.svg`](file:///Users/mannatgupta146/Desktop/PROJECTS/ManOS.dev/public/icons/settings.svg) (featuring rounded squircle container, aluminum metallic gradient background, 24 serrated gear teeth, dark inner recessed pit, and 3-spoke driver hub).
-  - Updated Dock icon label in [`Dock.jsx`](file:///Users/mannatgupta146/Desktop/PROJECTS/ManOS.dev/src/components/Dock.jsx) from `"Settings"` to `"System Settings"`.
-  - Replaced legacy orange hero badge in [`Settings.jsx`](file:///Users/mannatgupta146/Desktop/PROJECTS/ManOS.dev/src/components/windows/Settings.jsx) (About ManOS tab) with the metallic 3D gear SVG app icon (`/icons/settings.svg`).
+- **Desktop Context Menu System Settings Entry**:
+  - Placed System Settings (`{ icon: "ri-settings-3-line", label: "System Settings", action: "settings" }`) at the very bottom of the desktop right-click menu in [`DesktopMenu.jsx`](file:///Users/mannatgupta146/Desktop/PROJECTS/ManOS.dev/src/components/DesktopMenu.jsx), right after "Lock Screen".
 - **Dock Active App Indicator Pill**:
   - Reduced indicator line width to `35%` (`left: 32.5%`), added bottom margin to app icons (`margin-bottom: calc(0.25rem * var(--dock-size, 1))`), and expanded Dock container bottom padding (`padding-bottom: calc(0.75rem * var(--dock-size, 1))`) in [`Dock.scss`](file:///Users/mannatgupta146/Desktop/PROJECTS/ManOS.dev/src/components/Dock.scss). This maintains a clear gap below the app icons while keeping the indicator pill safely inside the glass Dock container bounds.
 - **Dock Icon Spacing & Customizable Dock Size**:
@@ -51,6 +49,18 @@ This document maintains a persistent operational memory of feature updates, UI/U
 - **Notification Toast Rate-Limiting (`NotificationCenter.jsx`)**:
   - Added a **4-second cooldown throttle** map (`lastShownRef`) per action key/title.
   - Suppressed intrusive single-window close and app-open toast popups for a cleaner macOS feel.
+
+### 3. System Settings & Wallpaper & Battery Sections (`Settings.jsx`, `Settings.scss`)
+- **macOS Native Wallpaper Section**:
+  - Added a dedicated **Wallpaper** tab in System Settings sidebar (`ri-image-line`), styled with vivid macOS **Teal** (`#00c7be`) icon background to contrast distinctly with Displays (**Blue** `#007aff`).
+  - Included **Default Tahoe** (`/bg.png`) alongside curated high-resolution wallpapers in a clean, unified **All Wallpapers** grid.
+  - Built an active wallpaper hero preview card showing the active background thumbnail, title, and live green status dot (`Active Background`).
+  - Clicking any wallpaper item immediately sets the main desktop background (`main.style.backgroundImage`), persists selection in `localStorage` under `desktop_wallpaper`, and emits a notification toast.
+- **macOS Native Displays & System Accent Polish**:
+  - Added a dedicated **Displays** tab in System Settings sidebar (`ri-sun-line`), featuring a Built-in Display graphic preview, interactive **Brightness** slider, and **Focus Mode** toggle switch.
+  - Styled profile avatar badge (`.profile-avatar`) with a sleek dark black gradient background (`linear-gradient(135deg, #2a2b32, #18191e)`) and subtle border (`rgba(255, 255, 255, 0.12)`).
+  - Standardized all system sliders (Brightness, Sound, Dock Scale, Charge Limit) to feature native macOS **white circular pill handles** on **blue progress track fills** (`#007aff`).
+  - Fixed duplicate label rendering in slider meta footers (`.slider-meta`) to align `DIM` (start) on the left and `CRISP` (end) on the right cleanly.
 
 ---
 

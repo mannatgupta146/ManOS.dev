@@ -20,6 +20,11 @@ const MENU_ITEMS = [
     action: "close-all",
   },
   { icon: "ri-lock-line", label: "Lock Screen", action: "lock" },
+  {
+    icon: "ri-settings-3-line",
+    label: "System Settings",
+    action: "settings",
+  },
 ]
 
 export default function DesktopMenu({ x, y, onAction, onClose }) {

@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import MacWindow from "./MacWindow"
 import "./Settings.scss"
 
@@ -38,6 +38,8 @@ const describeDockSize = (value) => {
 export default function Settings({ minimized, onClose, onMinimize, zIndex, onFocus, onResetDesktop }) {
   const initialSettings = getSavedSettings()
 
+  const [searchQuery, setSearchQuery] = useState("")
+  const [activeTab, setActiveTab] = useState("wallpaper")
   const [focusMode, setFocusMode] = useState(initialSettings.focusMode)
   const [sound, setSound] = useState(initialSettings.sound)
   const [soundLevel, setSoundLevel] = useState(initialSettings.soundLevel)
@@ -47,6 +49,47 @@ export default function Settings({ minimized, onClose, onMinimize, zIndex, onFoc
   const [brightness, setBrightness] = useState(initialSettings.brightness)
   const [dockSize, setDockSize] = useState(initialSettings.dockSize)
   const [showResetConfirm, setShowResetConfirm] = useState(false)
+  const [batteryHealthModalOpen, setBatteryHealthModalOpen] = useState(false)
+  const [chargingModalOpen, setChargingModalOpen] = useState(false)
+  const [chargeLimit, setChargeLimit] = useState(80)
+  const [optimizedCharging, setOptimizedCharging] = useState(true)
+
+  const [lowPowerMode, setLowPowerMode] = useState(
+    () => JSON.parse(localStorage.getItem("ui-settings") || "{}").lowPowerMode || "Never"
+  )
+
+  const [batteryState, setBatteryState] = useState(() => {
+    const startTime = Number(sessionStorage.getItem("manos-session-start") || Date.now())
+    if (!sessionStorage.getItem("manos-session-start")) {
+      sessionStorage.setItem("manos-session-start", startTime.toString())
+    }
+    const elapsedMinutes = Math.floor((Date.now() - startTime) / 60000)
+    // Deplete 1% every 3 minutes starting from 100%, clamped to min 15%
+    const currentPct = Math.max(15, 100 - Math.floor(elapsedMinutes / 3))
+    const charging = currentPct > 90 || elapsedMinutes < 2
+    return { level: currentPct, charging }
+  })
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      const startTime = Number(sessionStorage.getItem("manos-session-start") || Date.now())
+      const elapsedMinutes = Math.floor((Date.now() - startTime) / 60000)
+      const currentPct = Math.max(15, 100 - Math.floor(elapsedMinutes / 3))
+      const charging = currentPct > 90 || elapsedMinutes < 2
+      setBatteryState({ level: currentPct, charging })
+    }, 30000)
+    return () => clearInterval(timer)
+  }, [])
+
+  const handleLowPowerMode = (val) => {
+    setLowPowerMode(val)
+    saveSetting("lowPowerMode", val)
+    if (val === "Always" || (val === "On Battery Only" && !batteryState.charging)) {
+      document.body.classList.add("low-power-mode")
+    } else {
+      document.body.classList.remove("low-power-mode")
+    }
+  }
 
   /* ---------------- SAVE & APPLY ON CHANGE ---------------- */
   const saveSetting = (key, value) => {
@@ -117,11 +160,52 @@ export default function Settings({ minimized, onClose, onMinimize, zIndex, onFoc
     }
   }
 
-  const [activeTab, setActiveTab] = useState("general")
-  const [searchQuery, setSearchQuery] = useState("")
+  const WALL_KEY = "desktop_wallpaper"
+
+  const wallpapers = [
+    { id: "default", name: "Default Tahoe", type: "Landscape", url: "/bg.png" },
+    { id: "tahoe", name: "Tahoe Lake", type: "Dynamic", url: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1920" },
+    { id: "sequoia", name: "Sequoia", type: "Dynamic", url: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1920" },
+    { id: "macintosh", name: "Macintosh", type: "Monochrome", url: "https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=1920" },
+    { id: "sonoma", name: "Sonoma", type: "Dynamic", url: "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1920" },
+    { id: "yosemite", name: "Yosemite", type: "Landscape", url: "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=1920" },
+    { id: "redwood", name: "Redwood", type: "Landscape", url: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1920" },
+    { id: "bigsur", name: "Big Sur", type: "Landscape", url: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920" },
+    { id: "catalina", name: "Catalina", type: "Landscape", url: "https://images.unsplash.com/photo-1473186578172-c141e6798cf4?w=1920" },
+  ]
+
+  const [currentWallpaper, setCurrentWallpaper] = useState(
+    () => localStorage.getItem(WALL_KEY) || "/bg.png",
+  )
+
+  const handleSelectWallpaper = (url) => {
+    setCurrentWallpaper(url)
+    localStorage.setItem(WALL_KEY, url)
+
+    const main = document.querySelector("main")
+    if (main) {
+      main.style.backgroundImage = `url(${url})`
+      main.style.backgroundSize = "cover"
+      main.style.backgroundPosition = "center"
+      main.style.backgroundRepeat = "no-repeat"
+    }
+
+    if (window.notify) {
+      window.notify({
+        title: "Wallpaper Updated",
+        message: "Applied new background wallpaper",
+        type: "success",
+        duration: 3000,
+      })
+    }
+  }
+
+  const [displayPreset, setDisplayPreset] = useState("default")
 
   const sidebarItems = [
-    { id: "general", name: "General & Desktop", icon: "ri-macbook-line", bg: "#007aff" },
+    { id: "wallpaper", name: "Wallpaper", icon: "ri-image-line", bg: "#00c7be" },
+    { id: "displays", name: "Displays", icon: "ri-sun-line", bg: "#007aff" },
+    { id: "battery", name: "Battery", icon: "ri-battery-2-charge-line", bg: "#34c759" },
     { id: "sound", name: "Sound & Audio", icon: "ri-volume-up-fill", bg: "#ff2d55" },
     { id: "appearance", name: "Appearance & Dock", icon: "ri-layout-bottom-line", bg: "#5856d6" },
     { id: "privacy", name: "Lock Screen & Security", icon: "ri-lock-line", bg: "#8e8e93" },
@@ -172,7 +256,7 @@ export default function Settings({ minimized, onClose, onMinimize, zIndex, onFoc
 
           <div className="sidebar-profile">
             <div className="profile-avatar">
-              <i className="ri-user-smile-fill" />
+              <i className="ri-user-3-fill" />
             </div>
             <div className="profile-info">
               <span className="profile-name">Mannat Gupta</span>
@@ -213,18 +297,95 @@ export default function Settings({ minimized, onClose, onMinimize, zIndex, onFoc
           </div>
 
           <div className="content-scrollable">
-            {/* GENERAL TAB */}
-            {activeTab === "general" && (
-              <div className="tab-pane">
-                <div className="pane-hero">
-                  <div className="hero-badge" style={{ backgroundColor: "#007aff" }}>
-                    <i className="ri-macbook-line" />
+            {/* WALLPAPER TAB */}
+            {activeTab === "wallpaper" && (
+              <div className="tab-pane wallpaper-pane">
+                {/* Active Wallpaper Banner Card */}
+                <div className="active-wallpaper-card">
+                  <div
+                    className="wallpaper-preview-hero"
+                    style={{ backgroundImage: `url(${currentWallpaper})` }}
+                  />
+                  <div className="wallpaper-info-col">
+                    <div className="wallpaper-title-row">
+                      <span className="wallpaper-title">
+                        {wallpapers.find((w) => w.url === currentWallpaper)?.name || "Default Wallpaper"}
+                      </span>
+                      <span className="wallpaper-type-badge">
+                        {wallpapers.find((w) => w.url === currentWallpaper)?.type || "Desktop"}
+                      </span>
+                    </div>
+
+                    <div className="wallpaper-status-msg">
+                      <span>Active Background</span>
+                    </div>
                   </div>
-                  <h3>General & Desktop</h3>
-                  <p>Manage workspace focus, display brightness, and desktop behavior.</p>
                 </div>
 
+                {/* All Wallpapers Section */}
+                <div className="wallpaper-category-section">
+                  <div className="category-header">
+                    <h4>All Wallpapers</h4>
+                    <span className="category-count">({wallpapers.length})</span>
+                  </div>
+                  <div className="wallpaper-grid">
+                    {wallpapers.map((item) => (
+                      <div
+                        key={item.id}
+                        className={`wallpaper-item ${currentWallpaper === item.url ? "selected" : ""}`}
+                        onClick={() => handleSelectWallpaper(item.url)}
+                      >
+                        <div
+                          className="thumb-img"
+                          style={{ backgroundImage: `url(${item.url})` }}
+                        >
+                          {currentWallpaper === item.url && (
+                            <div className="check-badge">
+                              <i className="ri-check-line" />
+                            </div>
+                          )}
+                        </div>
+                        <span className="thumb-name">{item.name}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* DISPLAYS TAB */}
+            {activeTab === "displays" && (
+              <div className="tab-pane displays-pane">
+                {/* Built-in Display Hero */}
+                <div className="display-hero-container">
+                  <div className="display-hero-graphic">
+                    <div className="macbook-screen">
+                      <div
+                        className="macbook-screen-bg"
+                        style={{ backgroundImage: `url(${currentWallpaper})` }}
+                      />
+                    </div>
+                    <div className="macbook-base" />
+                  </div>
+                  <span className="display-hero-title">Built-in Display</span>
+                </div>
+
+                {/* Controls Group */}
                 <div className="mac-card-group">
+                  <SliderSetting
+                    id="brightness-slider"
+                    icon="ri-sun-line"
+                    label="Brightness"
+                    info="Adjust screen brightness without altering display hardware."
+                    min={50}
+                    max={100}
+                    value={brightness}
+                    onChange={handleBrightness}
+                    startLabel="Dim"
+                    endLabel="Crisp"
+                    stateLabel={describeBrightness(brightness)}
+                  />
+
                   <Toggle
                     icon="ri-focus-2-line"
                     label="Focus Mode"
@@ -232,20 +393,65 @@ export default function Settings({ minimized, onClose, onMinimize, zIndex, onFoc
                     value={focusMode}
                     onChange={handleFocusMode}
                   />
+                </div>
+              </div>
+            )}
 
-                  <SliderSetting
-                    id="brightness-slider"
-                    icon="ri-sun-line"
-                    label="Desktop Brightness"
-                    info="Adjust screen brightness without altering display hardware."
-                    min={50}
-                    max={100}
-                    value={brightness}
-                    onChange={handleBrightness}
-                    startLabel="Dim"
-                    endLabel="Bright"
-                    stateLabel={describeBrightness(brightness)}
-                  />
+            {/* BATTERY TAB */}
+            {activeTab === "battery" && (
+              <div className="tab-pane battery-pane">
+                <div className="battery-status-header">
+                  <div className="battery-header-text">
+                    <h3>Battery</h3>
+                    <span className="battery-charging-status">
+                      <i className={batteryState.charging ? "ri-battery-2-charge-line" : "ri-battery-line"} />{" "}
+                      {batteryState.charging ? `Charging: ${batteryState.level}%` : `On Battery: ${batteryState.level}%`}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="mac-card-group">
+                  <div className="setting-row">
+                    <span className="row-label-text">Low Power Mode</span>
+                    <select
+                      className="mac-select"
+                      value={lowPowerMode}
+                      onChange={(e) => handleLowPowerMode(e.target.value)}
+                    >
+                      <option value="Never">Never</option>
+                      <option value="Always">Always</option>
+                      <option value="On Battery Only">On Battery Only</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="mac-card-group">
+                  <div className="setting-row">
+                    <span className="row-label-text">Battery Health</span>
+                    <div className="row-right-group">
+                      <span className="status-val-text">Normal</span>
+                      <button
+                        className="info-btn"
+                        onClick={() => setBatteryHealthModalOpen(true)}
+                        aria-label="Battery Health Details"
+                      >
+                        <i className="ri-information-line" />
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="setting-row">
+                    <span className="row-label-text">Charging</span>
+                    <div className="row-right-group">
+                      <button
+                        className="info-btn"
+                        onClick={() => setChargingModalOpen(true)}
+                        aria-label="Charging Details"
+                      >
+                        <i className="ri-information-line" />
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
             )}
@@ -376,6 +582,136 @@ export default function Settings({ minimized, onClose, onMinimize, zIndex, onFoc
           </div>
         </div>
 
+        {/* Battery Health Modal */}
+        {batteryHealthModalOpen && (
+          <div
+            className="confirmation-overlay"
+            onClick={() => setBatteryHealthModalOpen(false)}
+          >
+            <div
+              className="confirmation-dialog mac-sheet-dialog"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="sheet-section">
+                <div className="sheet-row">
+                  <span className="sheet-title">Battery Condition</span>
+                  <span className="sheet-val">Normal</span>
+                </div>
+                <p className="sheet-desc">
+                  Mac batteries, like all rechargeable batteries, are consumable
+                  components that become less effective as they age.
+                </p>
+              </div>
+
+              <div className="sheet-section">
+                <div className="sheet-row">
+                  <span className="sheet-title">Maximum Capacity</span>
+                  <span className="sheet-val">100%</span>
+                </div>
+                <p className="sheet-desc">
+                  This is a measure of battery capacity relative to when it was new. Lower
+                  capacity may result in fewer hours of usage between charges.
+                </p>
+              </div>
+
+              <div className="sheet-footer">
+                <button
+                  className="confirm-cancel"
+                  onClick={() => {
+                    window.open("https://support.apple.com/en-us/101575", "_blank")
+                  }}
+                >
+                  Learn More...
+                </button>
+                <button
+                  className="confirm-blue"
+                  onClick={() => setBatteryHealthModalOpen(false)}
+                >
+                  Done
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Optimized Charging Modal */}
+        {chargingModalOpen && (
+          <div
+            className="confirmation-overlay"
+            onClick={() => setChargingModalOpen(false)}
+          >
+            <div
+              className="confirmation-dialog mac-sheet-dialog"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="sheet-section">
+                <div className="sheet-row flex-col gap-2">
+                  <div className="flex-between">
+                    <span className="sheet-title">Charge Limit</span>
+                    <span className="sheet-val">{chargeLimit}%</span>
+                  </div>
+                  <input
+                    type="range"
+                    min={80}
+                    max={100}
+                    step={5}
+                    value={chargeLimit}
+                    style={{ "--slider-fill": `${((chargeLimit - 80) / 20) * 100}%` }}
+                    onChange={(e) => setChargeLimit(Number(e.target.value))}
+                    className="mac-modal-slider"
+                  />
+                  <div className="slider-ticks">
+                    <span>80%</span>
+                    <span>85%</span>
+                    <span>90%</span>
+                    <span>95%</span>
+                    <span>100%</span>
+                  </div>
+                  <p className="sheet-desc">
+                    Your Mac will charge to {chargeLimit}% limit.
+                  </p>
+                </div>
+              </div>
+
+              <div className="sheet-section">
+                <div className="flex-between align-center">
+                  <span className="sheet-title">Optimised Battery Charging</span>
+                  <label className="switch switch-sm">
+                    <input
+                      type="checkbox"
+                      checked={optimizedCharging}
+                      onChange={(e) => setOptimizedCharging(e.target.checked)}
+                    />
+                    <span className="slider"></span>
+                  </label>
+                </div>
+                <p className="sheet-desc">
+                  To reduce battery ageing, your Mac learns from your daily charging routine
+                  so it can wait to finish charging past {chargeLimit}% until you need to use it on
+                  battery.
+                </p>
+              </div>
+
+              <div className="sheet-footer">
+                <button
+                  className="confirm-cancel"
+                  onClick={() => {
+                    window.open("https://support.apple.com/en-us/HT210512", "_blank")
+                  }}
+                >
+                  Learn More...
+                </button>
+                <button
+                  className="confirm-blue"
+                  onClick={() => setChargingModalOpen(false)}
+                >
+                  Done
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         {showResetConfirm && (
           <div
             className="confirmation-overlay"
@@ -463,7 +799,6 @@ function SliderSetting({
 
         <div className="slider-meta">
           <span>{startLabel}</span>
-          <span>{stateLabel}</span>
           <span>{endLabel}</span>
         </div>
       </div>

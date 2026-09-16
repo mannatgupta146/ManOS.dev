@@ -8,6 +8,31 @@ const NavRight = () => {
   const [openStatus, setOpenStatus] = useState(null)
   const rightRef = useRef(null)
 
+  const [batteryState, setBatteryState] = useState(() => {
+    const startTime = Number(sessionStorage.getItem("manos-session-start") || Date.now())
+    if (!sessionStorage.getItem("manos-session-start")) {
+      sessionStorage.setItem("manos-session-start", startTime.toString())
+    }
+    const elapsedMinutes = Math.floor((Date.now() - startTime) / 60000)
+    const currentPct = Math.max(15, 100 - Math.floor(elapsedMinutes / 3))
+    const charging = currentPct > 90 || elapsedMinutes < 2
+    return { level: currentPct, charging }
+  })
+
+  // 🔋 BATTERY UPDATE TIMER
+  useEffect(() => {
+    const updateBattery = () => {
+      const startTime = Number(sessionStorage.getItem("manos-session-start") || Date.now())
+      const elapsedMinutes = Math.floor((Date.now() - startTime) / 60000)
+      const currentPct = Math.max(15, 100 - Math.floor(elapsedMinutes / 3))
+      const charging = currentPct > 90 || elapsedMinutes < 2
+      setBatteryState({ level: currentPct, charging })
+    }
+
+    updateBattery()
+    const timer = setInterval(updateBattery, 30000)
+    return () => clearInterval(timer)
+  }, [])
   // ⏰ TIME
   useEffect(() => {
     const update = () => {
@@ -113,12 +138,12 @@ const NavRight = () => {
       {/* BATTERY */}
       <Status
         statusKey="battery"
-        icon="ri-battery-2-charge-line"
+        icon={batteryState.charging ? "ri-battery-2-charge-line" : "ri-battery-line"}
         title="Battery"
-        sub="Fully Charged"
+        sub={batteryState.charging ? `Charging (${batteryState.level}%)` : `${batteryState.level}% - On Battery`}
         className="battery"
-        accent="#34c759"
-        accentIcon="ri-battery-2-charge-fill"
+        accent={batteryState.level > 20 ? "#34c759" : "#ff3b30"}
+        accentIcon={batteryState.charging ? "ri-battery-2-charge-fill" : "ri-battery-fill"}
         alignRight
         isOpen={openStatus === "battery"}
         onToggle={setOpenStatus}
